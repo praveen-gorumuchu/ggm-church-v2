@@ -1,3 +1,4 @@
+import { BreakpointService } from './../../../shared/services/breakpoint.service';
 import { BibleService } from './../../../shared/services/bible.service';
 import { SharedService } from './../../../shared/services/shared.service';
 import { Component, Output, EventEmitter, OnInit, OnDestroy, Input, NgZone, HostListener } from '@angular/core';
@@ -22,15 +23,23 @@ export class QuickAccessComponent implements OnInit, OnDestroy {
   showDownArrow!: boolean;
   showScrollArrow: boolean = false;
   scrollSubscription!: Subscription;
+  subs: Subscription[] = [];
+  isMobile = false;
 
   constructor(private ngZone: NgZone, private bookMarkService: BookMarkService,
-    private sharedService: SharedService, private bibleService: BibleService) { }
+    private sharedService: SharedService, private bibleService: BibleService,
+    private breakpointService: BreakpointService) {
+    this.subs.push(this.breakpointService.isMobile$.subscribe((data: boolean) => {
+      if (data) this.isMobile = true;
+    }))
+  }
 
   ngOnInit(): void {
     this.ngZone.runOutsideAngular(() => {
       window.addEventListener('keydown', this.handleKeyDown.bind(this));
     });
     this.showScroll();
+
   }
 
 
@@ -109,5 +118,7 @@ export class QuickAccessComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     window.removeEventListener('keydown', this.handleKeyDown.bind(this));
     this.scrollSubscription.unsubscribe();
+    this.sharedService.destroy(this.subs);
+    this.isMobile = false;
   }
 }

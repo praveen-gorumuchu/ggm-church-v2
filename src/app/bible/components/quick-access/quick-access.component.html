@@ -1,4 +1,4 @@
-<section class="quick-access" (mousemove)="onMouseMove($event)">
+<section class="quick-access" (mousemove)="onMouseMove($event)" *ngIf="!isMobile">
     <!-- Navigation -->
     <section class="navigation">
         <div class="previous-chapter" *ngIf="showLeftArrow">
