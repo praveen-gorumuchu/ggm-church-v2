@@ -13,18 +13,20 @@
         color: #cccccc;
         margin-bottom: 8px;
 
-        .verse-val, .verse-index {
+        .verse-val,
+        .verse-index {
             &::selection {
                 background: #FCDE70 !important;
                 color: #1c222e !important;
             }
-           
+
         }
+
         .verse-val {
             margin-left: 8px;
             display: inline-block;
         }
-    
+
     }
 }
 
@@ -64,10 +66,11 @@
 @media screen and (max-width: 768px) {
 
     .filter-section {
+
         .filters-wrapper {
             flex-direction: column;
+           
         }
-        
     }
 
     .verse-sec {
@@ -75,7 +78,14 @@
 
     }
 
+    .chapter-name {
+        font-size: 20px;
+    }
+
     .search-section {
         flex-basis: auto;
+    }
+    .zoom-features {
+        justify-content: flex-start !important;
     }
 }

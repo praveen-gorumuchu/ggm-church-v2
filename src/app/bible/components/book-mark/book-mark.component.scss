@@ -23,11 +23,17 @@
     }
 
     .book-mark-title {
-        background: #1c222e;
-        color: #fff;
+        background: #dcdcdc;
+
     }
 
     .delete-btn {
-        color: #cc9a9a;
+        .material-symbols-outlined {
+            color:  indianred;
+        }
     }
+
+   .mat-mdc-menu-panel {
+        background: #1c222e !important;
+   }
 }

@@ -1,6 +1,6 @@
 <section class="search-sec mr-3 ">
     <form [formGroup]="searchForm" class="">
-        <div class="d-flex">
+        <div class="d-flex search-fields">
             <mat-form-field appearance="outline" class="search-book primary">
                 <input matInput placeholder="Search book" (keydown.enter)="onSearchClick()"
                     [matAutocomplete]="booksAutoComplete" formControlName="book" #bookInput>

@@ -30,18 +30,27 @@
         cursor: pointer;
     }
 
-    @media screen and (max-width: 768px) { 
-        .search-book {
-            
+    @media screen and (max-width: 768px) {
+        .search-fields {
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            margin-bottom: 18px;
         }
+        .search-chapter  {
+            margin-left: 0 !important;
+        }
+        .search-book {
+            width: 100%;
+        }
+
         .search-chapter {
-            width: 25%;
-            margin-left: 8px !important;
+            width: 35%;
+            
         }
 
         .search-verse {
-            width: 20%;
-            margin-left: 8px !important;
+            width: 30%;
+        
         }
     }
 

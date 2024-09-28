@@ -3,12 +3,12 @@ import { BookmarkListModel } from '../../../shared/models/bible-books/bible-book
 import { BibleService } from '../../../shared/services/bible.service';
 import { SharedService } from '../../../shared/services/shared.service';
 import { BookMarkService } from './../../../shared/services/bookmark.service';
-import { Component, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-book-mark',
   templateUrl: './book-mark.component.html',
-  styleUrl: './book-mark.component.scss'
+  styleUrl: './book-mark.component.scss',
 })
 export class BookMarkComponent implements OnInit, OnChanges, OnDestroy {
   bookMarkList: BookmarkListModel[] = [];
