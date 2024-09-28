@@ -43,7 +43,7 @@ export class BibleService {
   }
 
   get baseUrl(): string {
-    return `${environment.apiUrl}/${EndPointUrlConst.BIBLE_BOOKS}/`;
+    return `${environment.apiUrl}/${EndPointUrlConst.BIBLE_BOOKS}/${EndPointUrlConst.BOOKS}/${EndPointUrlConst.TG}/`;
   }
 
 

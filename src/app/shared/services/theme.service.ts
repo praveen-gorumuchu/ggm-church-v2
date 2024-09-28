@@ -56,7 +56,7 @@ export class ThemeService {
     ele?.classList.remove('body-section');
 
     // Check the URL and apply corresponding body theme
-    if (this.url.includes('home')) {
+    if (this.url.includes('home') || this.url.includes('login')) {
       body.classList.remove('light');
     } else if (this.url.includes('bible')) {
       body.classList.add('dark');

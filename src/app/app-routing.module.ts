@@ -30,7 +30,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { headerClass: 'dark-header' }
   },
-  { path: 'login', component: LoginComponent },
+  {
+    path: 'login', component: LoginComponent,
+    data: {
+      
+    }
+  },
   { path: '**', component: NoPageFoundComponent },
 ]
 

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { StringConstant } from '../constants/string-constant';
 import { NumberConstant } from '../constants/number-constant';
+import { FromInputConstant } from '../constants/from-input-constant';
 
 @Injectable({
   providedIn: 'root'
@@ -32,12 +33,14 @@ export class FormsService {
     });
   }
 
-  setErrors(ctrl: AbstractControl, min?: number, max?: number, pattern?: string): string {
+  setErrors(ctrl: AbstractControl, inValid?: string, min?: number, max?: number, pattern?: string): string {
     const touched = ctrl.touched;
     if (touched && ctrl.hasError(StringConstant.required)) return StringConstant.REUIRED;
     else if (touched && !ctrl.hasError(StringConstant.required) && ctrl.hasError(StringConstant.email))
-      return `${StringConstant.INVALID_EMAIL}`
-    else if (touched && !ctrl.hasError(StringConstant.required) && ctrl.hasError(StringConstant.pattern))
+      return `${StringConstant.INVALID_EMAIL}`;
+    else if(touched && !ctrl.hasError(StringConstant.required) && ctrl.hasError(FromInputConstant.inValid)) {
+      return `${inValid}`
+    } else if (touched && !ctrl.hasError(StringConstant.required) && ctrl.hasError(StringConstant.pattern))
       return `${StringConstant.INVALID_PATTERN}: ${pattern}`;
     else if (touched && !ctrl.hasError(StringConstant.required) &&
       !ctrl.hasError(StringConstant.pattern) && ctrl.hasError(StringConstant.minlength))

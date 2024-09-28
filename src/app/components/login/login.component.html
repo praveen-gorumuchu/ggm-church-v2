@@ -19,32 +19,50 @@
                     <div class="form">
                         <form [formGroup]="form">
                             <div class="row">
-                                <div class="col-lg-8 col my-2">
+                                <div class="col-lg-8 col my-3">
                                     <mat-form-field class="wt-100" appearance="outline">
                                         <mat-label>Full Name</mat-label>
-                                        <input matInput  formControlName="fName" placeholder="Enter your name" type="text">
+                                        <input matInput formControlName="fName" placeholder="Enter your name"
+                                            type="text">
                                         <mat-error> {{ nameError }} </mat-error>
+                                        <mat-hint *ngIf="!nameError && !fName.valid">
+                                            {{ formInputConst.userNameHint }}
+                                        </mat-hint>
+                                        <mat-hint class="color-success fw-5"
+                                            *ngIf="fName.touched && !nameError && fName.valid">
+                                            {{ formInputConst.alRight }}
+                                        </mat-hint>
                                     </mat-form-field>
-                                   
+
                                 </div>
-                                <div class="col-lg-8 col my-2">
+                                <div class="col-lg-8 col my-3">
                                     <mat-form-field class="wt-100" appearance="outline">
                                         <mat-label>Email</mat-label>
-                                        <input matInput formControlName="email" placeholder="Enter email" type="email" required>
+                                        <input matInput formControlName="email" placeholder="Enter email" type="email">
                                         <mat-error> {{ emailError }} </mat-error>
                                     </mat-form-field>
                                 </div>
-                                <div class="col-lg-8 col my-2">
+                                <div class="col-lg-8 col my-3">
                                     <mat-form-field class="wt-100" appearance="outline">
                                         <mat-label>Password</mat-label>
-                                        <input matInput formControlName="password" placeholder="Enter email" type="password" required>
+                                        <input matInput formControlName="password" placeholder="Enter your password"
+                                        [type]="passwordVisible ? 'text' : 'password'">
                                         <mat-error> {{ passWordError }} </mat-error>
+                                        <mat-hint *ngIf="!passWordError && !password.valid">
+                                            {{ formInputConst.userPasswordHint }}
+                                        </mat-hint>
+                                        <mat-hint class="color-success fw-5" *ngIf="!passWordError && password.valid">
+                                            {{ formInputConst.greatAllSet }}
+                                        </mat-hint>
+                                            <mat-icon matSuffix (click)="togglePasswordVisibility()" class="eye-icon">
+                                                {{ passwordVisible ? 'visibility_off' : 'visibility' }}
+                                            </mat-icon>
                                     </mat-form-field>
                                 </div>
                             </div>
                         </form>
                         <div class="submit-btn mt-5">
-                            <button mat-button (click)="onSubmit()"> Submit</button>
+                            <button mat-button (click)="onSubmit()" [disabled]="form.invalid"> Submit</button>
                         </div>
                     </div>
                 </div>

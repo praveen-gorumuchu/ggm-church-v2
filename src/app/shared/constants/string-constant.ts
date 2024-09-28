@@ -28,5 +28,6 @@ export const StringConstant = {
     TRANS: 'transliteration',
     LOGIN_TITLE: 'Login to Discover',
     LOGIN_DES: 'May your heart be filled with peace and your spirit be renewed as you connect with us',
-    INVALID_EMAIL: 'Invalid email'
+    INVALID_EMAIL: 'Invalid email',
+    passwordKey: 'ggmchurch@2001',
 }

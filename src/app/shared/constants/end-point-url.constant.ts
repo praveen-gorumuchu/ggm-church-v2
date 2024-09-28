@@ -5,4 +5,9 @@ export const EndPointUrlConst = {
     BOOK_LIST: 'bookList.json',
     BIBLE_BOOKS: 'bibile-books',
     BOOK_1: 'book1',
+    USERS: 'users',
+    BOOKS: 'books',
+    TG: 'tg',
+    GGM_MEM_KEY: 'ggm-mem-key',
+    
 }
