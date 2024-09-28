@@ -35,10 +35,7 @@ export class LayOutComponent implements AfterViewInit, OnInit, OnDestroy, OnChan
 
 
   ngAfterViewInit(): void {
-    const sections = Array.from(
-      document.querySelectorAll('section')
-    ) as Element[];
-    this.themeService.observeSections(sections);
+    this.themeService.observeSections();
   }
 
 

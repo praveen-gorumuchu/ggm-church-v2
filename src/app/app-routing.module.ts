@@ -10,22 +10,25 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
     canActivate: [AuthGuard],  // Protect the home module
+    data: { transition: true }
   },
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
     canActivate: [AuthGuard],
+    data: { transition: true }
   },
   {
     path: 'bible',
     loadChildren: () => import('./bible/bible.module').then(m => m.BibleModule),
     canActivate: [AuthGuard],
-    data: { headerClass: 'bible-header' }
+    data: { headerClass: 'dark-header' }
   },
   {
     path: 'activity',
     loadChildren: () => import('./activities/activities.module').then(m => m.ActivitiesModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { headerClass: 'dark-header' }
   },
   { path: 'login', component: LoginComponent },
   { path: '**', component: NoPageFoundComponent },

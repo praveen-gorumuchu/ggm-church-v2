@@ -23,36 +23,29 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     return this.authService.isLoggedIn();
   }
   ngAfterViewInit(): void {
-    // Observe sections for the first time
-    this.observeSections();
+    // Initial observation of sections after view initialization
+   
 
-    // Listen for route changes and observe sections again after navigation
+    // Listen for route changes and re-trigger section observation after navigation
     this.subScriptions.push(
       this.router.events.subscribe(event => {
         if (event instanceof NavigationEnd) {
-          this.routeDataHasTransition().then((hasTransition) => {
+          // Check if the route data has the 'transition' flag and observe sections accordingly
+          this.routeDataHasTransition().then(hasTransition => {
             if (hasTransition) {
-              this.observeSections();  // Only observe sections if transition is true
+              this.themeService.observeSections();  // Re-observe sections after navigation
             }
           });
         }
-      }))
-  }
-
-  observeSections(): void {
-    // Get all sections with class 'section' after DOM is fully rendered
-    this.sectionElements = Array.from(document.querySelectorAll('.section'));
-
-    // Start observing the sections for theme changes
-    if (this.sectionElements.length) {
-      this.themeService.observeSections(this.sectionElements);
-    }
+      })
+    );
   }
 
   async routeDataHasTransition(): Promise<boolean> {
     const routeData = await this.router.routerState.root.firstChild?.data.toPromise();
     return routeData ? routeData['transition'] === true : false;
   }
+
 
 
   ngOnDestroy(): void {

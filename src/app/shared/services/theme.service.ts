@@ -11,26 +11,13 @@ export class ThemeService {
 
   constructor(private router: Router, private activeRoute: ActivatedRoute) {
     // Observe route changes to apply the body theme
-    this.getActivateRoute()
-    this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
-        this.changeTheme(event.urlAfterRedirects);
-      });
-
-  }
-
-  getActivateRoute() {
-    this.activeRoute.firstChild?.url.subscribe(urlSegments => {
-      const currentPath = urlSegments.map(segment => segment.path).join('/');
-      if (currentPath === 'home') {
-        this.changeTheme(currentPath);
-      }
-    });
+    this.observeRouteChanges();
   }
 
   // Observe sections for header theme changes
-  observeSections(sections: Element[]): void {
+  observeSections(): void {
+    const sections = Array.from(document.querySelectorAll('section'));  // Get all sections with class 'section'
+
     if (!this.observer) {
       this.observer = new IntersectionObserver(
         (entries) => {
@@ -45,40 +32,45 @@ export class ThemeService {
     }
 
     // Observe each section
-    sections.forEach((section) => {
-      this.observer?.observe(section);
-    });
+    sections.forEach(section => this.observer?.observe(section));
   }
 
-  changeHeaderTheme(entry: any) {
-    const header = document.getElementById('app-header') as HTMLElement;
-    if (entry.target.classList.contains('bg-dark-header')) {
-      this.applyDarkHeader(header);
-    } else if (entry.target.classList.contains('bg-light-header')) {
-      this.applyLightHeader(header);
-    } else if (entry.target.classList.contains('transperant-header')) {
-      this.applyTransparentHeader(header);
-    }
+  // Method to listen to route changes
+  private observeRouteChanges(): void {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.url = event.urlAfterRedirects;  // Capture the final URL after redirection
+        this.applyRouteSpecificTheme();
+      });
   }
 
-  // Apply body theme based on the router URL
-  private changeTheme(url: string): void {
-    this.url = url;
+  // Apply body and header theme based on the current route URL and data
+  private applyRouteSpecificTheme(): void {
     const body = document.body;
     const ele = document.getElementById('bodySection');
+    const routeData = this.activeRoute.snapshot.firstChild?.data;  // Capture the route's data
+
     // Reset any existing body theme
     body.classList.remove('dark', 'light');
     ele?.classList.remove('body-section');
 
-    if (url.includes('home')) {
+    // Check the URL and apply corresponding body theme
+    if (this.url.includes('home')) {
       body.classList.remove('light');
-    } else if (url.includes('bible')) {
+    } else if (this.url.includes('bible')) {
       body.classList.add('dark');
-      ele?.classList.add('body-section')
+      ele?.classList.add('body-section');
     } else {
       body.classList.add('dark');
-      ele?.classList.add('body-section')
+      ele?.classList.add('body-section');
+    }
 
+    // Apply header class if it's provided in route data
+    const header = document.getElementById('app-header') as HTMLElement;
+    this.resetHeaderTheme();
+    if (routeData?.['headerClass']) {
+      header.classList.add(routeData['headerClass']);
     }
   }
 
@@ -86,25 +78,42 @@ export class ThemeService {
   resetHeaderTheme(): void {
     const header = document.getElementById('app-header') as HTMLElement;
     if (header) {
-      header.classList.remove('dark-header', 'light-header', 'transperant-bg');
+      header.classList.remove('transperant-dark-header', 'transperant-light-header',
+        'transperant-bg', 'dark-header');
     }
   }
 
   // Apply dark theme to header
   private applyDarkHeader(ele: HTMLElement): void {
-    ele.classList.add('dark-header');
-    ele.classList.remove('light-header', 'transperant-bg');
+    ele.classList.add('transperant-dark-header');
+    ele.classList.remove('transperant-light-header', 'transperant-bg', 'dark-header');
   }
 
   // Apply light theme to header
   private applyLightHeader(ele: HTMLElement): void {
-    ele.classList.add('light-header');
-    ele.classList.remove('dark-header', 'transperant-bg');
+    ele.classList.add('transperant-light-header');
+    ele.classList.remove('transperant-dark-header', 'transperant-bg', 'dark-header');
   }
 
   // Apply transparent theme to header
   private applyTransparentHeader(ele: HTMLElement): void {
     ele.classList.add('transperant-bg');
-    ele.classList.remove('dark-header', 'light-header');
+    ele.classList.remove('transperant-dark-header', 'transperant-light-header', 'dark-header');
+  }
+
+  // Apply header theme based on section observation
+  private changeHeaderTheme(entry: any) {
+    const routeData = this.activeRoute.snapshot.firstChild?.data;
+    const header = document.getElementById('app-header') as HTMLElement;
+    if(routeData && routeData['transition']) {
+      if (entry.target.classList.contains('bg-dark-header')) {
+        this.applyDarkHeader(header);
+      } else if (entry.target.classList.contains('bg-light-header')) {
+        this.applyLightHeader(header);
+      } else if (entry.target.classList.contains('transperant-header')) {
+        this.applyTransparentHeader(header);
+      }
+    }
+  
   }
 }
