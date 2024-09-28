@@ -1,0 +1,43 @@
+<section class="quick-access" (mousemove)="onMouseMove($event)">
+    <!-- Navigation -->
+    <section class="navigation">
+        <div class="previous-chapter" *ngIf="showLeftArrow">
+            <button mat-icon-button [disabled]="false" (click)="onChangeChapter(action.PREV)">
+                <span class="material-symbols-outlined">
+                    arrow_back_ios
+                </span>
+            </button>
+        </div>
+        <div class="next-chapter" *ngIf="showRightArrow">
+            <button mat-icon-button [disabled]="false" (click)="onChangeChapter(action.NEXT)">
+                <span class="material-symbols-outlined">
+                    arrow_forward_ios
+                </span>
+            </button>
+        </div>
+        <div class="next-book" *ngIf="showDownArrow">
+            <button mat-icon-button [disabled]="false" (click)="onChangeChapter(action.NEXT)">
+                <span class="material-symbols-outlined">
+                    arrow_forward_ios
+                </span>
+            </button>
+        </div>
+        <div class="prev-book" *ngIf="showUpArrow">
+            <button mat-icon-button [disabled]="false" (click)="onChangeChapter(action.NEXT)">
+                <span class="material-symbols-outlined">
+                    arrow_forward_ios
+                </span>
+            </button>
+        </div>
+    </section>
+    <!-- Zoom In Zoom Out -->
+    <section>
+        <div class="bottom-acceess" *ngIf="showScrollArrow">
+            <button mat-icon-button (click)="scrollToTop()" class="scroll-arrow">
+                <span class="material-symbols-outlined">
+                    keyboard_arrow_up
+                </span>
+            </button>
+        </div>
+    </section>
+</section>

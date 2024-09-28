@@ -1,0 +1,42 @@
+::ng-deep {
+    .chapter-list {
+        mat-card {
+            background: #e1e1e1;
+
+            mat-card-content {
+                ul {
+                    // display: flex;
+                    list-style: none;
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    justify-content: flex-start;
+                    align-items: stretch;
+                    align-content: stretch;
+
+                    li {
+                        padding: 0;
+                        margin: 5px;
+
+                        .chapter-num {
+                            color: #1c222e;
+                            font-size: 14px;
+                            font-weight: 600;
+
+                            &.active {
+                                background-color: #1c222e;
+                                color: #e3e3e3;
+                            }
+
+                        }
+
+                        .mat-mdc-icon-button .mat-mdc-button-touch-target {
+                            width: 28px;
+                            height: 28px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

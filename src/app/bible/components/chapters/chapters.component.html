@@ -1,0 +1,15 @@
+<section class="chapter-list">
+    <mat-card>
+        <mat-card-content>
+            <ul class="m-0 p-0">
+                <li class=" book-list" *ngFor="let item of currentBook.chapters; let i =index">
+                    <button mat-icon-button class="chapter-num" (click)="onChapterClick(item)"
+                        [ngClass]="{ active: isActive(item) }">
+                        <span> {{ i + 1 }} </span>
+                    </button>
+                </li>
+            </ul>
+        </mat-card-content>
+    </mat-card>
+
+</section>

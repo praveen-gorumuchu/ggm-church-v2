@@ -1,0 +1,52 @@
+::ng-deep {
+    .quick-access {
+
+        .previous-chapter,
+        .next-chapter,
+        .bottom-acceess {
+            button {
+                width: 64px;
+                height: 64px;
+                padding: 0;
+            }
+
+            .material-symbols-outlined {
+                color: #fff;
+                font-size: 32px;
+                padding: 0;
+            }
+
+
+        }
+
+        .previous-chapter {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 15px;
+        }
+
+        .next-chapter {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 15px;
+        }
+
+        .bottom-acceess {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            transition: opacity 0.5s;
+            opacity: 0.6;
+            button {
+                // background-color: tan;
+                // background-color: transparent;
+
+                .material-symbols-outlined {}
+            }
+        }
+
+    }
+
+}

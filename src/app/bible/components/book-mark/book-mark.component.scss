@@ -1,0 +1,33 @@
+::ng-deep {
+    button {
+        // background-color: tan;
+        background-color: transparent;
+
+        .material-symbols-outlined {
+            color: #bcbcbc;
+            font-weight: 600;
+        }
+    }
+
+    .mat-mdc-menu-panel {
+        min-width: 260px !important;
+        max-width: 360px !important;
+        height: auto;
+        min-height: 280px;
+        max-height: 300px;
+        padding-bottom: 20px;
+    }
+
+    .mat-mdc-menu-content {
+        padding: 0 !important;
+    }
+
+    .book-mark-title {
+        background: #1c222e;
+        color: #fff;
+    }
+
+    .delete-btn {
+        color: #cc9a9a;
+    }
+}

@@ -1,0 +1,41 @@
+.drawer-container {
+    height: 100vh;
+    padding: 0;
+  }
+  
+  mat-drawer {
+    width: 620px; // Width of the sidebar
+    // background: #fefefe;
+  }
+  
+  mat-drawer-content {
+    background: transparent;
+  }
+
+  mat-drawer-content {
+    scrollbar-width: none;                /* Makes the scrollbar thin */
+    scrollbar-color: #ccc #f1f1f1;  
+    scroll-behavior: smooth;      /* Color for scrollbar thumb and track */
+  }
+  
+  /* For Chrome, Safari, and Edge */
+  mat-drawer-content::-webkit-scrollbar {
+    width: 8px;                           /* Scrollbar width */
+  }
+  
+  mat-drawer-content::-webkit-scrollbar-track {
+    background: #f1f1f1;                  /* Light background for the track */
+  }
+  
+  mat-drawer-content::-webkit-scrollbar-thumb {
+    background-color: #ccc;               /* Light color for the scrollbar thumb */
+    border-radius: 10px;                  /* Rounded scrollbar */
+    border: 2px solid #f1f1f1;            /* Optional: to create a gap effect */
+  }
+  
+  @media screen and (max-width: 768px) {
+    mat-drawer {
+        width: 80%;
+    }
+  
+}

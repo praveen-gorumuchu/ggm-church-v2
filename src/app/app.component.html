@@ -1,0 +1,7 @@
+<ng-container *ngIf="isLoggedIn(); else loginTemplate">
+  <app-lay-out></app-lay-out>
+  </ng-container>
+  
+  <ng-template #loginTemplate>
+    <app-login></app-login>  <!-- Display login component if not logged in -->
+  </ng-template>

@@ -1,0 +1,1004 @@
+{
+  "list": [
+    {
+      "name": "oldTestment",
+      "books": [
+        {
+          "name": "ఆదికాండము",
+          "id": "book1",
+          "chapterCount": 50,
+          "transliteration": [
+            "Genesis",
+            "Adikandamu",
+            "Adikandam",
+            "Adikanda",
+            "Adikan",
+            "Genesisu",
+            "ఆదికాండము",
+            "ఆదికాండము"
+          ]
+        },
+        {
+          "name": "నిర్గమకాండము",
+          "id": "book2",
+          "chapterCount": 40,
+          "transliteration": [
+            "Exodus",
+            "Nirgamakandamu",
+            "Nirgamam",
+            "Nirgamaka",
+            "Nirgam",
+            "Exodusu",
+            "నిర్గమకాండము",
+            "నిర్గమకాండము"
+          ]
+        },
+        {
+          "name": "లేవీయకాండము",
+          "id": "book3",
+          "chapterCount": 27,
+          "transliteration": [
+            "Leviticus",
+            "Levyikandamu",
+            "Levyikandam",
+            "Levikanda",
+            "Levitika",
+            "Leviti",
+            "లేవీయకాండము",
+            "లేవీయకాండము"
+          ]
+        },
+        {
+          "name": "సంఖ్యాకాండము",
+          "id": "book4",
+          "chapterCount": 36,
+          "transliteration": [
+            "Numbers",
+            "Sankhyakandamu",
+            "Sankhya",
+            "Sankhya Kandam",
+            "Sankhya Kan",
+            "Numbersu",
+            "సంఖ్యాకాండము",
+            "సంఖ్యాకాండము"
+          ]
+        },
+        {
+          "name": "ద్వితీయోపదేశకాండమ",
+          "id": "book5",
+          "chapterCount": 34,
+          "transliteration": [
+            "Deuteronomy",
+            "Dviteeyopadesakandamu",
+            "Dviteeyopadesa",
+            "Dviteeyopa",
+            "Deuteronom",
+            "Deutero",
+            "ద్వితీయోపదేశకాండమ",
+            "ద్వితీయోపదేశకాండమ"
+          ]
+        },
+        {
+          "name": "యెహొషువ",
+          "id": "book6",
+          "chapterCount": 24,
+          "transliteration": [
+            "Joshua",
+            "Yehoshuva",
+            "Yehoshua",
+            "Yehoshwa",
+            "Joshuva",
+            "Joshuva",
+            "యెహొషువ",
+            "యెహొషువ"
+          ]
+        },
+        {
+          "name": "న్యాయాధిపతులు",
+          "id": "book7",
+          "chapterCount": 21,
+          "transliteration": [
+            "Judges",
+            "Nyayadhilpulu",
+            "Nyayadhi",
+            "Nyayadhil",
+            "Judg",
+            "Judgesu",
+            "న్యాయాధిపతులు",
+            "న్యాయాధిపతులు"
+          ]
+        },
+        {
+          "name": "రూతు",
+          "id": "book8",
+          "chapterCount": 4,
+          "transliteration": [
+            "Ruth",
+            "Rutu",
+            "Ruthu",
+            "Ruth",
+            "Rutha",
+            "Rut",
+            "రూతు",
+            "రూతు"
+          ]
+        },
+        {
+          "name": "సమూయేలు మొదటి గ్రంథము",
+          "id": "book9",
+          "chapterCount": 31,
+          "transliteration": [
+            "1 Samuel",
+            "1 Samuyelu",
+            "Samuelu",
+            "Samuyelu",
+            "1 Samu",
+            "Sam",
+            "సమూయేలు మొదటి గ్రంథము",
+            "సమూయేలు మొదటి గ్రంథము"
+          ]
+        },
+        {
+          "name": "సమూయేలు రెండవ గ్రంథము",
+          "id": "book10",
+          "chapterCount": 24,
+          "transliteration": [
+            "2 Samuel",
+            "2 Samuyelu",
+            "Samuelu",
+            "Samuyelu",
+            "2 Sam",
+            "Samu",
+            "సమూయేలు రెండవ గ్రంథము",
+            "సమూయేలు రెండవ గ్రంథము"
+          ]
+        },
+        {
+          "name": "రాజులు మొదటి గ్రంథము",
+          "id": "book11",
+          "chapterCount": 22,
+          "transliteration": [
+            "1 Kings",
+            "1 Rajulu",
+            "Rajulu",
+            "Raju",
+            "Kings",
+            "Raja",
+            "రాజులు మొదటి గ్రంథము",
+            "రాజులు మొదటి గ్రంథము"
+          ]
+        },
+        {
+          "name": "రాజులు రెండవ గ్రంథము",
+          "id": "book12",
+          "chapterCount": 25,
+          "transliteration": [
+            "2 Kings",
+            "2 Rajulu",
+            "Rajulu",
+            "Raju",
+            "Kings",
+            "Raj",
+            "రాజులు రెండవ గ్రంథము",
+            "రాజులు రెండవ గ్రంథము"
+          ]
+        },
+        {
+          "name": "దినవృత్తాంతములు మొదటి గ్రంథము",
+          "id": "book13",
+          "chapterCount": 29,
+          "transliteration": [
+            "1 Chronicles",
+            "1 Dinavruttantamulu",
+            "Dinavruttantamulu",
+            "Dinavrut",
+            "Chronicles",
+            "Chron",
+            "దినవృత్తాంతములు మొదటి గ్రంథము",
+            "దినవృత్తాంతములు మొదటి గ్రంథము"
+          ]
+        },
+        {
+          "name": "దినవృత్తాంతములు రెండవ గ్రంథము",
+          "id": "book14",
+          "chapterCount": 36,
+          "transliteration": [
+            "2 Chronicles",
+            "2 Dinavruttantamulu",
+            "Dinavruttantamulu",
+            "Dinavrut",
+            "Chronicles",
+            "Chron",
+            "దినవృత్తాంతములు రెండవ గ్రంథము",
+            "దినవృత్తాంతములు రెండవ గ్రంథము"
+          ]
+        },
+        {
+          "name": "ఎజ్రా",
+          "id": "book15",
+          "chapterCount": 10,
+          "transliteration": [
+            "Ezra",
+            "Ejra",
+            "Ezira",
+            "Ezira",
+            "Ez",
+            "Ezera",
+            "ఎజ్రా",
+            "ఎజ్రా"
+          ]
+        },
+        {
+          "name": "నెహెమ్యా",
+          "id": "book16",
+          "chapterCount": 13,
+          "transliteration": [
+            "Nehemiah",
+            "Nehemiya",
+            "Nehemiya",
+            "Nehemi",
+            "Nehemya",
+            "Nehe",
+            "నెహెమ్యా",
+            "నెహెమ్యా"
+          ]
+        },
+        {
+          "name": "ఎస్తేరు",
+          "id": "book17",
+          "chapterCount": 10,
+          "transliteration": [
+            "Esther",
+            "Estheru",
+            "Esthar",
+            "Esther",
+            "Esteru",
+            "Estharu",
+            "ఎస్తేరు",
+            "ఎస్తేరు"
+          ]
+        },
+        {
+          "name": "యోబు గ్రంథము",
+          "id": "book18",
+          "chapterCount": 42,
+          "transliteration": [
+            "Job",
+            "Yobu",
+            "Yob",
+            "Yobu",
+            "Jobu",
+            "Jobu",
+            "యోబు గ్రంథము",
+            "యోబు గ్రంథము"
+          ]
+        },
+        {
+          "name": "కీర్తనల గ్రంథము",
+          "id": "book19",
+          "chapterCount": 150,
+          "transliteration": [
+            "Psalms",
+            "Keerthanala Granthamu",
+            "Keerthana",
+            "Psalmu",
+            "Keerthana",
+            "Psalm",
+            "కీర్తనల గ్రంథము",
+            "కీర్తనల గ్రంథము"
+          ]
+        },
+        {
+          "name": "సామెతలు",
+          "id": "book20",
+          "chapterCount": 31,
+          "transliteration": [
+            "Proverbs",
+            "Sametalu",
+            "Sametha",
+            "Proverbsu",
+            "Sametalu",
+            "Proverb",
+            "సామెతలు",
+            "సామెతలు"
+          ]
+        },
+        {
+          "name": "ప్రసంగి",
+          "id": "book21",
+          "chapterCount": 12,
+          "transliteration": [
+            "Ecclesiastes",
+            "Prasanghi",
+            "Prasangi",
+            "Prasan",
+            "Ecc",
+            "Eccl",
+            "ప్రసంగి",
+            "ప్రసంగి"
+          ]
+        },
+        {
+          "name": "పరమగీతము",
+          "id": "book22",
+          "chapterCount": 8,
+          "transliteration": [
+            "Song of Songs",
+            "Paramageetamu",
+            "Song of Solomon",
+            "Paramageeta",
+            "Songs",
+            "Solomonsong",
+            "పరమగీతము",
+            "పరమగీతము"
+          ]
+        },
+        {
+          "name": "యెషయా గ్రంథము",
+          "id": "book23",
+          "chapterCount": 66,
+          "transliteration": [
+            "Isaiah",
+            "Yeshaya",
+            "Yeshya",
+            "Yesha",
+            "Isa",
+            "Isaya",
+            "యెషయా గ్రంథము",
+            "యెషయా గ్రంథము"
+          ]
+        },
+        {
+          "name": "యిర్మీయా",
+          "id": "book24",
+          "chapterCount": 52,
+          "transliteration": [
+            "Jeremiah",
+            "Yirimiya",
+            "Yirimi",
+            "Jeremia",
+            "Yeremiah",
+            "Jerem",
+            "యిర్మీయా",
+            "యిర్మీయా"
+          ]
+        },
+        {
+          "name": "విలాపవాక్యములు",
+          "id": "book25",
+          "chapterCount": 5,
+          "transliteration": [
+            "Lamentations",
+            "Vilaapavakyamulu",
+            "Vilaapa",
+            "Vilaap",
+            "Lamenta",
+            "Lament",
+            "విలాపవాక్యములు",
+            "విలాపవాక్యములు"
+          ]
+        },
+        {
+          "name": "యెహెజ్కేలు",
+          "id": "book26",
+          "chapterCount": 48,
+          "transliteration": [
+            "Ezekiel",
+            "Yehezekelu",
+            "Yehzekiel",
+            "Ezek",
+            "Eze",
+            "Yehez",
+            "యెహెజ్కేలు",
+            "యెహెజ్కేలు"
+          ]
+        },
+        {
+          "name": "దానియేలు",
+          "id": "book27",
+          "chapterCount": 12,
+          "transliteration": [
+            "Daniel",
+            "Daniyelu",
+            "Danielu",
+            "Daniyel",
+            "Dan",
+            "Danilu",
+            "దానియేలు",
+            "దానియేలు"
+          ]
+        },
+        {
+          "name": "హొషేయ",
+          "id": "book28",
+          "chapterCount": 14,
+          "transliteration": [
+            "Hosea",
+            "Hosheya",
+            "Hoshaya",
+            "Hosya",
+            "Hoseya",
+            "Hosya",
+            "హొషేయ",
+            "హొషేయ"
+          ]
+        },
+        {
+          "name": "యోవేలు",
+          "id": "book29",
+          "chapterCount": 3,
+          "transliteration": [
+            "Joel",
+            "Yovel",
+            "Yowelu",
+            "Yoelu",
+            "Joel",
+            "Yowelu",
+            "యోవేలు",
+            "యోవేలు"
+          ]
+        },
+        {
+          "name": "ఆమోసు",
+          "id": "book30",
+          "chapterCount": 9,
+          "transliteration": [
+            "Amos",
+            "Amosu",
+            "Aamosu",
+            "Aamose",
+            "Amos",
+            "Aamos",
+            "ఆమోసు",
+            "ఆమోసు"
+          ]
+        },
+        {
+          "name": "ఓబద్యా",
+          "id": "book31",
+          "chapterCount": 1,
+          "transliteration": [
+            "Obadiah",
+            "Obadhya",
+            "Obadya",
+            "Obadiya",
+            "Obad",
+            "Oba",
+            "ఓబద్యా",
+            "ఓబద్యా"
+          ]
+        },
+        {
+          "name": "యోనా",
+          "id": "book32",
+          "chapterCount": 4,
+          "transliteration": [
+            "Jonah",
+            "Yona",
+            "Yohan",
+            "Jon",
+            "Jona",
+            "Jon",
+            "యోనా",
+            "యోనా"
+          ]
+        },
+        {
+          "name": "మీకా",
+          "id": "book33",
+          "chapterCount": 7,
+          "transliteration": [
+            "Micah",
+            "Mikha",
+            "Mikha",
+            "Micha",
+            "Mic",
+            "Mik",
+            "మీకా",
+            "మీకా"
+          ]
+        },
+        {
+          "name": "నహూము",
+          "id": "book34",
+          "chapterCount": 3,
+          "transliteration": [
+            "Nahum",
+            "Nahumu",
+            "Nahum",
+            "Nahu",
+            "Nahmu",
+            "Nah",
+            "నహూము",
+            "నహూము"
+          ]
+        },
+        {
+          "name": "హబక్కూకు",
+          "id": "book35",
+          "chapterCount": 3,
+          "transliteration": [
+            "Habakkuk",
+            "Habaakkuku",
+            "Habakuk",
+            "Habaku",
+            "Habak",
+            "Habbak",
+            "హబక్కూకు",
+            "హబక్కూకు"
+          ]
+        },
+        {
+          "name": "జెఫన్యా",
+          "id": "book36",
+          "chapterCount": 3,
+          "transliteration": [
+            "Zephaniah",
+            "Zephanya",
+            "Zefanya",
+            "Zeph",
+            "Zeph",
+            "Zef",
+            "జెఫన్యా",
+            "జెఫన్యా"
+          ]
+        },
+        {
+          "name": "హగ్గయి",
+          "id": "book37",
+          "chapterCount": 2,
+          "transliteration": [
+            "Haggai",
+            "Haggayi",
+            "Hagg",
+            "Haggay",
+            "Hagg",
+            "Hag",
+            "హగ్గయి",
+            "హగ్గయి"
+          ]
+        },
+        {
+          "name": "జెకర్యా",
+          "id": "book38",
+          "chapterCount": 14,
+          "transliteration": [
+            "Zechariah",
+            "Zekarya",
+            "Zekarya",
+            "Zechari",
+            "Zechar",
+            "Zech",
+            "జెకర్యా",
+            "జెకర్యా"
+          ]
+        },
+        {
+          "name": "మలాకీ",
+          "id": "book39",
+          "chapterCount": 4,
+          "transliteration": [
+            "Malachi",
+            "Malaakhi",
+            "Malaki",
+            "Malach",
+            "Malachi",
+            "Malaki",
+            "మలాకీ",
+            "మలాకీ"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "newTesetment",
+      "books": [
+        {
+          "name": "మత్తయి సువార్త",
+          "id": "book40",
+          "chapterCount": 28,
+          "transliteration": [
+            "Matthew",
+            "Mattayi",
+            "Matteyu",
+            "Mattheyi",
+            "Matti",
+            "Matthēyu",
+            "మత్తయి సువార్త",
+            "మత్తయి సువార్త"
+          ]
+        },
+        {
+          "name": "మార్కు సువార్త",
+          "id": "book41",
+          "chapterCount": 16,
+          "transliteration": [
+            "Mark",
+            "Marku",
+            "Marka",
+            "Marku",
+            "Marak",
+            "Mārka",
+            "మార్కు సువార్త",
+            "మార్కు సువార్త"
+          ]
+        },
+        {
+          "name": "లూకా సువార్త",
+          "id": "book42",
+          "chapterCount": 24,
+          "transliteration": [
+            "Luke",
+            "Luka",
+            "Luka",
+            "Luca",
+            "Luke",
+            "Lukas",
+            "లూకా సువార్త",
+            "లూకా సువార్త"
+          ]
+        },
+        {
+          "name": "యోహాను సువార్త",
+          "id": "book43",
+          "chapterCount": 21,
+          "transliteration": [
+            "John",
+            "Yohanu",
+            "Johanu",
+            "Johanu",
+            "Yohan",
+            "Yohan",
+            "యోహాను సువార్త",
+            "యోహాను సువార్త"
+          ]
+        },
+        {
+          "name": "అపొస్తలుల కార్యములు",
+          "id": "book44",
+          "chapterCount": 28,
+          "transliteration": [
+            "Acts",
+            "Apostalu Karyamulu",
+            "Karyamulu",
+            "Apos",
+            "Acts of the Apostles",
+            "Karya",
+            "అపొస్తలుల కార్యములు",
+            "అపొస్తలుల కార్యములు"
+          ]
+        },
+        {
+          "name": "రోమీయులకు",
+          "id": "book45",
+          "chapterCount": 16,
+          "transliteration": [
+            "Romans",
+            "Roma",
+            "Roma",
+            "Romans",
+            "Romani",
+            "Romana",
+            "రోమీయులకు",
+            "రోమీయులకు"
+          ]
+        },
+        {
+          "name": "1 కొరింథీయులకు",
+          "id": "book46",
+          "chapterCount": 1,
+          "transliteration": [
+            "1 Corinthians",
+            "1 Korinthiyulaku",
+            "Korinthians",
+            "1 Korinthi",
+            "Korinty",
+            "1 Kor",
+            "1 కొరింథీయులకు",
+            "1 కొరింథీయులకు"
+          ]
+        },
+        {
+          "name": "2 కొరింథీయులకు",
+          "id": "book47",
+          "chapterCount": 2,
+          "transliteration": [
+            "2 Corinthians",
+            "2 Korinthiyulaku",
+            "2 Kor",
+            "Korinthians",
+            "Korinthiyulu",
+            "Korinthy",
+            "2 కొరింథీయులకు",
+            "2 కొరింథీయులకు"
+          ]
+        },
+        {
+          "name": "గలతీయులకు",
+          "id": "book48",
+          "chapterCount": 6,
+          "transliteration": [
+            "Galatians",
+            "Galathiyulaku",
+            "Galatiyulu",
+            "Galath",
+            "Galati",
+            "Galat",
+            "గలతీయులకు",
+            "గలతీయులకు"
+          ]
+        },
+        {
+          "name": "ఎఫెసీయులకు",
+          "id": "book49",
+          "chapterCount": 6,
+          "transliteration": [
+            "Ephesians",
+            "Ephesiyulaku",
+            "Ephesu",
+            "Efesi",
+            "Ephe",
+            "Efe",
+            "ఎఫెసీయులకు",
+            "ఎఫెసీయులకు"
+          ]
+        },
+        {
+          "name": "ఫిలిప్పీయులకు",
+          "id": "book50",
+          "chapterCount": 4,
+          "transliteration": [
+            "Philippians",
+            "Philippiyulaku",
+            "Philippi",
+            "Philippi",
+            "Phil",
+            "Philipu",
+            "ఫిలిప్పీయులకు",
+            "ఫిలిప్పీయులకు"
+          ]
+        },
+        {
+          "name": "కొలొస్సయులకు",
+          "id": "book51",
+          "chapterCount": 4,
+          "transliteration": [
+            "Colossians",
+            "Kolassayulaku",
+            "Kolassi",
+            "Colosse",
+            "Kol",
+            "Colassai",
+            "కొలొస్సయులకు",
+            "కొలొస్సయులకు"
+          ]
+        },
+        {
+          "name": "1 థెస్సలొనీకయులకు",
+          "id": "book52",
+          "chapterCount": 1,
+          "transliteration": [
+            "1 Thessalonians",
+            "1 Thessaloniyulaku",
+            "Thessaloniyulu",
+            "Thessa",
+            "1 Thess",
+            "Thesaloniy",
+            "1 థెస్సలొనీకయులకు",
+            "1 థెస్సలొనీకయులకు"
+          ]
+        },
+        {
+          "name": "2 థెస్సలొనీకయులకు",
+          "id": "book53",
+          "chapterCount": 2,
+          "transliteration": [
+            "2 Thessalonians",
+            "2 Thessaloniyulaku",
+            "Thessalonians",
+            "Thesaloniyulu",
+            "Thessaloniy",
+            "Thess",
+            "2 థెస్సలొనీకయులకు",
+            "2 థెస్సలొనీకయులకు"
+          ]
+        },
+        {
+          "name": "1 తిమోతికి",
+          "id": "book54",
+          "chapterCount": 1,
+          "transliteration": [
+            "1 Timothy",
+            "1 Timothiki",
+            "Timothi",
+            "Timothiy",
+            "Timot",
+            "Tim",
+            "1 తిమోతికి",
+            "1 తిమోతికి"
+          ]
+        },
+        {
+          "name": "2 తిమోతికి",
+          "id": "book55",
+          "chapterCount": 2,
+          "transliteration": [
+            "2 Timothy",
+            "2 Timothiki",
+            "Timothi",
+            "Timot",
+            "Timothy",
+            "Timo",
+            "2 తిమోతికి",
+            "2 తిమోతికి"
+          ]
+        },
+        {
+          "name": "తీతుకు",
+          "id": "book56",
+          "chapterCount": 3,
+          "transliteration": [
+            "Titus",
+            "Tituku",
+            "Titu",
+            "Titus",
+            "Titas",
+            "Titu",
+            "తీతుకు",
+            "తీతుకు"
+          ]
+        },
+        {
+          "name": "ఫిలేమోనుకు",
+          "id": "book57",
+          "chapterCount": 1,
+          "transliteration": [
+            "Philemon",
+            "Philemonuku",
+            "Philemon",
+            "Philemon",
+            "Philem",
+            "Phile",
+            "ఫిలేమోనుకు",
+            "ఫిలేమోనుకు"
+          ]
+        },
+        {
+          "name": "హెబ్రీయులకు",
+          "id": "book58",
+          "chapterCount": 13,
+          "transliteration": [
+            "Hebrews",
+            "Hebriyulaku",
+            "Hebrew",
+            "Hebriyu",
+            "Hebri",
+            "Hebru",
+            "హెబ్రీయులకు",
+            "హెబ్రీయులకు"
+          ]
+        },
+        {
+          "name": "యాకోబు",
+          "id": "book59",
+          "chapterCount": 5,
+          "transliteration": [
+            "James",
+            "Yakobu",
+            "Yakobu",
+            "Jakob",
+            "Yako",
+            "Jam",
+            "యాకోబు",
+            "యాకోబు"
+          ]
+        },
+        {
+          "name": "1 పేతురు",
+          "id": "book60",
+          "chapterCount": 1,
+          "transliteration": [
+            "1 Peter",
+            "1 Peturu",
+            "Peteru",
+            "Petaru",
+            "Petru",
+            "Petar",
+            "1 పేతురు",
+            "1 పేతురు"
+          ]
+        },
+        {
+          "name": "2 పేతురు",
+          "id": "book61",
+          "chapterCount": 2,
+          "transliteration": [
+            "2 Peter",
+            "2 Peturu",
+            "Peteru",
+            "Petur",
+            "Petru",
+            "Peter",
+            "2 పేతురు",
+            "2 పేతురు"
+          ]
+        },
+        {
+          "name": "1 యోహాను",
+          "id": "book62",
+          "chapterCount": 1,
+          "transliteration": [
+            "1 John",
+            "1 Yohanu",
+            "1 Johanu",
+            "Johanu",
+            "Johan",
+            "Yohan",
+            "1 యోహాను",
+            "1 యోహాను"
+          ]
+        },
+        {
+          "name": "2 యోహాను",
+          "id": "book63",
+          "chapterCount": 1,
+          "transliteration": [
+            "2 John",
+            "2 Yohanu",
+            "2 Johanu",
+            "Johan",
+            "2 Yohan",
+            "Yohan",
+            "2 యోహాను",
+            "2 యోహాను"
+          ]
+        },
+        {
+          "name": "3 యోహాను",
+          "id": "book64",
+          "chapterCount": 1,
+          "transliteration": [
+            "3 John",
+            "3 Yohanu",
+            "3 Johanu",
+            "Johanu",
+            "Yohan",
+            "Johan",
+            "3 యోహాను",
+            "3 యోహాను"
+          ]
+        },
+        {
+          "name": "యూదా",
+          "id": "book65",
+          "chapterCount": 1,
+          "transliteration": [
+            "Jude",
+            "Yuda",
+            "Yudha",
+            "Judah",
+            "Yudha",
+            "Jud",
+            "యూదా",
+            "యూదా"
+          ]
+        },
+        {
+          "name": "ప్రకటన గ్రంథము",
+          "id": "book66",
+          "chapterCount": 22,
+          "transliteration": [
+            "Revelation",
+            "Prakatana Granthamu",
+            "Prakatana",
+            "Reveleshan",
+            "Praka",
+            "Prakat",
+            "ప్రకటన గ్రంథము",
+            "ప్రకటన గ్రంథము"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+<div class="center" *ngIf="isLoading">
+    <mat-progress-spinner mode="indeterminate" value="50"></mat-progress-spinner>
+</div>
+<section class="main-section mb-5 pb-5 bible-header" id="contentBlock" *ngIf="!isLoading  && currentChapter"
+    (scroll)="onScroll($event)">
+    <div class="container pb-5 mb-5">
+        <div class="title">
+            <div class="row">
+                <div class="col" *ngIf="isMobile">
+                    <!-- <h2 class="chapter-name text-center">{{currentBook.name}}</h2> -->
+                    <h2 class="text-center chapter-book chapter-name mobile-only">
+                        {{ currentBook.name}}: {{ currentChapterIndex }}
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <section class="my-5 filter-section">
+            <div class="d-flex justify-content-between mb-3 px-2 filters-wrapper">
+                <div class="search-section">
+                    <!-- Search Bar -->
+                    <app-search-bar [currentBook]="currentBook"></app-search-bar>
+                </div>
+                <div class="zoom-features d-flex justify-content-end mb-3 align-items-center">
+
+                    <button mat-icon-button (click)="zoom('+')"><span class="material-symbols-outlined">
+                            zoom_in
+                        </span></button>
+                    <button mat-icon-button (click)="zoom('-')"><span class="material-symbols-outlined">
+                            zoom_out
+                        </span></button>
+                    <button mat-icon-button (click)="zoom('')">
+                        <span class="material-symbols-outlined">
+                            restart_alt
+                        </span></button>
+                    <app-book-mark></app-book-mark>
+                </div>
+            </div>
+
+            <app-chapters [currentBook]="currentBook" (currentChapter)="getCurrentChapter($event)"
+                [currentChapterIndex]="currentChapterIndex"></app-chapters>
+        </section>
+        <section class="">
+            <section class="mt-5">
+                <h2 class="text-center chapter-num" *ngIf="!isMobile">
+                    <span>అధ్యాయం: - {{ currentChapterIndex }}</span>
+                </h2>
+
+            </section>
+            <section class="verse-sec section-gap" id="zoom-container"
+                *ngIf="currentChapter && currentChapter.verses.length > 0">
+                <ng-container *ngFor="let item of currentChapter.verses; let i = index">
+                    <p class="verses d-flex" [id]="'verse-' + i" #verseContainer>
+                        <span class="verse-index"> {{ item.id.trim() }}. </span>
+                        <span class="verse-val" (mouseup)="onMouseUp($event, i, item)"
+                            (mousedown)="onMouseUp($event, i, item)"> {{item.des}} </span>
+                    </p>
+                </ng-container>
+            </section>
+        </section>
+
+    </div>
+
+    <app-quick-access (changeChapter)="changeChapter($event)"
+        [disableNext]="currentChapterIndex >= currentBook.chapters.length" [disablePrev]="currentChapterIndex -1 <= 0">
+    </app-quick-access>
+
+</section>

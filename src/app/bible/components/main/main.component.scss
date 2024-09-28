@@ -1,0 +1,81 @@
+.main-section {
+    margin-top: 82px;
+}
+
+.verse-sec {
+    font-size: 42px;
+
+    .verses {
+        font-size: inherit;
+        font-weight: 500;
+        margin: 0;
+        line-height: 1.6;
+        color: #cccccc;
+        margin-bottom: 8px;
+
+        .verse-val, .verse-index {
+            &::selection {
+                background: #FCDE70 !important;
+                color: #1c222e !important;
+            }
+           
+        }
+        .verse-val {
+            margin-left: 8px;
+            display: inline-block;
+        }
+    
+    }
+}
+
+.chapter-num {
+    font-size: 32px;
+    font-weight: 500;
+    color: #dcdcdc;
+}
+
+.chapter-name {
+    font-size: 40px;
+    color: #dcdcdc;
+}
+
+.main-section {
+    height: 95vh;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+    scrollbar-width: none;
+}
+
+.zoom-features {
+    button {
+        margin: 5px;
+
+        .material-symbols-outlined {
+            color: #b3b3b3;
+        }
+    }
+}
+
+.search-section {
+    // flex-basis: 30%;
+}
+
+@media screen and (max-width: 768px) {
+
+    .filter-section {
+        .filters-wrapper {
+            flex-direction: column;
+        }
+        
+    }
+
+    .verse-sec {
+        font-size: 24px;
+
+    }
+
+    .search-section {
+        flex-basis: auto;
+    }
+}

@@ -1,0 +1,41 @@
+<section class="search-sec mr-3 ">
+    <form [formGroup]="searchForm" class="">
+        <div class="d-flex">
+            <mat-form-field appearance="outline" class="search-book primary">
+                <input matInput placeholder="Search book" (keydown.enter)="onSearchClick()"
+                    [matAutocomplete]="booksAutoComplete" formControlName="book" #bookInput>
+                <mat-icon matPrefix>search</mat-icon>
+                <mat-autocomplete autoActiveFirstOption #booksAutoComplete="matAutocomplete" [displayWith]="displayFn"
+                    (optionSelected)="onBookSelected($event.option)">
+                    <mat-option [value]=" option" *ngFor="let option of filteredBooks | async">
+                        {{option.name}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="search-chapter wt-15 ml-4 primary"
+                *ngIf="book?.value && isBookSelected || true">
+                <input matInput placeholder="" [matAutocomplete]="chaptersAutoComplete" formControlName="chapter"
+                    #chapterInput />
+                <mat-autocomplete autoActiveFirstOption #chaptersAutoComplete="matAutocomplete"
+                    (optionSelected)="onChapterSelected($event.option)">
+                    <mat-option [value]="option" *ngFor="let option of filteredChapters | async">
+                        {{ option }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="search-verse wt-10 ml-4 primary"
+                *ngIf="book?.value && isBookSelected && chapter?.value && isChapterSelected || true">
+                <input matInput type="text" formControlName="verse" (keydown.enter)="onVerseSelected()"
+                    (change)="onVerseSelected()" #verseInput>
+            </mat-form-field>
+            <div class="ml-2">
+                <button mat-icon-button type="button" class="clear-icon ml-3" (click)="clear()">
+                    <span class="material-symbols-outlined">
+                        close
+                    </span>
+                </button>
+            </div>
+        </div>
+    </form>
+</section>

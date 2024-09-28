@@ -1,0 +1,60 @@
+<section class="create-activity-section">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="container">
+                    <form [formGroup]="quizForm" (ngSubmit)="onSubmit()">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Quiz Type</mat-label>
+                            <mat-select formControlName="quizType">
+                                <mat-option value="" disabled selected>Select a quiz type</mat-option>
+                                <mat-option *ngFor="let data of quizTypes" [value]="data">
+                                    {{ data.name }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error
+                                *ngIf="quizForm.get('quizType')?.invalid && (quizForm.get('quizType')?.touched || quizForm.get('quizType')?.dirty)">
+                                Quiz type is required.
+                            </mat-error>
+                        </mat-form-field>
+
+                        <div formArrayName="quizzes">
+                            <div *ngFor="let quiz of quizzes.controls; let i = index" [formGroupName]="i"
+                                class="quiz-group">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Question Name</mat-label>
+                                    <input matInput formControlName="questionName" />
+                                    <mat-error
+                                        *ngIf="quiz.get('questionName')?.invalid && (quiz.get('questionName')?.touched || quiz.get('questionName')?.dirty)">
+                                        Question name is required.
+                                    </mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Answer</mat-label>
+                                    <input matInput formControlName="answer" />
+                                    <mat-error
+                                        *ngIf="quiz.get('answer')?.invalid && (quiz.get('answer')?.touched || quiz.get('answer')?.dirty)">
+                                        Answer is required for Q&A type.
+                                    </mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field appearance="fill">
+                                    <mat-label>ID</mat-label>
+                                    <input matInput formControlName="id" readonly />
+                                </mat-form-field>
+
+                                <button mat-button color="warn" (click)="removeQuiz(i)">Remove</button>
+                            </div>
+                        </div>
+
+                        <button mat-raised-button color="primary" (click)="addQuiz()">Add Quiz</button>
+                        <button mat-raised-button color="accent" type="submit"
+                            [disabled]="quizForm.invalid">Submit</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,27 @@
+::ng-deep {
+    mat-list {
+        mat-nav-list {
+            .book-name {
+                a {
+                    border-radius: 4px;
+
+                    &.active {
+                        background: #fff;
+
+                        .mdc-list-item__primary-text {
+                            color: #1c222e;
+                        }
+
+
+                    }
+                }
+            }
+        }
+    }
+.side-bar-wrapper {
+    .old-test.br-1 {
+        border-color: #454545;
+    }
+}
+
+}

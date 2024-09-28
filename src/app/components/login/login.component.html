@@ -1,0 +1,56 @@
+<section class="login-section">
+    <div class="container-fluid h-100">
+
+        <div class="row h-100">
+            <div class="login-info col-lg-6 col h-100 p-5">
+                <div>
+                    <h1 color="" class="logo m-0">
+                        <a>GGM</a>
+                    </h1>
+                </div>
+                <div class="title pt-4">
+                    <h1> {{ title }}</h1>
+                    <p> {{ des }} </p>
+                </div>
+            </div>
+            <div class="app-login col-lg-6 col h-100 p-5">
+                <div class="">
+                    <h2 class="my-5"> Get Started </h2>
+                    <div class="form">
+                        <form [formGroup]="form">
+                            <div class="row">
+                                <div class="col-lg-8 col my-2">
+                                    <mat-form-field class="wt-100" appearance="outline">
+                                        <mat-label>Full Name</mat-label>
+                                        <input matInput  formControlName="fName" placeholder="Enter your name" type="text">
+                                        <mat-error> {{ nameError }} </mat-error>
+                                    </mat-form-field>
+                                   
+                                </div>
+                                <div class="col-lg-8 col my-2">
+                                    <mat-form-field class="wt-100" appearance="outline">
+                                        <mat-label>Email</mat-label>
+                                        <input matInput formControlName="email" placeholder="Enter email" type="email" required>
+                                        <mat-error> {{ emailError }} </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-lg-8 col my-2">
+                                    <mat-form-field class="wt-100" appearance="outline">
+                                        <mat-label>Password</mat-label>
+                                        <input matInput formControlName="password" placeholder="Enter email" type="password" required>
+                                        <mat-error> {{ passWordError }} </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="submit-btn mt-5">
+                            <button mat-button (click)="onSubmit()"> Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>

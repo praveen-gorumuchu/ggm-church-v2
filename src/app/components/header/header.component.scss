@@ -1,0 +1,102 @@
+.header-section {
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 99999999;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.5s ease, backdrop-filter 0.5s ease;
+}
+
+
+.logo-section {
+    .logo {
+        font-size: 34px;
+        font-weight: 600;
+        color: #fff;
+        cursor: pointer;
+    }
+
+}
+
+.mat-toolbar {
+    background: transparent;
+
+}
+
+.chapter-name {
+    font-size: 24px;
+    color: #dcdcdc;
+    font-weight: 500;
+}
+
+.right-nav {
+    li {
+        list-style: none;
+
+        .nav-link {
+            color: #fff;
+            padding: 8px 0;
+            margin: 0 18px;
+            font-size: 16px;
+            transition: all .3s;
+            position: relative;
+            cursor: pointer;
+
+            &.active::before,
+            &:hover::before {
+                width: 25px;
+                background: #fff;
+            }
+
+            &::before {
+                position: absolute;
+                content: "";
+                top: 0;
+                left: 0;
+                width: 0;
+                height: 2px;
+                transition: all .3s;
+            }
+        }
+
+        .menu-btn {
+            width: 62px;
+            height: 62px;
+            padding: 0;
+            color: #fdefde;
+
+            .menu-icon {
+                font-size: 31px;
+            }
+        }
+
+    }
+
+
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+}
+
+@media screen and (max-width: 768px) {
+
+    .chapter-name {
+        font-size: 24px;
+
+    }
+
+    .logo-section {
+        .logo {
+            font-size: 28px;
+
+        }
+
+    }
+}

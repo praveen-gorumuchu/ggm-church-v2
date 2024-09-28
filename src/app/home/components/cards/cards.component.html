@@ -1,0 +1,31 @@
+<section class="cards-section section-gap bg-dark-header" id="cardsSection">
+    <div class=" container">
+        <div class="section-title text-center mb-5">
+            <span class="border-before-after title">
+                {{ title.cardsTitle }}
+            </span>
+        </div>
+        <div class="card-container">
+            <ng-container *ngFor="let data of cardsList">
+                <mat-card class="example-card" appearance="outlined" matRipple [matRippleCentered]="true"
+                    (click)="onCardClick(data)">
+                    <mat-card-header>
+                        <mat-card-title> {{ data.title }} </mat-card-title>
+                        <mat-card-subtitle> {{ data.des }} </mat-card-subtitle>
+                    </mat-card-header>
+                    <div class="img-container">
+                        <img [src]="data.img" mat-card-image alt="" class="blur-img">
+                        <div class="overlay"></div>
+                    </div>
+
+                    <!-- <mat-card-actions>
+                            <button mat-icon-button> <span class="material-symbols-outlined"> arrow_forward </span>
+                            </button>
+                        </mat-card-actions> -->
+
+                </mat-card>
+            </ng-container>
+        </div>
+
+    </div>
+</section>
