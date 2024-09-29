@@ -34,6 +34,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   hideGlobalNav: boolean = false;
   headerTitle: boolean = false;
   menuIcon: boolean = false;
+  showHeader: boolean =  false;
 
   constructor(private bibleService: BibleService, private sharedService: SharedService,
     private router: Router, private breakpointService: BreakpointService,
@@ -71,6 +72,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if(isHeader && routeData.header && routeData.header.menuIcon) {
       this.menuIcon = routeData.header.menuIcon
     } else this.menuIcon = false;
+    if(isHeader && routeData.header && routeData.header.isHeader) {
+      this.showHeader = true;
+    } else this.showHeader = false;
 
   }
 
@@ -78,6 +82,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.headerTitle = false;
     this.menuIcon = false;
     this.hideGlobalNav = false;
+    this.showHeader = false;
   }
 
 

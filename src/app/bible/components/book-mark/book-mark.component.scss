@@ -1,13 +1,16 @@
 ::ng-deep {
-    button {
-        // background-color: tan;
-        background-color: transparent;
-
-        .material-symbols-outlined {
-            color: #bcbcbc;
-            font-weight: 600;
+    .bottom-acceess {
+        button {
+            // background-color: tan;
+            background-color: transparent;
+    
+            .material-symbols-outlined {
+                color: #bcbcbc;
+                font-weight: 600;
+            }
         }
     }
+
 
     .mat-mdc-menu-panel {
         min-width: 260px !important;

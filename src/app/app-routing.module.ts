@@ -1,3 +1,4 @@
+import { DashboardModule } from './dashboard/dashboard.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NoPageFoundComponent } from './shared/components/no-page-found/no-page-found.component';
@@ -31,6 +32,18 @@ const routes: Routes = [
         menuIcon: true, headerTitle: true
       }, body: {
         theme: 'dark'
+      }
+    }
+  },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+    canActivate: [AuthGuard],
+    data: {
+      header: {
+        theme: ThemeEnumModel.LIGHT, isHeader: false, hideGlobalNav: true
+      }, body: {
+        theme: 'light'
       }
     }
   },

@@ -41,7 +41,7 @@
                     <mat-nav-list role="listitem" *ngFor="let menu of menuList">
                         <div class="book-name">
                             <a mat-list-item (click)="onMenuClick(menu)" [ngClass]="{ active: isActiveMenu(menu) }">
-                                {{ menu.name }}
+                                {{ menu.title }}
                             </a>
                         </div>
                     </mat-nav-list>

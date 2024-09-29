@@ -7,6 +7,14 @@ export const MenuList = [
         icon: ''
     },
     {
+        name: 'bible',
+        title: 'Bible',
+        url: 'bible',
+        subMenu: [],
+        icon: ''
+    },
+    
+    {
         name: 'about',
         title: 'About',
         url: 'about',
@@ -21,16 +29,9 @@ export const MenuList = [
         icon: ''
     },
     {
-        name: 'bible',
-        title: 'Bible',
-        url: 'bible',
-        subMenu: [],
-        icon: ''
-    },
-    {
-        name: 'activities',
-        title: 'Activities',
-        url: 'activity',
+        name: 'dashboard',
+        title: 'Dashboard',
+        url: 'dashboard',
         subMenu: [],
         icon: ''
     }
