@@ -1,12 +1,16 @@
+import { ThemeService } from './../../shared/services/theme.service';
+import { AppNavService } from './../../shared/services/app-nav.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SharedService } from './../../shared/services/shared.service';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { BibleService } from '../../shared/services/bible.service';
 import { BibleBook, ChapterList } from '../../shared/models/bible-books/bible-books.model';
 import { filter, Subscription } from 'rxjs';
 import { MenuList, MenuListModel } from '../../shared/constants/menu-list';
 import { BibleStateModel } from '../../shared/models/bible.state.model';
 import { BreakpointService } from '../../shared/services/breakpoint.service';
+import { RouteDataModel } from '../../shared/models/routes/route-data.model';
+
 
 
 @Component({
@@ -23,26 +27,29 @@ export class HeaderComponent implements OnInit, OnDestroy {
   menuList: MenuListModel[] = [];
   activeMenu!: MenuListModel;
   bibleState!: BibleStateModel;
-  showBook = false;
   showChapterIndex = false;
   showVerses = false;
   isMobile: boolean = false;
   isTablet: boolean = false;
-  isBible: boolean = false;
-  isHome: boolean = false;
+  hideGlobalNav: boolean = false;
+  headerTitle: boolean = false;
+  menuIcon: boolean = false;
 
   constructor(private bibleService: BibleService, private sharedService: SharedService,
-    private router: Router, private breakpointService:BreakpointService, private activeRoute: ActivatedRoute) {
-      this.breakpointService.isMobile$.subscribe(isMobile => {
-        this.isMobile = isMobile;
-      });
-  
-      this.breakpointService.isTablet$.subscribe(isTablet => {
-        this.isTablet = isTablet;
-      });
-      this.isHome = this.router.url.includes('home')
-      this.isBible = this.router.url.includes('bible');
-     }
+    private router: Router, private breakpointService: BreakpointService,
+    private activeRoute: ActivatedRoute, private appNavService: AppNavService, 
+    private themeService: ThemeService) {
+    this.breakpointService.isMobile$.subscribe(isMobile => {
+      this.isMobile = isMobile;
+    });
+
+    this.breakpointService.isTablet$.subscribe(isTablet => {
+      this.isTablet = isTablet;
+    });
+    const routeData: RouteDataModel =
+      this.appNavService.getChild(this.activeRoute)?.snapshot?.data;
+    this.initalSetup(routeData);
+  }
 
   ngOnInit(): void {
     this.getBibleBooks();
@@ -51,15 +58,35 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.activeMenu = this.menuList[0];
   }
 
+  initalSetup(routeData: RouteDataModel) {
+    this.themeService.setHeaderTheme(routeData);
+    this.resetInital();
+    const isHeader = routeData.header && routeData.header.isHeader || false;
+    if (isHeader && routeData.header && routeData.header.hideGlobalNav) {
+      this.hideGlobalNav = routeData.header.hideGlobalNav;
+    } else this.hideGlobalNav = false;
+    if(isHeader && routeData.header && routeData.header.headerTitle) {
+      this.headerTitle = routeData.header && routeData.header.headerTitle || false;
+    } else this.headerTitle = false;
+    if(isHeader && routeData.header && routeData.header.menuIcon) {
+      this.menuIcon = routeData.header.menuIcon
+    } else this.menuIcon = false;
+
+  }
+
+  resetInital() {
+    this.headerTitle = false;
+    this.menuIcon = false;
+    this.hideGlobalNav = false;
+  }
+
+
   getRouter() {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
-      // Check the active route path
-      this.activeRoute.firstChild?.url.subscribe(urlSegments => {
-        const currentPath = urlSegments.map(segment => segment.path).join('/');
-        this.isHome = this.router.url.includes('home')
-      });
+      const routeData: RouteDataModel = this.appNavService.getChild(this.activeRoute).snapshot.data;
+      this.initalSetup(routeData);
     })
   }
 
@@ -76,7 +103,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['/', 'home']);
     this.activeMenu = this.menuList[0];
     this.bibleService.resetDeafualts();
-    this.showBook = false;
   }
 
   resetDefaults() {
@@ -96,7 +122,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }),
       this.bibleService.isShowObasCast.subscribe((data: BibleStateModel) => {
         this.bibleState = data;
-        this.showBook = this.bibleState.showBook || false;
         this.showChapterIndex = this.bibleState.showChapter || false;
         this.showVerses = this.bibleState.showVerses || false;
       })
@@ -106,11 +131,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.showBook = false;
     this.showChapterIndex = false;
     this.showVerses = false;
     this.isMobile = false;
-    this.isTablet= false;
+    this.isTablet = false;
+    this.resetInital();
   }
 
 }

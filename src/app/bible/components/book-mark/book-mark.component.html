@@ -1,10 +1,10 @@
 <section>
     <div class="bottom-acceess">
-        <button class="book-mark-btn" mat-icon-button [matMenuTriggerFor]="aboveMenu" #menuTrigger>
+        <!-- <button class="book-mark-btn" mat-icon-button [matMenuTriggerFor]="aboveMenu" #menuTrigger>
             <span class="material-symbols-outlined">
                 bookmarks
             </span>
-        </button>
+        </button> -->
         <mat-menu #aboveMenu="matMenu" yPosition="above">
             <div class="d-flex py-2 px-3 border-bottom book-mark-title justify-content-between align-items-center">
                 <div class="book-mark-title">
@@ -27,4 +27,11 @@
             </ng-container>
         </mat-menu>
     </div>
+
+    <!-- Bottom Sheet -->
+    <button class="book-mark-btn" mat-icon-button (click)="openBottomSheet()">
+        <span class="material-symbols-outlined">
+            bookmarks
+        </span>
+    </button>
 </section>

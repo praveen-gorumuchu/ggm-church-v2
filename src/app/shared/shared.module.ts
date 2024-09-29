@@ -15,6 +15,8 @@ import { SafePipe } from './pipes/safe.pipe';
 import { NoPageFoundComponent } from './components/no-page-found/no-page-found.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatMenuModule} from '@angular/material/menu';
+import { BottomSheetComponent } from './components/bottom-sheet/bottom-sheet.component';
+import { MaterialModule } from '../material.module';
 
 
 const materialModules = [
@@ -26,14 +28,16 @@ const materialModules = [
   MatCardModule,
   MatInputModule,
   MatProgressSpinnerModule,
-  MatMenuModule
+  MatMenuModule,
+  MaterialModule
 ]
 
 @NgModule({
   declarations: [
     BibleBooksComponent,
     SafePipe,
-    NoPageFoundComponent
+    NoPageFoundComponent,
+    BottomSheetComponent
   ],
   imports: [
     CommonModule,

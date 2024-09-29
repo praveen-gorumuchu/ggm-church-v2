@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HeaderRouteModel, RouteDataModel, ThemeEnumModel } from '../models/routes/route-data.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,24 +9,64 @@ export class ThemeService {
   private observer: IntersectionObserver | undefined;
   url: string = '';
 
-  constructor(private router: Router, private activeRoute: ActivatedRoute) {
-    // Observe route changes to apply the body theme
-    this.observeRouteChanges();
+  constructor() { }
+
+
+  /**
+   * @function setHeaderTheme 
+   * @description reset header theme and set the header theme for transitions on basis of route data;
+   * @param routeData 
+   */
+
+  setHeaderTheme(routeData: RouteDataModel) {
+    this.resetHeaderTheme();
+    const isHeader: boolean = routeData.header && routeData.header.isHeader || false;
+    setTimeout(() => {
+      const header = document.getElementById('app-header');
+      if (isHeader && routeData.header && routeData.header.theme && header) {
+        header.classList.add(routeData.header.theme);
+      }
+    })
+    // if (isHeader && routeData.header && routeData.header.transition) {
+    //   this.observeSections(routeData.header);
+    // }
   }
 
-  // Observe sections for header theme changes
-  observeSections(): void {
-    const sections = Array.from(document.querySelectorAll('section'));  // Get all sections with class 'section'
+  /**
+ * @function setBodyTheme 
+ * @description reset body theme and set the setBodyTheme theme on basis of route data;
+ * @param routeData 
+ */
 
+  setBodyTheme(routeData: RouteDataModel) {
+    this.resetBodyTheme();
+    this.resetSectionMargin();
+    const body: HTMLElement = document.body as HTMLElement;
+    const sectionSpace: HTMLElement = document.getElementById('section-margin-top') as HTMLElement;
+    const isBody = routeData && routeData.body || false;
+    if (isBody && routeData.body?.theme) {
+      body.classList.add(routeData.body?.theme as ThemeEnumModel);
+    }
+    if (sectionSpace && isBody && !isBody.marnoMarginin) {
+      sectionSpace.classList.add('fixed-header-space');
+    }
+  }
+
+  /**
+   * @function observeSections
+   * @description observeSections method to change the header theme on basis of each section view
+   */
+
+  observeSections(headerData: HeaderRouteModel): void {
+    const sections = Array.from(document.querySelectorAll('section'));
     if (!this.observer) {
-      this.observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              this.changeHeaderTheme(entry);
-            }
-          });
-        },
+      this.observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.changeHThemeForSections(entry, headerData);
+          }
+        });
+      },
         { threshold: 0.5 } // Adjust visibility percentage to trigger the change
       );
     }
@@ -35,85 +75,54 @@ export class ThemeService {
     sections.forEach(section => this.observer?.observe(section));
   }
 
-  // Method to listen to route changes
-  private observeRouteChanges(): void {
-    this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
-        this.url = event.urlAfterRedirects;  // Capture the final URL after redirection
-        this.applyRouteSpecificTheme();
-      });
-  }
+  /**
+   * @private changeHThemeForSections
+   * @param {*} entry section entry point
+   * @param {HeaderRouteModel} headerData 
+   * @memberof ThemeService 
+   * @description set the trasistion background for the header on basis of each section view
+   */
 
-  // Apply body and header theme based on the current route URL and data
-  private applyRouteSpecificTheme(): void {
-    const body = document.body;
-    const ele = document.getElementById('bodySection');
-    const routeData = this.activeRoute.snapshot.firstChild?.data;  // Capture the route's data
-
-    // Reset any existing body theme
-    body?.classList.remove('dark', 'light');
-    ele?.classList.remove('body-section');
-
-    // Check the URL and apply corresponding body theme
-    if (this.url.includes('home') || this.url.includes('login')) {
-      body?.classList.remove('light');
-    } else if (this.url.includes('bible')) {
-      body?.classList.add('dark');
-      ele?.classList.add('body-section');
-    } else {
-      body?.classList.add('dark');
-      ele?.classList.add('body-section');
-    }
-
-    // Apply header class if it's provided in route data
-    const header = document.getElementById('app-header') as HTMLElement;
-    this.resetHeaderTheme();
-    if (routeData?.['headerClass']) {
-      header?.classList?.add(routeData['headerClass']);
+  changeHThemeForSections(entry: any, headerData: HeaderRouteModel) {
+    if (headerData.transition) {
+      const header = document.getElementById('app-header') as HTMLElement;
+      this.resetHeaderTheme();
+      if (entry?.target?.classList?.contains('bg-dark-header')) {
+        header.classList.add('transperant-dark-header');
+      } else if (entry?.target?.classList?.contains('bg-light-header')) {
+        header.classList.add('transperant-light-header');
+      } else if (entry?.target?.classList?.contains('transperant-header')) {
+        header.classList.add('transperant-bg');
+      }
     }
   }
 
-  // Reset the header theme when needed
   resetHeaderTheme(): void {
     const header = document.getElementById('app-header') as HTMLElement;
     if (header) {
+      this.resetSectionMargin()
       header.classList?.remove('transperant-dark-header', 'transperant-light-header',
-        'transperant-bg', 'dark-header');
+        'transperant-bg', 'dark-header', 'light-header', 'dark', 'transperant');
     }
   }
 
-  // Apply dark theme to header
-  private applyDarkHeader(ele: HTMLElement): void {
-    ele?.classList?.add('transperant-dark-header');
-    ele?.classList?.remove('transperant-light-header', 'transperant-bg', 'dark-header');
-  }
-
-  // Apply light theme to header
-  private applyLightHeader(ele: HTMLElement): void {
-    ele?.classList?.add('transperant-light-header');
-    ele?.classList?.remove('transperant-dark-header', 'transperant-bg', 'dark-header');
-  }
-
-  // Apply transparent theme to header
-  private applyTransparentHeader(ele: HTMLElement): void {
-    ele?.classList?.add('transperant-bg');
-    ele?.classList?.remove('transperant-dark-header', 'transperant-light-header', 'dark-header');
-  }
-
-  // Apply header theme based on section observation
-  private changeHeaderTheme(entry: any) {
-    const routeData = this.activeRoute.snapshot.firstChild?.data;
-    const header = document.getElementById('app-header') as HTMLElement;
-    if(routeData && routeData['transition']) {
-      if (entry?.target?.classList?.contains('bg-dark-header')) {
-        this.applyDarkHeader(header);
-      } else if (entry?.target?.classList?.contains('bg-light-header')) {
-        this.applyLightHeader(header);
-      } else if (entry?.target?.classList?.contains('transperant-header')) {
-        this.applyTransparentHeader(header);
-      }
+  resetBodyTheme(): void {
+    const body = document.body as HTMLElement;
+    if (body) {
+      body.classList?.remove('dark', 'light');
     }
-  
   }
+
+  /**
+   * @function resetSectionMargin
+   * @description resetSectionMargin Method to remove the extra sapce when the header was not fixed.
+   */
+
+  resetSectionMargin() {
+    const ele = document.getElementById('section-margin-top') as HTMLElement;
+    if (ele) {
+      ele.classList.remove('fixed-header-space');
+    }
+  }
+
 }

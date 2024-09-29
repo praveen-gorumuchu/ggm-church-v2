@@ -1,0 +1,31 @@
+<section class="bottom-sheet pb-5" *ngIf="dataSource">
+    <div class="d-flex py-3 px-4 border-bottom justify-content-between align-items-center">
+        <div class="title-section">
+            <h4 class="m-0 title"> {{ dataSource.title }} </h4>
+        </div>
+        <div class="text-right">
+            <button class="delete-btn" mat-icon-button (click)="onClick('delete')" color="warning">
+                <span class="material-symbols-outlined">
+                    delete
+                </span>
+            </button>
+        </div>
+    </div>
+    <ng-container *ngIf="dataSource.list && dataSource.list?.length > 0; else noResult">
+        <div class="px-4 py-3">
+            <mat-chip-listbox class="mat-mdc-chip-set-stacked">
+                <mat-chip-option *ngFor="let bookMark of dataSource.list; let i = index"
+                    (click)="onClick('book', bookMark)" class="">
+                    <span> {{ bookMark.bookName }} : </span>
+                    <span> {{ getChapterNumber(bookMark.chapterName) }} : </span>
+                    <span> {{ bookMark.verseId }} </span>
+                </mat-chip-option>
+            </mat-chip-listbox>
+        </div>
+
+    </ng-container>
+    <ng-template #noResult>
+        <p class="text-center mt-5"> {{ dataSource.noResult }} </p>
+    </ng-template>
+    
+</section>

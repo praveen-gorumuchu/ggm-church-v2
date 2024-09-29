@@ -1,0 +1,39 @@
+::ng-deep {
+    .mat-bottom-sheet-container {
+        padding: 0 !important;
+
+        .mdc-evolution-chip-set {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+
+            .mat-mdc-chip {
+                width: 40%;
+                margin: 10px;
+            }
+        }
+
+    }
+
+    .border-bottom {
+        border-color: rgb(227 227 227 / 12%) !important;
+    }
+    
+    
+    @media screen and (max-width: 768px) {
+        .mat-bottom-sheet-container {
+           
+    
+            .mdc-evolution-chip-set { 
+                flex-direction: row;
+                .mat-mdc-chip {
+                    width: 100% !important;
+                
+                }
+            }
+    
+        }
+       
+    }
+}
+

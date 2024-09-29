@@ -70,7 +70,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     MatProgressBarModule,
-    MatGridListModule
+    MatGridListModule,
+    MatBottomSheetModule
   ]
 })
 export class MaterialModule { }

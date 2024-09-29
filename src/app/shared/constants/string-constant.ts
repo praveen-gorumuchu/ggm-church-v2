@@ -30,4 +30,6 @@ export const StringConstant = {
     LOGIN_DES: 'May your heart be filled with peace and your spirit be renewed as you connect with us',
     INVALID_EMAIL: 'Invalid email',
     passwordKey: 'ggmchurch@2001',
+    RECENTLY_VIEWD: 'Recently Viewed',
+    NO_BOOKMARKS_FOUND: 'No Bookmarks Found.!'
 }

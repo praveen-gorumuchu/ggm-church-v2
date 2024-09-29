@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LetterFillComponent } from './letter-fill.component';
+import { PlayQuizComponent } from './play-quiz.component';
 
-describe('LetterFillComponent', () => {
-  let component: LetterFillComponent;
-  let fixture: ComponentFixture<LetterFillComponent>;
+describe('PlayQuizComponent', () => {
+  let component: PlayQuizComponent;
+  let fixture: ComponentFixture<PlayQuizComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LetterFillComponent]
+      declarations: [PlayQuizComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LetterFillComponent);
+    fixture = TestBed.createComponent(PlayQuizComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

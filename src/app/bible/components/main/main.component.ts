@@ -88,7 +88,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
       this.bibleService.chapterIndexObsCast.subscribe((index: number) => {
         this.currentChapterIndex = index;
         this.getCurrentChapter(this.currentBook.chapters[this.currentChapterIndex -1])
-        console.log(this.currentChapter, this.currentChapterIndex);
+        
       }),
       // verses
       this.bibleService.currentVerseIndexObsCast.subscribe((index: number) => {

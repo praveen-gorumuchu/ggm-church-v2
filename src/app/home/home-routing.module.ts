@@ -3,10 +3,24 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: '', component: HomeComponent,
+    data: {
+      header: {
+        theme: 'transperant', isHeader: true, transition: true,
+      }, body: {
+        theme: 'light', noMargin: true
+      }
+    }
+   },
   {
     path: 'home', component: HomeComponent,
-    data: { transition: true }
+    data: {
+      header: {
+        theme: 'transperant', isHeader: true, transition: true,
+      }, body: {
+        theme: 'light', noMargin: true
+      }
+    }
   },
 ];
 

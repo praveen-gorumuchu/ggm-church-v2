@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActivityHomeComponent } from './activity-home.component';
+import { BottomSheetComponent } from './bottom-sheet.component';
 
-describe('ActivityHomeComponent', () => {
-  let component: ActivityHomeComponent;
-  let fixture: ComponentFixture<ActivityHomeComponent>;
+describe('BottomSheetComponent', () => {
+  let component: BottomSheetComponent;
+  let fixture: ComponentFixture<BottomSheetComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ActivityHomeComponent]
+      declarations: [BottomSheetComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ActivityHomeComponent);
+    fixture = TestBed.createComponent(BottomSheetComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

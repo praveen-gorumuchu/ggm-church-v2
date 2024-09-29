@@ -4,6 +4,9 @@ import { BibleService } from '../../../shared/services/bible.service';
 import { SharedService } from '../../../shared/services/shared.service';
 import { BookMarkService } from './../../../shared/services/bookmark.service';
 import { Component, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
+import { BottomSheetComponent } from '../../../shared/components/bottom-sheet/bottom-sheet.component';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { StringConstant } from '../../../shared/constants/string-constant';
 
 @Component({
   selector: 'app-book-mark',
@@ -16,7 +19,7 @@ export class BookMarkComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(private bookMarkService: BookMarkService,
     private bibleService: BibleService, private sharedService: SharedService,
-    private ngZone: NgZone
+    private ngZone: NgZone, private bottomSheet: MatBottomSheet
   ) { }
 
   ngOnInit(): void {
@@ -57,21 +60,41 @@ export class BookMarkComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   handleKeyDown(event: KeyboardEvent) {
-    if (event.ctrlKey) { // Check if Control key is pressed
+    if (event.ctrlKey) {
       switch (event.key) {
         case 'q':
-          event.preventDefault(); // Prevent the default action (if any)
+          event.preventDefault();
           this.ngZone.run(() => {
-            this.openMenu();
+            // this.openMenu();
+            this.openBottomSheet();
           });
           break;
 
-        // Add other key cases here if needed
         default:
           break;
       }
     }
   }
+
+  openBottomSheet() {
+    const bottomSheetRef = this.bottomSheet.open(BottomSheetComponent, {
+      data: { list: this.bookMarkList, title: StringConstant.RECENTLY_VIEWD,
+        noResult: StringConstant.NO_BOOKMARKS_FOUND
+       }
+    });
+    bottomSheetRef.afterDismissed().subscribe((result) => {
+      console.log(result);
+      if (result) {
+        if (result.action === 'book') {
+          this.onBookMarkClick(result.data as BookmarkListModel)
+        }
+        if (result.action === 'delete') {
+          this.deleteAll();
+        }
+      }
+    });
+  }
+
 
 
   ngOnDestroy(): void {
