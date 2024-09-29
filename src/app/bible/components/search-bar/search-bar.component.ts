@@ -141,7 +141,6 @@ export class SearchBarComponent implements OnInit, OnChanges {
         const chapterIdx = searchObj && searchObj.chapterNumber && Number(searchObj.chapterNumber) || 1;
         const verseIdx = searchObj && searchObj.verse && Number(searchObj.verse) || 1;
         this.bibleService.getBook(bookName.id, false, chapterIdx, verseIdx);
-        console.log(searchObj, bookName.id, false, chapterIdx, verseIdx, 'search found');
         this.resetInput();
       }
     }

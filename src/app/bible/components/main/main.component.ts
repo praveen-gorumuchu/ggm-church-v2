@@ -87,6 +87,8 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
       // chapters
       this.bibleService.chapterIndexObsCast.subscribe((index: number) => {
         this.currentChapterIndex = index;
+        this.getCurrentChapter(this.currentBook.chapters[this.currentChapterIndex -1])
+        console.log(this.currentChapter, this.currentChapterIndex);
       }),
       // verses
       this.bibleService.currentVerseIndexObsCast.subscribe((index: number) => {
@@ -159,7 +161,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     this.bibleService.setBibleState({
       showBook: true, showChapter: false
     });
-    this.resetForm();
+    // this.resetForm();
   }
 
   resetForm(){

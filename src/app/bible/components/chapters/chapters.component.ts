@@ -24,7 +24,7 @@ export class ChaptersComponent implements OnChanges, OnInit {
   }
 
   isActive(data: ChapterList) {
-    return this.isActiveChapter.id.toLowerCase() === data.id.toLowerCase();
+    return this.isActiveChapter?.id?.toLowerCase() === data.id.toLowerCase();
   }
 
   onChapterClick(data: ChapterList) {

@@ -59,7 +59,6 @@ export class CreateQuizComponent implements OnInit {
   onSubmit() {
     if (this.quizForm.valid) {
       const formValue = this.quizForm.value;
-      console.log(formValue);
       this.quizForm.reset();
     }
   }
