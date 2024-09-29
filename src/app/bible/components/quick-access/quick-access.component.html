@@ -1,6 +1,6 @@
-<section class="quick-access" (mousemove)="onMouseMove($event)" *ngIf="!isMobile">
+<section class="quick-access" (mousemove)="onMouseMove($event)">
     <!-- Navigation -->
-    <section class="navigation">
+    <section class="navigation" *ngIf="!isMobile">
         <div class="previous-chapter" *ngIf="showLeftArrow">
             <button mat-icon-button [disabled]="false" (click)="onChangeChapter(action.PREV)">
                 <span class="material-symbols-outlined">

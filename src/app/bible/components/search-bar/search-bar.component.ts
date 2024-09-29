@@ -3,7 +3,7 @@ import { UtilSharedService } from './../../../shared/services/util-shared.servic
 import { Observable, of, Subscription } from 'rxjs';
 import { SearchRequest } from '../../../shared/models/search-request.model';
 import { SearchBookService } from './../../../shared/services/search-book.service';
-import { Component, ElementRef, Input, NgZone, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, NgZone, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { BibileBookList, BibleBookTypes } from '../../../shared/models/bible-books/bible-books.model';
 import { BibleService } from '../../../shared/services/bible.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -60,7 +60,7 @@ export class SearchBarComponent implements OnInit, OnChanges {
     // this.populateDeafult()
 
   }
-  
+
   populateDeafult() {
     this.book.patchValue(this.currentBook);
     this.chapter.patchValue(1);
@@ -101,17 +101,42 @@ export class SearchBarComponent implements OnInit, OnChanges {
       setTimeout(() => {
         this.chapterInput.nativeElement.focus();
       })
-    } else this.isBookSelected = false
+    } else this.isBookSelected = false;
   }
 
-  onChapterSelected(option: MatOption) {
-    if (option.value) {
+  onChapterSelected(val: any) {
+    const idx = parseInt(this.chapter.value);
+    if (idx <= this.chapterList.length) {
       this.isChapterSelected = true;
       this.bibleService.setChapterIndex(this.chapter.value);
       setTimeout(() => {
         this.verseInput.nativeElement.focus();
       })
     } else this.isChapterSelected = false;
+  }
+
+  onBlurChapter() {
+    const val = parseInt(this.chapter.value);
+    if (val <= this.chapterList.length) {
+      this.chapter.patchValue(this.chapter.value);
+      this.onChapterSelected(this.chapter.value);
+      this.chapter.setErrors(null);
+    } else {
+      if (this.chapter.touched && this.chapter.value) this.chapter.setErrors({ inValid: true });
+    }
+    this.searchForm.updateValueAndValidity();
+  }
+
+  onBlurVerse() {
+    const val = parseInt(this.verse.value);
+    if (val <= this.chapterList[this.chapter.value]) {
+      this.chapter.patchValue(val);
+      this.onVerseSelected();
+      this.verse.setErrors(null);
+    } else {
+      if (this.verse.touched && this.verse.value) this.verse.setErrors({ inValid: true });
+    }
+    this.searchForm.updateValueAndValidity();
   }
 
   onVerseSelected() {
@@ -144,6 +169,10 @@ export class SearchBarComponent implements OnInit, OnChanges {
         this.resetInput();
       }
     }
+  }
+
+  get isChapterError(): boolean {
+    return this.chapter.hasError('inValid');
   }
 
   get book(): AbstractControl {

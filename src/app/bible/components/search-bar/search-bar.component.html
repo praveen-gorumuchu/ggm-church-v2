@@ -14,11 +14,11 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="search-chapter wt-15 ml-4 primary"
-                *ngIf="book?.value && isBookSelected || true">
+                *ngIf="book?.value && isBookSelected || true" >
                 <input matInput placeholder="" [matAutocomplete]="chaptersAutoComplete" formControlName="chapter"
-                    #chapterInput />
+                    #chapterInput (blur)="onBlurChapter()" />
                 <mat-autocomplete autoActiveFirstOption #chaptersAutoComplete="matAutocomplete"
-                    (optionSelected)="onChapterSelected($event.option)">
+                    (optionSelected)="onChapterSelected($event.option.value)">
                     <mat-option [value]="option" *ngFor="let option of filteredChapters | async">
                         {{ option }}
                     </mat-option>
@@ -27,7 +27,7 @@
             <mat-form-field appearance="outline" class="search-verse wt-10 ml-4 primary"
                 *ngIf="book?.value && isBookSelected && chapter?.value && isChapterSelected || true">
                 <input matInput type="text" formControlName="verse" (keydown.enter)="onVerseSelected()"
-                    (change)="onVerseSelected()" #verseInput>
+                    (change)="onVerseSelected()" #verseInput (blur)="onBlurVerse()">
             </mat-form-field>
             <div class="ml-2">
                 <button mat-icon-button type="button" class="clear-icon ml-3" (click)="clear()">
