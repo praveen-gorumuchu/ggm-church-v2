@@ -14,7 +14,7 @@ export class MessageBarService {
     this._snackBar.open(message, 'Close', {
       horizontalPosition: config && config.horizontalPosition ? config?.horizontalPosition : 'center',
       verticalPosition: config && config.verticalPosition ? config.verticalPosition : 'top',
-      duration: config && config.duration ? config.duration : 100000000,
+      duration: config && config.duration ? config.duration : NumberConstant.THREE_THOUSAND,
       data: config && config.data ? config.data : undefined,
       panelClass: config && config.panelClass ? config.panelClass : ''
     });
