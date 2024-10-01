@@ -1,6 +1,8 @@
+import { LoginService } from './../../../shared/services/login.service';
 import { Component } from '@angular/core';
 import { DashboardTitles } from '../../constants/dashboard-title.constant';
 import { Router } from '@angular/router';
+import { UserInfo, UserRoleEnum } from '../../../shared/models/user-data/uder-list.model';
 
 
 @Component({
@@ -10,9 +12,11 @@ import { Router } from '@angular/router';
 })
 export class StudentsComponent {
   titles = DashboardTitles;
-
-  constructor(private router: Router) {
-
+  userRole!: UserRoleEnum;
+  userRoleEnum = UserRoleEnum;
+  constructor(private router: Router, private loginService: LoginService) {
+    this.userRole = this.loginService.loginUser.role;
+   
   }
 
 

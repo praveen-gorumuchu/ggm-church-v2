@@ -5,7 +5,7 @@
                 <h3 class="page-title"> {{ titles.studentTitle}} </h3>
             </div>
             <div class="ml-auto">
-                <button mat-raised-button (click)="onRegister()">
+                <button mat-raised-button (click)="onRegister()" [disabled]="userRole !== userRoleEnum.ADMIN">
                     <mat-icon class="">add</mat-icon>
                    <span> {{ titles.REGISTER }} </span>
                 </button>
