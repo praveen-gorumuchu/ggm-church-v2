@@ -1,75 +1,16 @@
 {
-    "users": [
+    "data": [
         {
-            "name": "rajesh",
-            "key": "U2FsdGVkX1/YGuzZrwWGurRop0uUl+ZwXU6djIP5HsE=",
-            "role": "admin"
-        },
-        {
-            "name": "ggm",
-            "key": "U2FsdGVkX1+WqJCVfjZuk1ZLsaqkCgdClpO1hLdmiVE=",
-            "role": "admin"
-        },
-        {
-            "name": "praveen",
-            "key": "U2FsdGVkX18wMDzdNRC3RP3zpXuHUarnIfg/01D1I5Q=",
-            "role": "admin"
-        },
-        {
-            "name": "vicky",
-            "key": "U2FsdGVkX19eSe51mH7dRcX9jalzF08tnoLVJ3Dw0r0=",
-            "role": "user"
-        },
-        {
-            "name": "pavan",
-            "key": "U2FsdGVkX18IbMn73MLp/7kiJic55wHSxICOCztGy10=",
-            "role": "user"
-        },
-        {
-            "name": "chandu",
-            "key": "U2FsdGVkX1/5+mDp6ndg9gNf5SfZ569GRT/yjqJj5xs=",
-            "role": "user"
-        },
-        {
-            "name": "kaveri",
-            "key": "U2FsdGVkX19mNIeCAA8+Lb4LvXcACFfauEgBD7p4zEc=",
-            "role": "user"
-        },
-        {
-            "name": "ramesh",
-            "key": "U2FsdGVkX18ZGWCredSmiE41Psll7cZUdey3haKRHE0=",
-            "role": "user"
-        },
-        {
-            "name": "ramkumar",
-            "key": "U2FsdGVkX1+NfUWV0Z9RxOswoXDmtKOS3S24u4OAAQs=",
-            "role": "user"
-        },
-        {
-            "name": "vijay",
-            "key": "U2FsdGVkX1/f6cTgybkddZzOiIRzqQYS/3HqAWwXCMw=",
-            "role": "user"
-        },
-        {
-            "name": "rajkumar",
-            "key": "U2FsdGVkX1+blFM5Hjo2f2YfqiVwnRPEgKFt0qZ5FYI=",
-            "role": "user"
-        },
-        {
-            "name": "member",
-            "key": "U2FsdGVkX1+/n2RXQBlhyeUhCfgDu3fWinr1b+35SbU=",
-            "role": "user"
-        },
-        {
-            "name": "therissa",
-            "key": "U2FsdGVkX18Y6sVsbfEhSZI3L5Dxy6RYyNzQ1op27xk=",
-            "role": "user"
-        },
-        {
-            "name": "mohini",
-            "key": "",
-            "role": "user"
+            "id": "0001",
+            "name": "GGM",
+            "class": "",
+            "phoneNum": 7036911623,
+            "creationDate": null,
+            "createdBy": "Rajesh",
+            "deletedBy": "",
+            "deletionDate": null,
+            "modifiedBy": "",
+            "modifiedDate": null
         }
-       
     ]
 }
