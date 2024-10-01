@@ -4,12 +4,13 @@ export interface StudentModel {
     name: string,
     class: string,
     phoneNum?: string
-    creationDate?: Date,
+    creationDate?: Date | null,
     createdBy?: string,
     deletedBy?: string,
-    deletionDate?: Date,
+    deletionDate?: Date | null,
     modifiedBy?: string,
-    modifiedDate?: Date
+    modifiedDate?: Date | null,
+    version: number
 }
 
 export interface StudentModelRes {

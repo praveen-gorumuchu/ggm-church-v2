@@ -31,5 +31,10 @@ export const StringConstant = {
     INVALID_EMAIL: 'Invalid email',
     passwordKey: 'ggmchurch@2001',
     RECENTLY_VIEWD: 'Recently Viewed',
-    NO_BOOKMARKS_FOUND: 'No Bookmarks Found.!'
+    NO_BOOKMARKS_FOUND: 'No Bookmarks Found.!',
+    bg_error: 'bg-error',
+    bg_success: 'bg-success',
+    w_100: 'wt-100',
+    ERROR_MSG: 'Please try again.!',
+    CREATE_SUCCESS: 'Students are successfully.!'
 }

@@ -5,7 +5,6 @@
                 <h3 class="page-title"> {{ titles.ENROLL_NEW_STUDENT}} </h3>
             </div>
         </div>
-     
         <section class="wt-80 mt-5 student-register-form">
             <div class="d-flex justify-content-end">
                 <button mat-button (click)="deleteAll()" class="ml-2" [disabled]="true">
@@ -40,29 +39,34 @@
 
                                         <mat-form-field appearance="outline" class="px-1 mb-3">
                                             <mat-label>Id</mat-label>
-                                            <input matInput formControlName="id">
+                                            <input matInput formControlName="id" #idELe>
                                         </mat-form-field>
 
                                         <mat-form-field appearance="outline" class="px-1 mb-3">
                                             <mat-label>Name</mat-label>
                                             <input matInput formControlName="name" placeholder="Enter student name">
+                                            <mat-error> {{ setErrors(i, 'name') }} </mat-error>
                                         </mat-form-field>
 
                                         <mat-form-field appearance="outline" class="px-1 mb-3">
                                             <mat-label>Class</mat-label>
                                             <input matInput formControlName="class" placeholder="Enter student class">
+                                            <mat-error> {{ setErrors(i, 'class') }} </mat-error>
+                                            
                                         </mat-form-field>
 
                                         <mat-form-field appearance="outline" class="px-1 mb-3">
                                             <mat-label>Phone Number</mat-label>
-                                            <input matInput formControlName="phoneNum">
+                                            <input matInput formControlName="phoneNum" >
+                                            <mat-error> {{ setErrors(i, 'phoneNum', '', 10, 10) }} </mat-error>
                                         </mat-form-field>
-
                                         <mat-form-field appearance="outline" class="px-1 mb-3">
                                             <mat-label>Age</mat-label>
                                             <input matInput type="text" formControlName="age"
                                                 placeholder="Enter student age">
-                                        </mat-form-field>
+                                                <mat-error> {{ setErrors(i, 'age', '', 1, 4) }} </mat-error>
+                                       
+                                            </mat-form-field>
                                     </mat-card-content>
                                 </mat-card>
 
