@@ -51,7 +51,8 @@
                                         <mat-hint *ngIf="!passWordError && !password.valid">
                                             {{ formInputConst.userPasswordHint }}
                                         </mat-hint>
-                                        <mat-hint class="color-success fw-5" *ngIf="!passWordError && password.valid">
+                                        <mat-hint class="color-success fw-5" *ngIf="!passWordError 
+                                        && password.valid && password.value">
                                             {{ formInputConst.greatAllSet }}
                                         </mat-hint>
                                             <mat-icon matSuffix (click)="togglePasswordVisibility()" class="eye-icon">

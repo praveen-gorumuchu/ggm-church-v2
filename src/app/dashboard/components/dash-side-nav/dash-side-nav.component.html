@@ -1,0 +1,16 @@
+<section class="dashboard-side-nav-section mt-4">
+    <div class="left-side-nav">
+        <ul class="m-0 p-0">
+            <li class="" *ngFor="let menu of menuList; let i = index" >
+                <menu mat-menu-item matRipple matRippleColor="secondary"
+                (click)="menuClick(menu, $event)" class="menu-item "
+                    [ngClass]="{'active': isMenuActive(menu)}">
+                    <mat-icon class="mr-1"> {{menu.icon}} </mat-icon>
+                    <span class=""> {{ menu.title }} </span>
+                </menu>
+            </li>
+        </ul>
+
+
+    </div>
+</section>

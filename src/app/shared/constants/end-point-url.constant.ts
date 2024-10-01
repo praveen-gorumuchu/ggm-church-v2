@@ -9,5 +9,7 @@ export const EndPointUrlConst = {
     BOOKS: 'books',
     TG: 'tg',
     GGM_MEM_KEY: 'ggm-mem-key',
+    GGM_DBS: 'ggm-dbs',
+    getStudent: 'students/data.json'
     
 }

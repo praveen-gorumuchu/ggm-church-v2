@@ -37,21 +37,36 @@ export const MenuList = [
     }
 ]
 
-export const ActivityMenuList = [
+export const DashboardMenu = [
     {
-        name: 'create',
-        title: 'Create',
-        url: 'create',
+        name: 'dashboard',
+        title: 'Dashboard',
+        url: 'dashboard',
         subMenu: [],
-        icon: ''
+        icon: 'space_dashboard'
     },
     {
-        name: '',
-        title: 'Activities',
-        url: 'activity',
+        name: 'students',
+        title: 'Students',
+        url: 'dashboard/students',
         subMenu: [],
-        icon: ''
-    }
+        icon: 'group'
+    },
+    {
+        name: 'quiz',
+        title: 'Quiz',
+        url: 'dashboard/play-quiz',
+        subMenu: [],
+        icon: 'quiz'
+    },
+    {
+        name: 'evaluation',
+        title: 'Evaluation',
+        url: 'dashboard/evaluation',
+        subMenu: [],
+        icon: 'library_books'
+    },
+
 ]
 
 export interface MenuListModel {

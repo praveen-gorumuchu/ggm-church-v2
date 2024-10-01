@@ -45,7 +45,7 @@ export class SideBarComponent {
 
 
   onClickBook(book: BibileBookList, data: BibleBookTypes) {
-    
+
     this.bibleService.resetDeafualts();
     this.bibleService.getBook(book.id);
     this.activeMenu = book;
@@ -66,9 +66,8 @@ export class SideBarComponent {
       this.getActivateRoute();
     })
     const activatedMenu: MenuListModel = this.menuList.find((menu: MenuListModel) =>
-      this.router.url.includes(menu.url)) as MenuListModel;
-    this.isActivatedMenu = activatedMenu;
-
+      this.router?.url === `/${menu.url}` || this.router?.url === `/${menu.url}/`) as MenuListModel;
+    if (activatedMenu) this.isActivatedMenu = activatedMenu;
   }
 
   getActivateRoute() {
@@ -89,7 +88,7 @@ export class SideBarComponent {
   }
 
   isActiveMenu(menu: MenuListModel) {
-    this.isActivatedMenu.name === menu.name;
+    this.isActivatedMenu?.name === menu?.name;
   }
 
 

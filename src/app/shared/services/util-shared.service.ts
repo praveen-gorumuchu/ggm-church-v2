@@ -241,7 +241,30 @@ export class UtilSharedService {
     return `${baseStr}-${randomString}-${timeStamp}`;
   }
 
+  downloadJsonFile(key:string, fileName: string) {
+    const data = localStorage.getItem(key);
+    
+    if (data) {
+      const blob = new Blob([data], { type: 'application/json' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      
+      // Clean up and remove the link
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } else {
+      console.error('No data found in localStorage');
+    }
+  }
+
+
 }
+
+
 
 
 

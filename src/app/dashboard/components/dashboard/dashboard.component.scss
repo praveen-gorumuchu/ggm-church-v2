@@ -1,0 +1,58 @@
+::ng-deep {
+    .dashboard-container {
+        .dashboard-sidenav {
+            position: fixed;
+            width: 260px;
+            height: 100%;
+            border-right: 1px solid #e8e8e8;
+            border-radius: 0;
+            left: 0;
+            top: 0;
+
+
+            .logo-section {
+                padding: 20px;
+                cursor: pointer;
+
+                h1 {
+                    font-size: 22px;
+                    font-weight: 600;
+                    margin: 0;
+                }
+            }
+        }
+
+        .dashboard-tool-bar {
+            position: fixed;
+            top: 0;
+            left: 260px;
+            width: calc(100% - 260px);
+            z-index: 1000;
+            transition: left 0.3s ease;
+
+            .dashboard-title {
+                font-size: 18px;
+                font-weight: 500;
+            }
+            &.drawer-opened {
+               
+            }
+            &.drawer-closed {
+                left: 0;
+                width: 100%;
+
+            }
+        }
+
+        .dashboard-body {
+            margin-top: 82px;
+            padding: 0 15px;
+        }
+
+    }
+
+    .spacer {
+        flex: 1 1 auto;
+    }
+
+}

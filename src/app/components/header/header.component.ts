@@ -96,7 +96,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   isActiveMenu(book: MenuListModel): boolean {
-    return this.activeMenu.name === book.name
+    return this.activeMenu?.name === book?.name
   }
 
   onMenuClick(menu: MenuListModel) {

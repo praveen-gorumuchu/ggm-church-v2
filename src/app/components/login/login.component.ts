@@ -1,3 +1,4 @@
+import { UserDataList, UserInfo } from './../../shared/models/user-data/uder-list.model';
 import { LoginService } from './../../shared/services/login.service';
 import { FormsService } from './../../shared/services/forms.service';
 import { Component, OnInit, Pipe } from '@angular/core';
@@ -6,7 +7,6 @@ import { Router } from '@angular/router';
 import { StringConstant } from '../../shared/constants/string-constant';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { FromInputConstant } from '../../shared/constants/from-input-constant';
-import { UserDataList } from '../../shared/models/user-data/uder-list.model';
 import { NumberConstant } from '../../shared/constants/number-constant';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   form!: FormGroup;
   formInputConst = FromInputConstant;
   passwordVisible = false;
-  
+
   constructor(private authService: AuthService, private router: Router,
     private fb: FormBuilder, private formsService: FormsService,
     private loginService: LoginService) {
@@ -31,18 +31,22 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getUserStatus();
+    this.fName.valueChanges.pipe(
+      debounceTime(NumberConstant.TWO_HUNDERED),
+      distinctUntilChanged())
+      .subscribe(() => {
+        this.fName.updateValueAndValidity();
+        this.setPasswordValidator();
+      })
+  }
+
+  getUserStatus() {
     if (this.authService.isLoggedIn()) {
       this.router.navigate(['/home']);
     } else {
       this.userData();
     }
-    this.fName.valueChanges.pipe(
-      debounceTime(NumberConstant.TWO_HUNDERED),
-      distinctUntilChanged())
-      .subscribe((userName: string | any) => {
-        this.fName.updateValueAndValidity();
-        this.setPasswordValidator();
-      })
   }
 
   userData() {
@@ -51,7 +55,6 @@ export class LoginComponent implements OnInit {
         this.loginService.setUserData(data.users);
         this.fName.setValidators([Validators.required, this.loginService.usernameValidator.bind(this.loginService)]);
         this.fName.updateValueAndValidity();
-
       }
     })
   }
@@ -62,10 +65,11 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (this.form.invalid) return;
-    this.authService.login();
     localStorage.setItem('login', JSON.stringify(true));
+    this.authService.login();
     this.router.navigate(['/home']);
   }
+
 
   get passWordError(): string {
     return this.formsService.setErrors(this.password, FromInputConstant.inValidPassword);

@@ -1,1 +1,92 @@
-<p>register-student works!</p>
+<section class="students-section py-4 mb-5">
+    <div class="container">
+        <div class="d-flex">
+            <div>
+                <h3 class="page-title"> {{ titles.ENROLL_NEW_STUDENT}} </h3>
+            </div>
+        </div>
+     
+        <section class="wt-80 mt-5 ">
+            <div class="d-flex justify-content-end">
+                <button mat-button (click)="deleteAll()" class="ml-2" [disabled]="true">
+                    <mat-icon class="mat-18">delete_sweep</mat-icon>
+                    Delete All
+                </button>
+                <button mat-button (click)="downLoadData()" class="ml-2">
+                    <mat-icon class="mat-18">download</mat-icon>
+                    Download
+                </button>
+            </div>
+            <form [formGroup]="studentForm">
+                <div class="row " formArrayName="students">
+                    <ng-container *ngIf="studentsFormArray && studentsFormArray.controls.length > 0">
+                        <ng-container *ngFor="let student of studentsFormArray.controls;
+                         let i = index">
+                            <ng-container [formGroupName]="i">
+                                <mat-card class="d-flex my-4">
+                                    <div class="d-flex p-4">
+                                        <span class="">  Student Name:
+                                            <!-- {{ i + 1 }} -->
+                                        </span>
+                                        <span class="ml-1"> {{ studentsFormArray.controls[i].get('name')?.value }} </span>
+
+                                        <button [disabled]="i === 0" mat-button class="mat-warn ml-auto"
+                                            (click)="removeStudent(i)" type="button">
+                                            <mat-icon class="mat-18">delete</mat-icon>
+                                            Remove
+                                        </button>
+                                    </div>
+                                    <mat-card-content class="d-flex flex-wrap flex-row">
+
+                                        <mat-form-field appearance="outline" class="px-1 mb-3">
+                                            <mat-label>Id</mat-label>
+                                            <input matInput formControlName="id">
+                                        </mat-form-field>
+
+                                        <mat-form-field appearance="outline" class="px-1 mb-3">
+                                            <mat-label>Name</mat-label>
+                                            <input matInput formControlName="name" placeholder="Enter student name">
+                                        </mat-form-field>
+
+                                        <mat-form-field appearance="outline" class="px-1 mb-3">
+                                            <mat-label>Class</mat-label>
+                                            <input matInput formControlName="class" placeholder="Enter student class">
+                                        </mat-form-field>
+
+                                        <mat-form-field appearance="outline" class="px-1 mb-3">
+                                            <mat-label>Phone Number</mat-label>
+                                            <input matInput formControlName="phoneNum">
+                                        </mat-form-field>
+
+                                        <mat-form-field appearance="outline" class="px-1 mb-3">
+                                            <mat-label>Age</mat-label>
+                                            <input matInput type="text" formControlName="age"
+                                                placeholder="Enter student age">
+                                        </mat-form-field>
+                                    </mat-card-content>
+                                </mat-card>
+
+                            </ng-container>
+                        </ng-container>
+
+                    </ng-container>
+
+                </div>
+                <div class="add-new mt-5">
+                    <button mat-raised-button color="primary" (click)="addNewStudent()" type="button">
+                        <mat-icon class="mat-18">add</mat-icon>
+                        Add New Student
+                    </button>
+                </div>
+                <div class="subnit my-5 d-flex justify-content-end">
+                    <button mat-raised-button color="primary" type="button" (click)="onSubmit()"
+                        [disabled]=" disableSubmit() || studentsFormArray.invalid">
+                        Submit
+                    </button>
+                </div>
+
+            </form>
+
+        </section>
+    </div>
+</section>

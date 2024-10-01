@@ -1,0 +1,32 @@
+<section>
+    <mat-drawer-container class="dashboard-container" autosize>
+        <mat-drawer #drawer class="dashboard-sidenav" mode="side" [(opened)]="sidenavOpened">
+            <div class="logo-section">
+                <h1 class="mat-app-background">
+                    <a (click)="onLogoClick()">GGM</a>
+                </h1>
+            </div>
+            <app-dash-side-nav></app-dash-side-nav>
+
+        </mat-drawer>
+
+        <div class="dashboard-tool-bar border-bottom"
+            [ngClass]="{'drawer-opened': sidenavOpened, 'drawer-closed': !sidenavOpened}">
+            <mat-toolbar class="">
+                <button mat-icon-button class="menu-btn mr-2" (click)="toggleSidenav(); drawer.toggle()">
+                    <mat-icon>menu</mat-icon>
+                </button>
+                <span class="dashboard-title">Dashboard</span>
+                <app-dash-header class="wt-100"></app-dash-header>
+            </mat-toolbar>
+            <!-- <p>Dashboard here</p> -->
+        </div>
+
+        <section class="dashboard-body">
+            <router-outlet></router-outlet>
+        </section>
+
+
+
+    </mat-drawer-container>
+</section>

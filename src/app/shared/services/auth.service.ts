@@ -18,6 +18,7 @@ export class AuthService {
   logout() {
     this.isLoggedInStatus = false;
     localStorage.removeItem('login');
+    localStorage.removeItem('userInfo');
   }  
 
   isLoggedIn(): boolean {

@@ -1,7 +1,7 @@
 export interface UserDataList {
-    users: Array<UserList>;
+    users: Array<UserInfo>;
 }
-export interface UserList {
+export interface UserInfo {
     name: string,
     key: string,
     role: UserRoleEnum
