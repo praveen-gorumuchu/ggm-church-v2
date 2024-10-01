@@ -87,7 +87,7 @@ export class RegisterStudentComponent implements OnChanges, OnInit, OnDestroy, A
     const newData: StudentModel[] = [];
     if (this.studentsFormArray && this.studentsFormArray.valid &&
       this.studentsFormArray.controls.length > NumberConstant.ZERO) {
-      (this.studentsFormArray.value as Array<StudentModel>).every((student: StudentModel, i: number) => {
+      (this.studentsFormArray.value as Array<StudentModel>).forEach((student: StudentModel, i: number) => {
         const idCtrl = this.studentsFormArray.controls[i].get('id') as AbstractControl;
         if (student.name) {
           const data: StudentModel = {
