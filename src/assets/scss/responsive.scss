@@ -1,0 +1,51 @@
+.table-responsive {
+    width: 100% !important;
+    display: block;
+    overflow-x: auto;
+  }
+
+
+@media only screen and (max-width:575.98px) {
+    .table-responsive-sm {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch
+    }
+  
+  }
+  
+  @media only screen and (max-width:767.98px) {
+    .table-responsive-md {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch
+    }
+  
+    th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+      padding-right: 18px;
+      padding-left: 18px;
+    }
+  }
+  
+  @media only screen and (max-width:991.98px) {
+    .table-responsive-lg {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch
+    }
+  
+  }
+  
+  @media only screen and (max-width:1199.98px) {
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch
+    }
+  
+  }
+  

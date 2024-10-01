@@ -1,21 +1,57 @@
-<section class="students-section py-4">
-    <div class="container">
-        <div class="d-flex">
-            <div>
-                <h3 class="page-title"> {{ titles.studentTitle}} </h3>
-            </div>
-            <div class="ml-auto">
-                <button mat-raised-button (click)="onRegister()" [disabled]="userRole !== userRoleEnum.ADMIN">
-                    <mat-icon class="">add</mat-icon>
-                   <span> {{ titles.REGISTER }} </span>
-                </button>
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-
-            </div>
-        </div>
+<app-mat-spinner *ngIf="isLoadingSpin" [overlay]="true"></app-mat-spinner>
+<section class="students-section">
+  <div class="container">
+    <div class="d-flex">
+      <div>
+        <h3 class="page-title">{{ titles.searchStudents }}</h3>
+      </div>
+      <div class="ml-auto">
+        <button mat-raised-button (click)="onRegister()" [disabled]="userRole !== userRoleEnum.ADMIN">
+          <mat-icon class="">add</mat-icon>
+          <span> {{ titles.REGISTER }} </span>
+        </button>
+      </div>
     </div>
+    <section class="mt-5 mb-4 pt-3">
+      <form #ngForm [formGroup]="formGroup">
+        <div class="row">
+          <mat-form-field appearance="outline" class="col-lg-4 col-md-4 col-sm-6 col">
+            <input matInput placeholder="Search Student Name" [matAutocomplete]="studentName" formControlName="name"
+              #studentNameAuto>
+            <mat-icon matPrefix>search</mat-icon>
+            <mat-autocomplete autoActiveFirstOption #studentName="matAutocomplete" [displayWith]="displayStudentName"
+              (optionSelected)="onNameSelected($event.option)">
+              <mat-option [value]=" option" *ngFor="let option of filteredStudentName | async">
+                {{option.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col-lg-4 col-md-4 col-sm-6 col">
+            <input matInput placeholder="Search Class" [matAutocomplete]="studentClass" formControlName="className"
+              #studentClassAuto>
+            <mat-icon matPrefix>search</mat-icon>
+            <mat-autocomplete autoActiveFirstOption #studentClass="matAutocomplete" [displayWith]="displayStudentClass"
+              (optionSelected)="onNameSelected($event.option)">
+              <mat-option [value]=" option" *ngFor="let option of filteredStudentClass | async">
+                {{option.class}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </form>
+    </section>
+    <section class="">
+      <div class="d-flex">
+        <button mat-flat-button color="primary" class="mr-3" (click)="onSumbit()">
+          Submit
+        </button>
+        <button mat-button (click)="onClear()"> Clear </button>
+      </div>
+    </section>
+  </div>
+  <section>
+    <app-data-tables [dataSource]="dataSource" [tableCols]="columns" [buttons]="buttons" [isLoading]="isLoading"
+      [isSearch]="isSearch" [checkbox]="true" (actionItems)="actionItems($event)"></app-data-tables>
+  </section>
+
 </section>

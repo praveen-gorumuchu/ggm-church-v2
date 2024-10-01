@@ -39,9 +39,9 @@ export const MenuList = [
 
 export const DashboardMenu = [
     {
-        name: 'dashboard',
-        title: 'Dashboard',
-        url: 'dashboard',
+        name: 'home',
+        title: 'Home',
+        url: 'dashboard/home',
         subMenu: [],
         icon: 'space_dashboard'
     },

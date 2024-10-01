@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EvaluationComponent } from './components/evaluation/evaluation.component';
 import { DashSideNavComponent } from './components/dash-side-nav/dash-side-nav.component';
 import { DashHeaderComponent } from './components/dash-header/dash-header.component';
+import { OverviewComponent } from './components/overview/overview.component';
 
 
 
@@ -25,7 +26,8 @@ import { DashHeaderComponent } from './components/dash-header/dash-header.compon
     DashboardComponent,
     EvaluationComponent,
     DashSideNavComponent,
-    DashHeaderComponent
+    DashHeaderComponent,
+    OverviewComponent
     
   ],
   imports: [

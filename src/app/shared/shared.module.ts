@@ -17,6 +17,11 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatMenuModule} from '@angular/material/menu';
 import { BottomSheetComponent } from './components/bottom-sheet/bottom-sheet.component';
 import { MaterialModule } from '../material.module';
+import { MatSpinnerComponent } from './components/mat-spinner/mat-spinner.component';
+import { DataTablesComponent } from './components/data-tables/data-tables.component';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
+import { DialogComponent } from './components/dialog/dialog.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 const materialModules = [
@@ -37,16 +42,23 @@ const materialModules = [
     BibleBooksComponent,
     SafePipe,
     NoPageFoundComponent,
-    BottomSheetComponent
+    BottomSheetComponent,
+    MatSpinnerComponent,
+    DataTablesComponent,
+    FileUploadComponent,
+    MatSpinnerComponent,
+    DialogComponent
   ],
   imports: [
     CommonModule,
     ...materialModules,
+    ReactiveFormsModule,
+    FormsModule
   ],
   exports: [
     ...materialModules,
     NoPageFoundComponent,
-    SafePipe
+    SafePipe, DataTablesComponent, MatSpinnerComponent, DialogComponent, FileUploadComponent
   ],
   providers: [
     provideHttpClient()

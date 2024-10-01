@@ -1,0 +1,60 @@
+<ng-container>
+    <div class="d-flex mb-4 align-items-center">
+      <div class="circle" [ngClass]="data.iconColor">
+        <mat-icon [color]="data.iconColor" class="va-m">
+          {{ data.icon }}
+        </mat-icon>
+      </div>
+      <div class="ml-3">
+        <mat-label>{{ data.title }}</mat-label>
+      </div>
+    </div>
+  
+    <section class="row">
+      <div class="col-lg-12">
+        <form [formGroup]="formGroup">
+          <mat-form-field>
+            <mat-label> Remarks </mat-label>
+            <textarea matInput placeholder="Enter your remarks" formControlName="remarks"></textarea>
+            <mat-error> {{ setErrorsForRemarks }} </mat-error>
+          </mat-form-field>
+        </form>
+      </div>
+      <ng-container *ngIf="data && data.screen">
+        <div class="mb-4 col-lg-12" *ngIf="data.data && data.data.length > 0">
+          <mat-accordion class="custom_mat_list">
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ panelOpenState ? 'Updated Status' : ' Expand panel for Updated status' }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-list class="pt-0">
+                <mat-list-item class="border-top align-items-top" *ngFor="let item of data.data">
+                  <div class="circle">
+                    <mat-icon>my_library_books</mat-icon>
+                  </div>
+                  <div class="heading mt-2">
+                    <h4 class="mt-2"> {{ item.courseName }} </h4>
+                    <small class="d-block"> {{ item.staffCode }} </small>
+                  </div>
+                  <div class="ml-auto">
+                    <small> {{item.status }} </small>
+                  </div>
+                </mat-list-item>
+              </mat-list>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </ng-container>
+  
+      <div class="col-lg-12 d-flex justify-content-end">
+        <button type="button" mat-button [color]="button.color" class="mr-1" *ngFor="let button of data.buttons"
+          (click)="onAction(button)" [disabled]="isDisable(button)">
+          {{ button.name }}
+        </button>
+      </div>
+    </section>
+  
+  
+  </ng-container>

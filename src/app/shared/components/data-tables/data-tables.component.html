@@ -1,0 +1,131 @@
+<section class="my-5">
+  <div *ngIf="isSearch && isLoading">
+    <p class="text-center"> Loading.. </p>
+    <mat-progress-bar color="accent" mode="query">
+    </mat-progress-bar>
+  </div>
+</section>
+<ng-container *ngIf="isSearch && !isLoading && dataTableSource.data.length > 0; else noDataFound">
+  <mat-divider></mat-divider>
+  <div class="row mb-4 mt-5 align-items-center no-print">
+    <div class="col-lg-6">
+      <h4 class="mb-0"> {{ title | titlecase }} </h4>
+    </div>
+    <!-- Action Buttons -->
+    <div class="col-lg-6 justify-content-end d-flex">
+      <button mat-button [color]="button.color" class="mr-2" *ngFor="let button of buttons"
+        (click)="isAction(selection.hasValue(), selection.selected, button)" [disabled]="isDisabled(button) || button.disable">
+        <mat-icon class="va-m"> {{ button.icon }} </mat-icon>
+        {{ button.name | titlecase }}
+      </button>
+    </div>
+  </div>
+  <div id="dataTableId" *ngIf="dataTableSource.data.length > 0">
+    <div class="table-responsive mb-5 mat-elevation-z8">
+      <table mat-table [dataSource]="dataTableSource" matSort (matSortChange)="sortData($event)" class=" text-left">
+        <ng-container *ngFor="let col of tableCols; let i = index" [matColumnDef]="col.key">
+          <ng-container *ngIf="i === 0 && checkbox">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox #matCheckbox (change)="checkBoxSelection($event)" [disabled]="isDisableMaterToggle()"> </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row" (click)="isClikdeRow(row, selection)">
+              <mat-checkbox (change)="isSelectedCheckBox($event, row, selection)" [checked]="selection.isSelected(row)"
+                [disabled]="row.deletionFlag >= 1">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+          <th mat-sort-header mat-header-cell *matHeaderCellDef> {{ tableCols[i]['display'] }} </th>
+
+          <td mat-cell *matCellDef="let element; let index = index" [ngClass]="element.deletionFlag >= 1 ? 'disabled' : '' ">
+            <!-- column with specific config -->
+            <ng-container *ngIf="!col.config; else hasConfig">
+              {{ element[col.key] | titlecase }}
+            </ng-container>
+            <ng-template #hasConfig>
+              <!-- if this attribute is a boolean -->
+              <ng-container *ngIf="col.config.isBoolean">
+                {{ showBooleanValue(element, col) }}
+              </ng-container>
+              <!-- if this attribute is a date -->
+              <ng-container *ngIf="col.config.isDate">
+                {{ element[col.key] | date: col.config.format }}
+              </ng-container>
+              <!-- if this column is action -->
+              <ng-container *ngIf="col.config.isAction">
+                <button mat-icon-button [matMenuTriggerFor]="menu" [disabled]="element.deletionFlag >=1">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item *ngFor="let action of col.config.actions"
+                    (click)="isAction(true, element, action)" [disabled]="isDisableAction(element, action)">
+                    <mat-icon class="mr-1"> {{ action.icon }} </mat-icon>
+                    <span> {{ action.name | titlecase}} </span>
+                  </button>
+                </mat-menu>
+              </ng-container>
+
+              <!-- Nested Array for Class Maintanence-->
+              <ng-container *ngIf="col.config.nestedArray">
+                <div class="py-1" *ngFor="let item of element.classSchedule"> {{ item.classDate | date:
+                  col.config.format
+                  }}
+                </div>
+              </ng-container>
+              <ng-container *ngIf="col.config.dateArray">
+                <div class="py-1" *ngFor="let item of element.trainingDate"> {{item.trainingDate}}
+                </div>
+              </ng-container>
+              <!-- Nested Array for Trainer Schedule -->
+              <ng-container *ngIf="col.config.timeArray">
+                <div class="py-1" *ngFor="let item of element.classSchedule"> {{ item.classTimeFrom }} -
+                  {{item.classTimeTo}} </div>
+              </ng-container>
+              <ng-container *ngIf="col.config.organiserTime">
+                <div class="py-1" *ngFor="let item of element.time"> {{ item.time }} </div>
+              </ng-container>
+              <ng-container *ngIf="col.config.isView">
+                <button mat-button [color]="col.config.color" (click)="startView(element)">
+
+                   <span>Start</span>
+                  </button>
+                </ng-container>
+              <ng-container *ngIf="col.config.isInput">
+                <input type="text" mat-input>
+              </ng-container>
+              <ng-container *ngIf="col.config.deletionFlag">
+                <mat-chip class="mat-basic-chip" [ngClass]="element.deletionFlag >= 1 ? 'error' : 'success'" selected>
+                  {{ element.deletionFlag >= 1 ? 'Inactive' : 'Active' }}
+                </mat-chip>
+              </ng-container>
+              <ng-container *ngIf="col.config.fb" id="dataTableId">
+                <form [formGroup]="formGroup">
+                  <mat-form-field appearance="outline" *ngIf="col.config.dropDown" class="mb-0 custom_input col-lg-10 mt-2">
+                    <mat-label> Status
+                    </mat-label>
+                    <mat-select *ngIf="col.config.fb && col.config.dropDown"
+                      [formControlName]="col.config.input + '_' + index"
+                      (selectionChange)="onChangeValue($event.value, element)" [disabled] = "true">
+                      <mat-option *ngFor="let data of col.config.data" [value]="data">
+                        {{ data | titlecase }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </form>
+              </ng-container>
+            </ng-template>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="keys"></tr>
+        <tr mat-row *matRowDef="let row; columns: keys"></tr>
+      </table>
+    </div>
+
+    <mat-paginator *ngIf="pagination" (page)="pageChanged($event)" #paginator class="no-print"
+      [length]="dataTableSource.filteredData.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons
+      aria-label="Select page">
+    </mat-paginator>
+  </div>
+</ng-container>
+<ng-template #noDataFound>
+  <h2 *ngIf="isSearch && !isLoading" class="text-center"> No Result Found.!</h2>
+</ng-template>

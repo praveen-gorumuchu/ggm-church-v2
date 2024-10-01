@@ -1,0 +1,72 @@
+<section class="">
+  <div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-12 col">
+      <form [formGroup]="formGroup">
+        <!-- Upload section -->
+        <section class="file-container" appDnd (fileDropped)="onFileDropped($event)"
+          [ngClass]="fileCtrl.touched && fileCtrl.hasError('required') ? 'border-red' : '' ">
+          <input type="file" class="input_file cursor-p" #fileDropRef id="fileDropRef" multiple
+          (change)="fileBrowseHandler($event)" formControlName="file"
+            [accept]="fileData.acceptedFiles.join(',')" [required]="fileData && fileData.required">
+          <div>
+            <mat-icon class="upload_icon"> file_upload </mat-icon>
+            <p class="mt-3 title"> Drag and Drop </p>
+            <div>
+              <small> {{ 'TRS.FILE.LABLES.FILE_SUPPORTED' }} :
+                <small> {{ fileData && fileData.fileNames || '' | titlecase }} </small>
+              </small>
+            </div>
+            <div class="mt-3 my-1">
+              <button mat-stroked-button color="primary">
+                <mat-label for="fileDropRef"> Browse Files </mat-label>
+              </button>
+            </div>
+            <div>
+              <small> Max Size
+                <small> {{ utilSharedService.formatBytes(fileData && fileData.fileSize || 0) }} </small>
+              </small>
+            </div>
+          </div>
+        </section>
+        <mat-error class="mt-2"> {{ setErrorsForFile | titlecase }} </mat-error>
+      </form>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-sm-12 col">
+      <!-- Preview Section -->
+      <ng-container *ngFor="let file of files; let i = index">
+        <section class="p-2 border mb-2 file-list">
+          <div class="d-flex align-items-center">
+            <div>
+              <mat-icon class="file_icon" color="primary" class="va-m">insert_drive_file</mat-icon>
+              <mat-label> {{ file?.name }} </mat-label>
+            </div>
+            <div class="ml-auto">
+              <button *ngIf="preview" matTooltip="Preview/Download" mat-icon-button class="" (click)="previewDocument(file)">
+                <mat-icon color="primary" >remove_red_eye</mat-icon>
+              </button>
+              <button mat-icon-button class="delete_btn" (click)="deleteFile(i)">
+                <mat-icon color="warn">delete</mat-icon>
+              </button>
+            </div>
+          </div>
+          <mat-progress-bar mode="determinate" [value]="file && file.progress"></mat-progress-bar>
+          <div class="d-flex pt-2 file_errors">
+            <small class=""> {{ utilSharedService.formatBytes(file?.size) }} </small>
+            <div class="ml-auto">
+              <mat-error *ngIf="file && file.invalid">
+                Invalid Format
+              </mat-error>
+              <mat-error *ngIf="file && !file.invalid && file.maxSize">
+               Max Size Excced
+                {{ utilSharedService.formatBytes(fileData && fileData.fileSize || 0) }}
+              </mat-error>
+            </div>
+          </div>
+        </section>
+      </ng-container>
+    </div>
+    
+  </div>
+
+</section>

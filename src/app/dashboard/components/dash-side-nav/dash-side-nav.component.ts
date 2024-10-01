@@ -21,6 +21,12 @@ export class DashSideNavComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   menuClick(menu: MenuListModel, event: any) {
+    if(menu.name === 'dashboard') {
+      event.stopPropagation();
+      event.preventDefault();
+    } else {
+    
+    } 
     this.isActive = menu;
     this.router.navigate([menu.url]);
   }

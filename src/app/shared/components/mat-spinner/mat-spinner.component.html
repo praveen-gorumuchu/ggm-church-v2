@@ -1,0 +1,19 @@
+<ng-container *ngIf="overlay; else progressSpinner">
+  <div class="spinner-wrapper" [ngClass]="customClass">
+    <div class="center">
+      <ng-template [ngTemplateOutlet]="progressSpinner"></ng-template>
+    </div>
+  </div>
+</ng-container>
+<ng-template #progressSpinner>
+  <mat-spinner
+    [class]="panelClass"
+    [diameter]="diameter"
+    [mode]="mode"
+    [color]="color"
+    [strokeWidth]="strokeWidth"
+    [value]="value"
+  >
+  </mat-spinner>
+  <h3 class="mt-3">Loading, please wait.</h3>
+</ng-template>
