@@ -150,7 +150,7 @@ export class CreateQuizComponent implements OnChanges, OnInit, OnChanges {
   onCategoryChange(event: MatSelectChange, i: number) {
     const val = event.value as CategoryListModel;
     this.quizQuestions.controls[i].get('timer')?.patchValue(event.value.timer)
-    this.resetOptionCategory(i, event as unknown as CategoryListModel);
+    this.resetOptionCategory(i, val);
   }
 
   resetOptionCategory(i: number, val: CategoryListModel) {
@@ -192,7 +192,7 @@ export class CreateQuizComponent implements OnChanges, OnInit, OnChanges {
   }
 
   downLoadData() {
-    this.utilService.downloadJson(GenerateIdConst.studentID, 'data');
+    this.quizService.downloadJsonAsZip(GenerateIdConst.quiz);
   }
 
   get quizQuestions(): FormArray {

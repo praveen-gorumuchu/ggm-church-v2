@@ -9,11 +9,13 @@ import { EndPointUrlConst } from '../../shared/constants/end-point-url.constant'
 import { DataTableButtons, TableHeaders } from '../../shared/models/new/table-headers.model copy';
 import { HttpClient } from '@angular/common/http';
 import { CategoryEnum, QuizQuestionsModel, QuizResponseModel } from '../models/quiz-models/quiz.model';
+import JSZip from 'jszip';
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuizService {
+
 
   constructor(private http: HttpClient) { }
 
@@ -43,6 +45,49 @@ export class QuizService {
       })
     );
   }
+
+  downloadJsonAsZip(key: string) {
+    const data = localStorage.getItem(key);
+
+    if (data) {
+      // Parse the data from localStorage
+      const parsedData: QuizQuestionsModel[] = JSON.parse(data);
+
+      // Divide the data into three categories
+      const categorizedData:any = {
+        QNA: parsedData.filter(item => item.type.name === CategoryEnum.QNA),
+        FILL_WORD: parsedData.filter(item => item.type.name === CategoryEnum.FILL_WORD),
+        OPTIONS: parsedData.filter(item => item.type.name === CategoryEnum.OPTIONS),
+      };
+
+      // Create a new JSZip instance
+      const zip = new JSZip();
+
+      // Add JSON files to the zip
+      Object.keys(categorizedData).forEach((category) => {
+        const jsonData = { data: categorizedData[category] };
+        zip.file(`${category}.json`, JSON.stringify(jsonData));
+      });
+
+      // Generate the zip file and trigger download
+      zip.generateAsync({ type: 'blob' }).then(content => {
+        const url = window.URL.createObjectURL(content);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'quiz_data.zip';
+        document.body.appendChild(a);
+        a.click();
+
+        // Clean up
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      });
+    } else {
+      console.error('No data found in localStorage');
+    }
+  }
+
+
   
 
 

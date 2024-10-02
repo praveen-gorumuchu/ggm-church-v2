@@ -15,6 +15,6 @@ export const CategoryList: CategoryListModel[] = [
     {
         name: CategoryEnum.OPTIONS,
         value: 'Options',
-        timer: 40
+        timer: 30
     }
 ];
