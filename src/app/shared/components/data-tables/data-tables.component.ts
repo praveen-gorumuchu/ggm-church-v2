@@ -118,6 +118,18 @@ export class DataTablesComponent implements OnInit, OnChanges, AfterContentCheck
     return column.config.values[`${elt[column.key]}`];
   }
 
+  getValueFromObject(ele: any, col: any) {
+    const obj = ele[col.key];
+    const val = obj[col.config.key];
+    return val
+  }
+
+  showTrucatedText(elt: any, column: any, max: number): string {
+    const name = elt[column.key];
+    const val =  this.utilSharedService.shortName(name, max);
+    return val ? val : name
+  }
+
   shortName(name: string, print: boolean) {
     return !print ? this.utilSharedService.shortName(name, NumberConstant.FIFTEEN) : name;
   }
@@ -398,19 +410,6 @@ export class DataTablesComponent implements OnInit, OnChanges, AfterContentCheck
   get hasForm(): boolean {
     return this.tableCols.some((col: any) => col && col.config && col.config.fb);
   }
-
-  truncateText(text: string, maxLength: number = 15): string {
-  
-    const words = text.split(' ');
-
-    if (text.length > maxLength) {
-      return words.slice(0, 3).join(' ') + '...';
-    }
-
-    // Return the original text if within limit
-    return text;
-  }
-
 
   resetData() {
     this.dataTableSource.data = [];

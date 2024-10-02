@@ -287,23 +287,27 @@ export class UtilSharedService {
       console.error('No data found in localStorage');
     }
   }
-
   extractValues(dataList: any[], key: string) {
     return dataList.map(item => {
-      const result: { [key: string]: any } = {}; // Define a result object
-      if (item[key]) {
-        // Check if the value contains an image tag
-        if (item[key].includes('<img')) {
-          result[key] = 'Image'; // Replace with 'Image'
-        } else {
-          // Remove HTML tags using regex
-          result[key] = item[key].replace(/<\/?[^>]+(>|$)/g, ""); // Remove HTML tags
-        }
-      }
-      return result; // Return the result object
+        const result: { [key: string]: any } = {}; // Define a result object
+        Object.keys(item).forEach(itemKey => {
+            if (itemKey === key && item[itemKey]) {
+                // Check if the value contains an image tag in the question
+                if (item[itemKey].includes('<img')) {
+                    result[itemKey] = 'Image'; // Replace with 'Image'
+                } else {
+                    // Remove HTML tags using regex for the question property
+                    result[itemKey] = item[itemKey].replace(/<\/?[^>]+(>|$)/g, ""); // Remove HTML tags
+                }
+            } else {
+                // If it's not the question property, just copy it
+                result[itemKey] = item[itemKey];
+            }
+        });
+        return result; // Return the result object
     });
-  }
-  
+}
+
 
 
 

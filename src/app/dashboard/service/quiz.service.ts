@@ -114,10 +114,11 @@ export class QuizService {
       { key: TableColumnsConstant.SELECT, display: '' },
       { key: TableColumnsConstant.ID, display: DataTableHeaderMapper.questionId },
       { key: TableColumnsConstant.question, display: DataTableHeaderMapper.question,
-        config: { isSmallText: true }
+        config: { isSmallText: true, max: 20 }
        },
       {
-        key: TableColumnsConstant.type, display: DataTableHeaderMapper.category
+        key: TableColumnsConstant.type, display: DataTableHeaderMapper.category,
+        config: {obj: true, key: TableColumnsConstant.value}
       },
       { key: TableColumnsConstant.CREATED_BY, display: DataTableHeaderMapper.createdBy },
       {

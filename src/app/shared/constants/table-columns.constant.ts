@@ -18,5 +18,6 @@ export class TableColumnsConstant {
   static readonly phoneNum = 'phoneNum';
   static readonly type = 'type';
   static readonly question = 'question';
+  static readonly value = 'value';
 
 }
