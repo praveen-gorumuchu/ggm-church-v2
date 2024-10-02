@@ -4,7 +4,6 @@ import { CommonModule, TitleCasePipe } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { RegisterStudentComponent } from './components/register-student/register-student.component';
 import { CreateQuizComponent } from './components/create-quiz/create-quiz.component';
-import { PlayQuizComponent } from './components/play-quiz/play-quiz.component';
 import { StudentsComponent } from './components/students/students.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MaterialModule } from '../material.module';
@@ -23,7 +22,6 @@ import { QuillModule } from 'ngx-quill';
   declarations: [
     RegisterStudentComponent,
     CreateQuizComponent,
-    PlayQuizComponent,
     StudentsComponent,
     DashboardComponent,
     EvaluationComponent,

@@ -3,17 +3,29 @@
         <div class="flex-grow-1"></div>
 
         <div class="ml-auto">
-            <nav>
-                <ul class="nav-list">
-                    <li class="nav-item d-flex align-items-center">
-                        <button mat-icon-button class="">
-                            <mat-icon class="mat-18">account_circle</mat-icon>
-                        </button>
-                        <span class="mat-body-1"> {{ userInfo.name | titlecase }} </span>
-                    </li>
-                </ul>
+            <nav class="dashboard-top-nav">
+                <button mat-button [matMenuTriggerFor]="afterMenu">
+                    <span class="material-symbols-outlined va-m">
+                        {{ btnConst.ACCOUNT_CIRCLE }}
+                    </span>
+                    <span class="mat-body-1"> {{ userInfo.name | titlecase }} </span>
+                </button>
+                <mat-menu #afterMenu="matMenu" xPosition="after">
+                    <button mat-menu-item>My Profile</button>
+                    <button mat-menu-item>Settings</button>
+                    <button mat-menu-item>Help</button>
+                </mat-menu>
+                <!-- <button mat-button class="">
+                    <span class="material-symbols-outlined va-m">
+                        {{ btnConst.ACCOUNT_CIRCLE }}
+                    </span>
+                    <span class="mat-body-1"> {{ userInfo.name | titlecase }} </span>
+                </button> -->
+                <button mat-button class="">
+                    <mat-icon class="mat-18"> {{ btnConst.LOGOUT_ICON }} </mat-icon>
+                    <span class="mat-body-1"> {{ btnConst.LOGOUT }} </span>
+                </button>
             </nav>
         </div>
     </div>
-
 </section>

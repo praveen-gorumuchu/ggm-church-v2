@@ -1,3 +1,4 @@
+import { PlayGroundModule } from './play-ground/play-ground.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -44,6 +45,18 @@ const routes: Routes = [
         theme: ThemeEnumModel.LIGHT, isHeader: false, hideGlobalNav: true
       }, body: {
         theme: 'light'
+      }
+    }
+  },
+  {
+    path: 'play-ground',
+    canActivate:[AuthGuard],
+    loadChildren: () => import('./play-ground/play-ground.module').then(m => m.PlayGroundModule),
+    data: {
+      header: {
+        theme: ThemeEnumModel.DARK, isHeader: false, hideGlobalNav: true
+      }, body: {
+        theme: 'dark'
       }
     }
   },

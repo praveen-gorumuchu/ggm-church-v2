@@ -1,46 +1,61 @@
 <header class="header-section" id="app-header" *ngIf="showHeader">
-    <mat-toolbar color="primary">
-        <div class="container">
-            <div class="row" class="align-items-center row">
-                <div class="col">
-                    <div class="logo-section">
-                        <h1 color="" class="logo">
-                            <a (click)="onLogoClick()">GGM</a>
-                        </h1>
-                    </div>
-                </div>
-                <div class="col" *ngIf="!isMobile && headerTitle">
-                    <h2 class="chapter-name text-center">{{currentBook.name}}
-                        <span *ngIf="showChapterIndex"> : {{currentChapterIndex}} </span>
-                    </h2>
-                </div>
-               
-                <div class="col text-right d-flex justify-content-end">
-                    <ul class="p-0 sub-menu d-flex list-unstyled m-0 right-nav">
-                        <!-- Home Page Navigation Links -->
-                        <ng-container *ngIf="!(isMobile) && !hideGlobalNav">
-                            <li class="nav-item" *ngFor="let menu of menuList">
+  <mat-toolbar color="primary">
+    <div class="container">
+      <div class="row" class="align-items-center row">
+        <div class="col">
+          <div class="logo-section">
+            <h1 color="" class="logo">
+              <a (click)="onLogoClick()">GGM</a>
+            </h1>
+          </div>
+        </div>
+        <div class="col" *ngIf="!isMobile && headerTitle">
+          <h2 class="chapter-name text-center">
+            {{ currentBook.name }}
+            <span *ngIf="showChapterIndex"> : {{ currentChapterIndex }} </span>
+          </h2>
+        </div>
+
+        <div class="col text-right d-flex justify-content-end">
+          <ul class="p-0 sub-menu d-flex list-unstyled m-0 right-nav">
+            <!-- Home Page Navigation Links -->
+            <ng-container *ngIf="!isMobile && !hideGlobalNav">
+              <!-- <li class="nav-item" *ngFor="let menu of menuList">
                                 <a class="nav-link" (click)="onMenuClick(menu)"
                                     [ngClass]="{ active: isActiveMenu(menu) }">
                                     {{ menu.title }}
                                 </a>
-                            </li>
-                        </ng-container>
+                            </li> -->
+              <li class="nav-item">
+                <ng-container *ngFor="let menu of menuList">
+                  <button
+                    mat-button
+                    color="secondary"
+                    class="header-nav-btn"
+                    (click)="onMenuClick(menu)"
+                    [ngClass]="{ active: isActiveMenu(menu) }"
+                  >
+                    {{ menu.title }}
+                  </button>
+                </ng-container>
+              </li>
+            </ng-container>
 
-                        <!-- Navigation menu -->
+            <!-- Navigation menu -->
 
-                        <li class="nav-item" *ngIf="(isMobile) || menuIcon">
-                            <button mat-icon-button class="menu-btn" (click)="toggleDrawer.emit()" color="secondary">
-                                <span class="material-symbols-outlined menu-icon">
-                                    menu
-                                </span>
-                            </button>
-                        </li>
-                        
-                    </ul>
-
-                </div>
-            </div>
+            <li class="nav-item" *ngIf="isMobile || menuIcon">
+              <button
+                mat-icon-button
+                class="menu-btn"
+                (click)="toggleDrawer.emit()"
+                color="secondary"
+              >
+                <span class="material-symbols-outlined menu-icon"> menu </span>
+              </button>
+            </li>
+          </ul>
         </div>
-    </mat-toolbar>
+      </div>
+    </div>
+  </mat-toolbar>
 </header>

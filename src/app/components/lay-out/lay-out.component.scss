@@ -35,7 +35,18 @@
   
   @media screen and (max-width: 768px) {
     mat-drawer {
-        width: 80%;
+        width: 30%;
     }
+    
+    
   
+}
+
+@media screen and (max-width: 568px) {
+  mat-drawer {
+      width: 60%;
+  }
+  
+  
+
 }

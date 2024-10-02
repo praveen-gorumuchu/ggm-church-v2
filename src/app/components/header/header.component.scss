@@ -60,6 +60,16 @@
                 transition: all .3s;
             }
         }
+        .header-nav-btn {
+            color: #b0b0b0;
+            font-size: 15px;
+            font-weight: 400;
+            &.active {
+                // background: #ead8b1;
+                // color: #1c222e; 
+               
+            }
+        }
 
         .menu-btn {
             width: 62px;

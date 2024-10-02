@@ -14,7 +14,7 @@ export interface HeaderRouteModel {
 
 export interface BodyRouteModel {
     theme?: ThemeEnumModel,
-    marnoMarginin?: boolean
+    noMargin?: boolean
 }
 
 export enum ThemeEnumModel {

@@ -47,7 +47,7 @@ export class ThemeService {
     if (isBody && routeData.body?.theme) {
       body.classList.add(routeData.body?.theme as ThemeEnumModel);
     }
-    if (sectionSpace && isBody && !isBody.marnoMarginin) {
+    if (sectionSpace && isBody && !isBody.noMargin) {
       sectionSpace.classList.add('fixed-header-space');
     }
   }
