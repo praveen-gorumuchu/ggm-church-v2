@@ -1,0 +1,26 @@
+::ng-deep{
+  .quiz-section {
+    quill-editor {
+      border: 1px solid rgb(0, 0, 0, 0.12) !important;
+      border-radius: 4px;
+      .ql-toolbar {
+        border: 0 !important;
+        padding: 12px 8px;
+        border-bottom: 1px solid rgb(0, 0, 0, 0.12) !important;
+      }
+      .ql-container {
+        padding: 24px 0;
+        border: 0 !important;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 568px) {
+  mat-card-content {
+    .quiz-question-inputs {
+      // flex-wrap: wrap;
+  }
+  }
+
+}

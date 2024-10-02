@@ -133,8 +133,8 @@ export class UtilSharedService {
     if (inActive) this.removeInactiveItems(arr)
     if (duplicates) arr = this.removeDuplicates(arr, key);
     const data = sort ? this.alphaNumericSort(arr, key) : arr;
-    return ctrl.valueChanges.pipe(startWith(''), 
-    debounceTime(NumberConstant.TWO_HUNDERED), distinctUntilChanged(),
+    return ctrl.valueChanges.pipe(startWith(''),
+      debounceTime(NumberConstant.TWO_HUNDERED), distinctUntilChanged(),
       switchMap((value: any) => {
         if (!value || value === '') return of(data.slice());
         else {
@@ -151,37 +151,37 @@ export class UtilSharedService {
   }
 
   filterBooks(ctrl: AbstractControl, arr: any[], key: string): Observable<any[]> {
-    const data = arr.slice();  
+    const data = arr.slice();
     return ctrl.valueChanges.pipe(
-      startWith(''), 
+      startWith(''),
       // debounceTime(NumberConstant.TWO_HUNDERED), 
       // distinctUntilChanged(),
       switchMap((value: any) => {
         if (!value || value === '') return of(data); // Return original data if input is empty
-  
+
         const inputValue = typeof value === StringConstant.number ? value.toString() : value;
         const name = inputValue.toString().trim().toLowerCase(); // Ensure the search string is trimmed and lowercase
-  
+
         // Filter data based on the search string and transliteration key
         const filteredData = this.filterByTransliteration(name, data, key);
-  
+
         // Return filtered data if matches found, else return original data
         return of(filteredData.length > 0 ? filteredData : data);
       })
     );
   }
-  
+
   // New filterByTransliteration method for filtering by transliteration array
   private filterByTransliteration(value: string, arr: any[], key: string): any[] {
     return arr.filter((item: any) =>
       item[key]?.some((str: string) => str.toLowerCase().includes(value))
     );
   }
-  
+
   convertNumToArray(num: number) {
     return Array.from({ length: num }, (_, i) => i + 1);
   }
-  
+
 
   removeDuplicates(arr: any[], key?: string): any[] {
     const list = new Set();
@@ -241,9 +241,9 @@ export class UtilSharedService {
     return `${baseStr}-${randomString}-${timeStamp}`;
   }
 
-  downloadJsonFile(key:string, fileName: string) {
+  downloadJsonFile(key: string, fileName: string) {
     const data = localStorage.getItem(key);
-    
+
     if (data) {
       const blob = new Blob([data], { type: 'application/json' });
       const url = window.URL.createObjectURL(blob);
@@ -252,7 +252,7 @@ export class UtilSharedService {
       a.download = fileName;
       document.body.appendChild(a);
       a.click();
-      
+
       // Clean up and remove the link
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
@@ -260,6 +260,52 @@ export class UtilSharedService {
       console.error('No data found in localStorage');
     }
   }
+
+  downloadJson(key: string, fileName: string) {
+    const data = localStorage.getItem(key);
+
+    if (data) {
+      // Parse the data from localStorage
+      const parsedData = JSON.parse(data);
+
+      // Wrap the parsed data in an object with a 'data' property
+      const jsonData = { data: parsedData };
+
+      // Create a Blob from the JSON object
+      const blob = new Blob([JSON.stringify(jsonData)], { type: 'application/json' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+
+      // Clean up and remove the link
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    } else {
+      console.error('No data found in localStorage');
+    }
+  }
+
+  extractValues(dataList: any[], key: string) {
+    return dataList.map(item => {
+      const result: { [key: string]: any } = {}; // Define a result object
+      if (item[key]) {
+        // Check if the value contains an image tag
+        if (item[key].includes('<img')) {
+          result[key] = 'Image'; // Replace with 'Image'
+        } else {
+          // Remove HTML tags using regex
+          result[key] = item[key].replace(/<\/?[^>]+(>|$)/g, ""); // Remove HTML tags
+        }
+      }
+      return result; // Return the result object
+    });
+  }
+  
+
+
 
 
 }

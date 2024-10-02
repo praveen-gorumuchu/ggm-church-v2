@@ -27,6 +27,7 @@ export class RegisterStudentComponent implements OnChanges, OnInit, OnDestroy, A
   studentList: StudentModel[] = [];
   loginUser!: UserInfo
   @ViewChild('idELe') idELe!: ElementRef
+  
   constructor(private fb: FormBuilder, private idGenerationService: IdGenerationService,
     private localStorageService: LocalStorageService, private studentService: StudentService,
     private loginService: LoginService, private utilService: UtilSharedService,
@@ -139,7 +140,7 @@ export class RegisterStudentComponent implements OnChanges, OnInit, OnDestroy, A
   }
 
   downLoadData() {
-    this.utilService.downloadJsonFile(GenerateIdConst.studentID, 'data');
+    this.utilService.downloadJson(GenerateIdConst.studentID, 'data');
   }
 
 

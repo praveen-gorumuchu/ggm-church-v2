@@ -22,6 +22,8 @@ import { DataTablesComponent } from './components/data-tables/data-tables.compon
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ShorterTextDirective } from './directives/shorter-text.directive';
+import { AllowedNumbersDirective } from './directives/allowed-number.directive';
 
 
 const materialModules = [
@@ -47,7 +49,9 @@ const materialModules = [
     DataTablesComponent,
     FileUploadComponent,
     MatSpinnerComponent,
-    DialogComponent
+    DialogComponent,
+    ShorterTextDirective,
+    AllowedNumbersDirective
   ],
   imports: [
     CommonModule,
@@ -58,7 +62,8 @@ const materialModules = [
   exports: [
     ...materialModules,
     NoPageFoundComponent,
-    SafePipe, DataTablesComponent, MatSpinnerComponent, DialogComponent, FileUploadComponent
+    SafePipe, DataTablesComponent, MatSpinnerComponent, DialogComponent, FileUploadComponent,
+    ShorterTextDirective, AllowedNumbersDirective
   ],
   providers: [
     provideHttpClient()

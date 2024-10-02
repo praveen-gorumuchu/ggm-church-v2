@@ -1,1 +1,166 @@
-<p>create-quiz works!</p>
+<section class="quiz-section">
+  <div class="container mb-5 pb-5">
+    <div class="d-flex">
+      <div>
+        <h3 class="page-title">{{ titles.CREATE_QUIZ }}</h3>
+      </div>
+    </div>
+    <section class="wt-80 mt-5 md-wt-100 sm-wt-100">
+      <div class="d-flex justify-content-end align-items-center">
+        <button mat-button (click)="deleteAll()" class="ml-2" [disabled]="true">
+          <mat-icon class="mat-18">delete_sweep</mat-icon>
+          Delete All
+        </button>
+        <button mat-button (click)="downLoadData()" class="ml-2">
+          <mat-icon class="mat-18">download</mat-icon>
+          Download
+        </button>
+      </div>
+      <form [formGroup]="quizForm">
+        <div class="row">
+          <!-- Default select -->
+          <mat-radio-group aria-label="Select an option" class="wt-100" formControlName="deafultSelct"
+            (change)="onRadioSelection($event)">
+            <mat-label class="ml-3">  Enable One Time Quiz Selection : </mat-label>
+            <mat-radio-button [value]="true">Yes</mat-radio-button>
+            <mat-radio-button [value]="false">No</mat-radio-button>
+          </mat-radio-group>
+          <!-- Selction -->
+          <mat-form-field *ngIf="deafultSelct.value === true" class="px-1 mt-5" appearance="outline">
+            <mat-label>Question Type</mat-label>
+            <mat-select formControlName="category">
+              <mat-option *ngFor="let item of categroryList" [value]="item">
+                {{ item.value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="row" formArrayName="quizQuestions">
+          <ng-container *ngIf="quizQuestions && quizQuestions.controls.length > 0">
+            <ng-container *ngFor="let question of quizQuestions.controls; let i = index">
+              <ng-container [formGroupName]="i">
+                <mat-card class="col my-4">
+                  <div class="d-flex p-4 align-items-center">
+                    <span class=""> Question : {{ i + 1 }} </span>
+                    <button [disabled]="i === 0" mat-button class="mat-warn ml-auto" (click)="removeQuestion(i)"
+                      type="button">
+                      <mat-icon class="mat-18">delete</mat-icon>
+                      Remove
+                    </button>
+                  </div>
+
+                  <mat-card-content class="row">
+                    <div class="quiz-question-inputs d-flex justify-content-between">
+                      <!-- Id -->
+                      <mat-form-field appearance="outline" class="px-1 mb-3 wt-100">
+                        <mat-label>Id</mat-label>
+                        <input matInput formControlName="id" />
+                      </mat-form-field>
+                      <!-- Selction -->
+                      <mat-form-field class="px-1 mb-3 wt-100" appearance="outline">
+                        <mat-label>Question Type</mat-label>
+                        <mat-select formControlName="type" (selectionChange)="onCategoryChange($event, i)">
+                          <mat-option *ngFor="let item of categroryList" [value]="item">
+                            {{ item.value }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <!-- Time Limit -->
+                      <mat-form-field class="px-1 mb-3 wt-100" appearance="outline">
+                        <mat-label>Time Limit</mat-label>
+                        <input matInput formControlName="timer" appAllowedNumbers placeholder="Enter Time limit" />
+                        <mat-hint>Enter Time limit in seconds</mat-hint>
+                      </mat-form-field>
+                    </div>
+
+                    <!-- Question -->
+                    <div class="col px-1 wt-100">
+                      <quill-editor formControlName="question" class="wt-100" [modules]="{
+                          toolbar: [
+                            [{ header: [1, 2, false] }],
+                            ['bold', 'italic', 'underline'],
+                            ['blockquote'],
+                            ['ordered', 'bullet'],
+                            ['link', 'image'],
+                            ['clean']
+                          ]
+                        }" placeholder="Enter the question..."></quill-editor>
+                    </div>
+                    <!-- Mat options  -->
+
+                    <ng-container *ngIf="
+                        question.get('type')?.value.name === typeEnum.OPTIONS
+                      ">
+                      <div formArrayName="options" class="mt-5">
+                        <ng-container *ngFor="
+                            let option of getOptionArray(i).controls;
+                            let j = index
+                          ">
+                          <div class="d-flex">
+                            <mat-form-field class="mb-3 flex-grow-1" appearance="outline">
+                              <mat-label>Option {{ j + 1 }}</mat-label>
+                              <input matInput [formControlName]="j" placeholder="Enter option" />
+                            </mat-form-field>
+                            <div class="mx-3">
+                              <button mat-button color="warn" (click)="removeOption(question, j)"
+                                [disabled]="j === 0 || j === 1" type="button">
+                                <mat-icon class="mat-18">delete</mat-icon>
+                                Remove Option
+                              </button>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </div>
+                      <div class="d-flex">
+                        <button mat-button (click)="addOption(question)" type="button"
+                          [disabled]="getOptionArray(i).length >= 4">
+                          <mat-icon class="mat-18">add</mat-icon>
+                          Add Option
+                        </button>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="
+                        question.get('type')?.value.name === typeEnum.OPTIONS;
+                        else generalAns
+                      ">
+                      <mat-form-field class="px-1 mt-5" appearance="outline">
+                        <mat-label>Answer</mat-label>
+                        <mat-select formControlName="answer" placeholder="Choose answer">
+                          <mat-option *ngFor="
+                              let item of getOptionArray(i).value;
+                              let k = index
+                            " [value]="item">
+                            {{ "Option" }} {{ k + 1 }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <!-- Answer -->
+                    </ng-container>
+                    <ng-template #generalAns>
+                      <mat-form-field class="px-1 mt-5" appearance="outline">
+                        <mat-label>Answer</mat-label>
+                        <input matInput formControlName="answer" placeholder="Enter the answer" />
+                      </mat-form-field>
+                    </ng-template>
+                  </mat-card-content>
+                </mat-card>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </div>
+        <div class="add-new mt-5">
+          <button mat-raised-button color="primary" (click)="addQuestion()" type="button">
+            <mat-icon class="mat-18">add</mat-icon>
+            Add More Questions
+          </button>
+        </div>
+        <div class="subnit my-5 d-flex justify-content-end">
+          <button mat-raised-button color="primary" type="button" (click)="onSubmit()"
+            [disabled]="disableSubmit() || quizQuestions.invalid">
+            Submit
+          </button>
+        </div>
+      </form>
+    </section>
+  </div>
+</section>

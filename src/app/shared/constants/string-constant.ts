@@ -36,7 +36,7 @@ export const StringConstant = {
    bg_success: 'bg-success',
    w_100: 'wt-100',
    ERROR_MSG: 'Please try again.!',
-   CREATE_SUCCESS: 'Students are successfully.!',
+   CREATE_SUCCESS: 'Records created successfully.!',
    MOMENT_DD_MM_YYYY: 'DD-MM-YYYY',
    MOMENT_DATE_TIME: 'DDMMYYYYHH[h]mm',
    MOMENT_DAY_TIME: 'dddd h:mm A',

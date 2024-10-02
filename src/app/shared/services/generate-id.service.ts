@@ -15,6 +15,22 @@ export class IdGenerationService {
       this.latestId = maxId;
     }
   }
+  initialize(data: any[]): void {
+    if (Array.isArray(data) && data.length > 0) {
+      // Extract numeric part from the IDs and find the maximum
+      const maxId = Math.max(...data.map(item => {
+        // Ensure the item has an id property and it's a string
+        if (item.id && typeof item.id === 'string') {
+          const numericPart = parseInt(item.id.replace(/\D/g, ''), 10); // Remove non-digit characters
+          return isNaN(numericPart) ? 0 : numericPart; // Handle non-numeric cases
+        }
+        return 0; // If no valid id, return 0
+      }));
+      
+      this.latestId = maxId;
+    }
+  }
+  
 
   // Generate a new ID by incrementing the latest one
   generateId(): string {
@@ -38,5 +54,18 @@ export class IdGenerationService {
   resetId() {
     this.latestId = 0;
   }
+
+  // Updte the latest key 
+
+  updateId(newData: any[]): void {
+    this.initialize(newData);
+    this.latestId += 1; // Increment after initialization
+  }
+
+  generateIdWithKey(key: string): string {
+    this.latestId += 1;
+    return `${key}${this.latestId}`;
+  }
+
 
 }

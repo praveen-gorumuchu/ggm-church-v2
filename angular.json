@@ -42,7 +42,8 @@
             "styles": [
               "src/styles.scss",
               "./src/assets/scss/theme/dark-theme.css",
-                "./src/assets/scss/theme/light-theme.css"
+                "./src/assets/scss/theme/light-theme.css",
+               "node_modules/quill/dist/quill.snow.css"
             ],
             "scripts": []
           },
@@ -108,7 +109,8 @@
             "styles": [
               "src/styles.scss",
               "./src/assets/scss/theme/dark-theme.css",
-              "./src/assets/scss/theme/light-theme.css"
+              "./src/assets/scss/theme/light-theme.css",
+              "./node_modules/quill/dist/quill.snow.css"
             ],
             "scripts": []
           }

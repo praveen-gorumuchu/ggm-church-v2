@@ -7,7 +7,7 @@ export class LocalStorageService {
   constructor() {}
 
   // Retrieve data from localStorage
-  getData(key: string): any[] {
+  getData(key: string): any {
     const data = localStorage.getItem(key);
     return data ? JSON.parse(data) : [];
   }

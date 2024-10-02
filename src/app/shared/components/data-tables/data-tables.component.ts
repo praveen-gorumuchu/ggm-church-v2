@@ -399,6 +399,19 @@ export class DataTablesComponent implements OnInit, OnChanges, AfterContentCheck
     return this.tableCols.some((col: any) => col && col.config && col.config.fb);
   }
 
+  truncateText(text: string, maxLength: number = 15): string {
+  
+    const words = text.split(' ');
+
+    if (text.length > maxLength) {
+      return words.slice(0, 3).join(' ') + '...';
+    }
+
+    // Return the original text if within limit
+    return text;
+  }
+
+
   resetData() {
     this.dataTableSource.data = [];
     this.dataTableSource.paginator = null,

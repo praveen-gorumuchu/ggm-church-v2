@@ -43,7 +43,7 @@ export class StudentService {
   setDataTableCols(): TableHeaders[] {
     return [
       { key: TableColumnsConstant.SELECT, display: '' },
-      { key: TableColumnsConstant.ID, display: DataTableHeaderMapper.id },
+      { key: TableColumnsConstant.ID, display: DataTableHeaderMapper.std_id },
       { key: TableColumnsConstant.name, display: DataTableHeaderMapper.name },
       {
         key: TableColumnsConstant.class, display: DataTableHeaderMapper.class

@@ -14,6 +14,8 @@ import { EvaluationComponent } from './components/evaluation/evaluation.componen
 import { DashSideNavComponent } from './components/dash-side-nav/dash-side-nav.component';
 import { DashHeaderComponent } from './components/dash-header/dash-header.component';
 import { OverviewComponent } from './components/overview/overview.component';
+import { QuizComponent } from './components/quiz/quiz.component';
+import { QuillModule } from 'ngx-quill';
 
 
 
@@ -27,8 +29,9 @@ import { OverviewComponent } from './components/overview/overview.component';
     EvaluationComponent,
     DashSideNavComponent,
     DashHeaderComponent,
-    OverviewComponent
-    
+    OverviewComponent,
+    QuizComponent
+
   ],
   imports: [
     CommonModule,
@@ -37,10 +40,20 @@ import { OverviewComponent } from './components/overview/overview.component';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+    QuillModule.forRoot({
+      modules: {
+        toolbar: [
+          [{ 'header': [1, 2, false] }], 
+          ['bold', 'italic', 'underline'], 
+          ['link', 'image'],
+          ['clean'] 
+        ],
+      },
+    }),
   ],
   providers: [
     TitleCasePipe,
-    
+
   ]
 })
 export class DashboardModule { }

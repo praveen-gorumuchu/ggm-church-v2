@@ -7,6 +7,7 @@ import { RegisterStudentComponent } from './components/register-student/register
 import { StudentsComponent } from './components/students/students.component';
 import { EvaluationComponent } from './components/evaluation/evaluation.component';
 import { OverviewComponent } from './components/overview/overview.component';
+import { QuizComponent } from './components/quiz/quiz.component';
 
 const routes: Routes = [
   {
@@ -17,7 +18,7 @@ const routes: Routes = [
       },
       { path: 'home', component: OverviewComponent },
       { path: 'create-quiz', component: CreateQuizComponent },
-      { path: 'play-quiz', component: PlayQuizComponent },
+      { path: 'quiz', component: QuizComponent },
       { path: 'register-student', component: RegisterStudentComponent },
       { path: 'students', component: StudentsComponent },
       { path: 'evaluation', component: EvaluationComponent }

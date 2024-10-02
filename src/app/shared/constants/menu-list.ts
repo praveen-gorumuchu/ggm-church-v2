@@ -55,7 +55,7 @@ export const DashboardMenu = [
     {
         name: 'quiz',
         title: 'Quiz',
-        url: 'dashboard/play-quiz',
+        url: 'dashboard/quiz',
         subMenu: [],
         icon: 'quiz'
     },
