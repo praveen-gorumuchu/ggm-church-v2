@@ -117,7 +117,8 @@ export class QuizComponent {
     this.columns = this.quizService.setDataTableCols();
     this.buttons = this.quizService.setDataTableButtons();
     if (this.columns && this.columns.length > NumberConstant.ZERO) {
-      this.dataSource = this.utilSharedService.extractValues(this.questionList, TableColumnsConstant.question) as any[];
+      const extractVal = this.utilSharedService.extractValues(data, TableColumnsConstant.question) as QuizQuestionsModel[];
+      this.dataSource = this.utilSharedService.alphaNumericSort(extractVal, TableColumnsConstant.ID);
       this.isSearch = true
     } else {
       this.isLoading = false;
@@ -127,17 +128,37 @@ export class QuizComponent {
 
 
   searchData() {
-    const typeVal = this.questionType?.value?.type;
-    const id = this.questionId?.value?.id;
-    const filetereData = this.questionList.filter((data: QuizQuestionsModel) => {
-      if (typeVal && typeVal && typeVal !== '' && id !== '') {
-        return data.type === typeVal && data.id === id
-      } else if (typeVal && typeVal !== '') return data.type === typeVal
-      else if (id && id !== '') return data.id === id;
-      else return [];
+    const type = this.questionType?.value;
+    const qId = this.questionId?.value;
+  
+    const typeVal = (type?.name || '')?.trim()?.toLowerCase();
+    const idVal = (qId?.id || '')?.trim()?.toLowerCase();
+  
+    // If no filters are provided, return the full list
+    if (!typeVal && !idVal) {
+      this.messageBarService.showErorMsgBar(StringConstant.GLOBAL_RESULT);
+      this.callToDataTable(this.questionList);
+      return;
+    }
+  
+    // Filter based on provided values
+    const filteredData = this.questionList.filter((data: QuizQuestionsModel) => {
+        if(typeVal && typeVal !== '' && idVal && idVal !== '') 
+          return data?.type?.name.toLowerCase() === typeVal &&
+            data.id.toLowerCase() === idVal
+        else if(typeVal && typeVal !== '')
+          return data?.type?.name?.toLowerCase() === typeVal;
+        else if(idVal && idVal !== '') 
+          return data?.id.toLowerCase() === idVal;
+        else return []
     });
-    this.callToDataTable(filetereData);
+  
+    // Call the method to update the table with the filtered data
+    this.callToDataTable(filteredData);
   }
+  
+  
+  
 
   onRegister() {
     this.router.navigate(['dashboard', 'create-quiz'])

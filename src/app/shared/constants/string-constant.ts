@@ -52,5 +52,6 @@ export const StringConstant = {
    SEARCH_RESULT: 'Search Result',
    WITHDRAW_TITLE: 'WITHDRAW_TITLE',
    delete: 'delete',
-   IN_ACTIVE_RECORDS: 'IN_ACTIVE_RECORDS'
+   IN_ACTIVE_RECORDS: 'IN_ACTIVE_RECORDS',
+   GLOBAL_RESULT: 'Fetched the global result.!'
 }

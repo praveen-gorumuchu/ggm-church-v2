@@ -88,31 +88,6 @@ export class UtilSharedService {
     if (id) setTimeout(() => id.focus(), duration);
   }
 
-
-  alphaNumericSort = (arr: any[], key?: string) => {
-    const hasKey = key && key !== '';
-    const stringArray = arr.filter((str: any) => hasKey ?
-      str[key] !== '' && str[key] !== null : str !== '' && str !== null);
-    const sorter = (a: any, b: any) => {
-      const isNumber = (n: any) => !isNaN(parseFloat(n)) && isFinite(n);
-      if (isNumber(hasKey ? a[key] : a) && isNumber(hasKey ? b[key] : b)) {
-        return parseFloat(hasKey ? a[key] : a) - parseFloat(hasKey ? a[key] : a);
-      }
-      const aValue = hasKey ? a[key].match(/\d+|\D+/g) : a.match(/\d+|\D+/g);
-      const bValue = hasKey ? b[key].match(/\d+|\D+/g) : b.match(/\d+|\D+/g);
-      let i = NumberConstant.ZERO;
-      let len = Math.min(aValue.length, bValue.length);
-      while (i < len && aValue[i] === bValue[i]) { i++; };
-      if (i === len) {
-        return aValue.length - bValue.length;
-      };
-
-      return aValue[i].toString().trim().toLowerCase().localeCompare(bValue[i].toString().trim().toLowerCase());
-    };
-
-    return stringArray.sort(sorter);
-
-  }
   // Auto complete drodpwn filter data
   filteredData(ctrl: AbstractControl, arr: any[], key?: string) {
     const data = this.alphaNumericSort(arr, key);
@@ -127,6 +102,38 @@ export class UtilSharedService {
       })
     )
   }
+
+  alphaNumericSort = (arr: any[], key?: string) => {
+    const hasKey = key && key !== '';
+  
+    const stringArray = arr.filter((str: any) =>
+      hasKey ? str[key] !== '' && str[key] !== null && str[key] !== undefined : str !== '' && str !== null && str !== undefined
+    );
+  
+    const sorter = (a: any, b: any) => {
+      const aVal = hasKey ? a[key] : a;
+      const bVal = hasKey ? b[key] : b;
+  
+      // Ensure both aVal and bVal are not undefined or null
+      if (!aVal || !bVal) return 0;
+  
+      // Regular expression to extract numeric part from the id
+      const extractNumber = (value: string) => {
+        const match = value.match(/\d+/); // Extract numbers from the string
+        return match ? parseInt(match[0], 10) : 0;
+      };
+  
+      const aNum = extractNumber(aVal);
+      const bNum = extractNumber(bVal);
+  
+      return aNum - bNum; // Compare based on the extracted numeric values
+    };
+  
+    return stringArray.sort(sorter);
+  };
+  
+  
+  
 
   filteredDataComesFirst(ctrl: AbstractControl, arr: any[], key?: string, sort?: boolean,
     duplicates?: boolean, inActive?: boolean): Observable<any> {
@@ -154,10 +161,8 @@ export class UtilSharedService {
     const data = arr.slice();
     return ctrl.valueChanges.pipe(
       startWith(''),
-      // debounceTime(NumberConstant.TWO_HUNDERED), 
-      // distinctUntilChanged(),
       switchMap((value: any) => {
-        if (!value || value === '') return of(data); // Return original data if input is empty
+        if (!value || value === '') return of(data); 
 
         const inputValue = typeof value === StringConstant.number ? value.toString() : value;
         const name = inputValue.toString().trim().toLowerCase(); // Ensure the search string is trimmed and lowercase

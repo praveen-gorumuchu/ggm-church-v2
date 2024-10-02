@@ -95,7 +95,7 @@ export class StudentsComponent implements OnInit {
   getStudents() {
     this.studentService.getStudentIds().subscribe((res: StudentModelRes) => {
       if (res && res.data && res.data.length > NumberConstant.ZERO) {
-        this.studentList = res.data.sort((a: any, b: any) => a['id'] - b['id']);
+        this.studentList = this.utilSharedService.alphaNumericSort(res.data, TableColumnsConstant.ID)
         this.getFilteredOptions();
       }
     }, (error: HttpErrorResponse) => {
@@ -118,17 +118,28 @@ export class StudentsComponent implements OnInit {
 
 
   searchData() {
-    const classVal = this.className.value?.class;
-    const name = this.studentName.value?.name;
-    const filetereData = this.studentList.filter((data: StudentModel) => {
-      if (classVal && classVal && classVal !== '' && name !== '') {
-        return data.class === classVal && data.name === name
-      } else if (classVal && classVal !== '') return data.class === classVal
-      else if (name && name !== '') return data.name === name;
-      else return [];
+    const classVal = (this.className?.value?.class || '').trim().toLowerCase();
+    const nameVal = (this.studentName?.value?.name || '').trim().toLowerCase();
+  
+    if (!classVal && !nameVal) {
+      this.messageBarService.showErorMsgBar(StringConstant.GLOBAL_RESULT);
+      this.callToDataTable(this.studentList);
+      return;
+    }
+  
+    // Filter based on provided values
+    const filteredData = this.studentList.filter((data: StudentModel) => {
+      const matchesClass = classVal ? data.class.toLowerCase() === classVal : true;
+      const matchesName = nameVal ? data.name.toLowerCase() === nameVal : true;
+  
+      // Return true only if both criteria match
+      return matchesClass && matchesName;
     });
-    this.callToDataTable(filetereData);
+  
+    // Call the method to update the table with the filtered data
+    this.callToDataTable(filteredData);
   }
+  
 
   onRegister() {
     this.router.navigate(['dashboard', 'register-student'])
