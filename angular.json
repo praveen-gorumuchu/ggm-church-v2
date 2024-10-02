@@ -45,7 +45,15 @@
                 "./src/assets/scss/theme/light-theme.css",
                "node_modules/quill/dist/quill.snow.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "moment",
+              "ngx-quill",
+              "quill",
+              "crypto-js",
+              "file-saver",
+              "jszip"
+            ]
           },
           "configurations": {
             "production": {
