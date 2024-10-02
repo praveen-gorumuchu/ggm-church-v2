@@ -6,6 +6,9 @@
 
 
 @media only screen and (max-width:575.98px) {
+  .sm-wt-100 {
+    width: 100% !important;
+  }
     .table-responsive-sm {
         display: block;
         width: 100%;
@@ -16,6 +19,12 @@
   }
   
   @media only screen and (max-width:767.98px) {
+    .md-wt-100 {
+      width: 100% !important;
+    }
+    .quiz-quest-form {
+      width: 100% !important;
+    }
     .table-responsive-md {
         display: block;
         width: 100%;
