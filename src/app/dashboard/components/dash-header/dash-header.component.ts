@@ -1,3 +1,4 @@
+import { AuthService } from './../../../shared/services/auth.service';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ButtonConstant } from '../../../shared/constants/button-name.constant';
 import { RouteDataModel } from '../../../shared/models/routes/route-data.model';
@@ -18,7 +19,7 @@ export class DashHeaderComponent implements OnInit, OnChanges, OnDestroy {
   btnConst = ButtonConstant;
 
   constructor(private loginService: LoginService, private appNavService: AppNavService,
-    private activeRoute: ActivatedRoute,
+    private activeRoute: ActivatedRoute, private authService: AuthService,
     private router: Router
   ) {
     const routeData: RouteDataModel =
@@ -37,6 +38,9 @@ export class DashHeaderComponent implements OnInit, OnChanges, OnDestroy {
 
   }
 
+  logOut() {
+    this.authService.logout();
+  }
 
   getRouter() {
     this.router.events.pipe(

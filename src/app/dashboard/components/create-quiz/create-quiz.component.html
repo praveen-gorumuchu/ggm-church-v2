@@ -19,11 +19,16 @@
       <form [formGroup]="quizForm">
         <div class="row">
           <!-- Default select -->
-          <mat-radio-group aria-label="Select an option" class="wt-100" formControlName="deafultSelct"
+          <mat-radio-group aria-label="Select an option" class="wt-100 deafult-selection-radio" 
+          formControlName="deafultSelct"
             (change)="onRadioSelection($event)">
             <mat-label class="ml-3">  Enable One Time Quiz Selection : </mat-label>
-            <mat-radio-button [value]="true">Yes</mat-radio-button>
-            <mat-radio-button [value]="false">No</mat-radio-button>
+              <span class="radio-btn">
+                <mat-radio-button [value]="true">Yes</mat-radio-button>
+                <mat-radio-button [value]="false">No</mat-radio-button>
+              </span>
+            
+            
           </mat-radio-group>
           <!-- Selction -->
           <mat-form-field *ngIf="deafultSelct.value === true" class="px-1 mt-5" appearance="outline">
@@ -50,7 +55,7 @@
                   </div>
 
                   <mat-card-content class="row">
-                    <div class="quiz-question-inputs d-flex justify-content-between">
+                    <div class="quiz-question-inputs d-flex flex-sm-column justify-content-between">
                       <!-- Id -->
                       <mat-form-field appearance="outline" class="px-1 mb-3 wt-100">
                         <mat-label>Id</mat-label>
@@ -80,9 +85,9 @@
                             [{ header: [1, 2, false] }],
                             ['bold', 'italic', 'underline'],
                             ['blockquote'],
-                            ['ordered', 'bullet'],
+                            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
                             ['link', 'image'],
-                            ['clean']
+                            ['clean'],
                           ]
                         }" placeholder="Enter the question..."></quill-editor>
                     </div>

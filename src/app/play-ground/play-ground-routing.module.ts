@@ -10,22 +10,19 @@ const routes: Routes = [
     path: '', component: PlayGroundComponent,
     data: {
       header: {
-        theme: ThemeEnumModel.DARK, isHeader: false, hideGlobalNav: true
+        theme: ThemeEnumModel.DARK_HEADER, isHeader: false, hideGlobalNav: true
       }, body: {
-        theme: 'dark'
+        theme: 'dark', noMargin: true
       }
     },
     children: [
       {
-        path: '', redirectTo: 'home', pathMatch: 'full'
-      },
-      {
         path: 'solo-play', component: SoloPlayComponent,
         data: {
           header: {
-            theme: ThemeEnumModel.DARK, isHeader: false, hideGlobalNav: true
+            theme: ThemeEnumModel.DARK_HEADER, isHeader: false, hideGlobalNav: true
           }, body: {
-            theme: 'dark'
+            theme: 'dark', noMargin: true
           }
         },
       },
@@ -33,9 +30,9 @@ const routes: Routes = [
         path: 'auidence', component: AudienceComponent,
         data: {
           header: {
-            theme: ThemeEnumModel.DARK, isHeader: false, hideGlobalNav: true
+            theme: ThemeEnumModel.DARK_HEADER, isHeader: false, hideGlobalNav: true
           }, body: {
-            theme: 'dark'
+            theme: 'dark', noMargin: true
           }
         },
       }

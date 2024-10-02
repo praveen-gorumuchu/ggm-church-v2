@@ -46,6 +46,7 @@ import { QuillModule } from 'ngx-quill';
           ['link', 'image'],
           ['clean'] 
         ],
+        theme: 'dark'
       },
     }),
   ],

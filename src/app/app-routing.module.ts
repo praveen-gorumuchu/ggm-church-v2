@@ -29,7 +29,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       header: {
-        theme: ThemeEnumModel.DARK_HEADER, isHeader: true, transition: false, hideGlobalNav: true, 
+        theme: ThemeEnumModel.DARK_HEADER, isHeader: true, transition: false, hideGlobalNav: true,
         menuIcon: true, headerTitle: true
       }, body: {
         theme: 'dark'
@@ -50,13 +50,13 @@ const routes: Routes = [
   },
   {
     path: 'play-ground',
-    canActivate:[AuthGuard],
+    canActivate: [AuthGuard],
     loadChildren: () => import('./play-ground/play-ground.module').then(m => m.PlayGroundModule),
     data: {
       header: {
-        theme: ThemeEnumModel.DARK, isHeader: false, hideGlobalNav: true
+        theme: ThemeEnumModel.DARK_HEADER, isHeader: false, hideGlobalNav: true
       }, body: {
-        theme: 'dark'
+        theme: 'dark', noMargin: true
       }
     }
   },

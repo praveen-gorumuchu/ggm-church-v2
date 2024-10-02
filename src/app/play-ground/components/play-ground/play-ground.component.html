@@ -1,1 +1,20 @@
-<p>play-ground works!</p>
+<section class="play-ground-section container">
+  <mat-toolbar>
+    <div class="play-ground-header d-flex wt-100">
+      <div class="logo-sec cursor-p">
+        <a (click)="onLogoClick()">GGM</a>
+      </div>
+      <div class="ml-auto">
+        <button mat-button (click)="toggleSpeech()">
+          <mat-icon>{{ speechEnabled ? 'volume_up' : 'volume_off' }}</mat-icon>
+          {{ speechEnabled ? 'Disable Speech' : 'Enable Speech' }}
+        </button>
+
+      </div>
+    </div>
+  </mat-toolbar>
+  <section class="play-ground-body-section container">
+    <router-outlet></router-outlet>
+
+  </section>
+</section>

@@ -1,8 +1,10 @@
+import { BreakpointService } from './../../../shared/services/breakpoint.service';
 import { AppNavService } from './../../../shared/services/app-nav.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map, Subscription, switchMap } from 'rxjs';
 import { RouteDataModel } from '../../../shared/models/routes/route-data.model';
+import { MatDrawerMode } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,10 +15,19 @@ import { RouteDataModel } from '../../../shared/models/routes/route-data.model';
 export class DashboardComponent implements OnInit {
   sidenavOpened: boolean = true;
   subscription: Subscription[] = [];
+  modeType: MatDrawerMode = 'side';
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, 
-    private appNavService: AppNavService) {
+    private appNavService: AppNavService, private breakpointService: BreakpointService) {
     // this.activatedRoute = this.appNavService.getChild(this.activatedRoute);
+    this.subscription.push(
+      this.breakpointService.isMobile$.subscribe((flag: boolean) => {
+        if(flag) this.modeType = 'over'
+      }),
+      // this.breakpointService.isTablet$.subscribe((flag: boolean) => {
+      //   if(flag) this.modeType ='over';
+      // })
+    )
    }
 
    ngOnInit(): void {
@@ -29,7 +40,7 @@ export class DashboardComponent implements OnInit {
         filter(event => event instanceof NavigationEnd),
         switchMap(() => this.activatedRoute.data) 
       ).subscribe(data => {
-        console.log('NavigationEnd or Route Data:', data);
+
         this.handleRouteData(data);
       })
     );
@@ -37,7 +48,7 @@ export class DashboardComponent implements OnInit {
     this.subscription.push(
       this.activatedRoute.data.subscribe(data => {
         const routeData = this.appNavService.getChild(this.activatedRoute);
-        console.log('ActivatedRoute Data (on page load):', routeData);
+
         this.handleRouteData(data);
       })
     );

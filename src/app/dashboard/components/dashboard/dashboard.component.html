@@ -1,6 +1,6 @@
 <section>
     <mat-drawer-container class="dashboard-container" autosize>
-        <mat-drawer #drawer class="dashboard-sidenav" mode="side" [(opened)]="sidenavOpened">
+        <mat-drawer #drawer class="dashboard-sidenav" [mode]="modeType" [(opened)]="sidenavOpened">
             <div class="logo-section">
                 <h1 class="mat-app-background">
                     <a (click)="onLogoClick()">GGM</a>

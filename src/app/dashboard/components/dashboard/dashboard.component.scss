@@ -27,6 +27,7 @@
             top: 0;
             left: 260px;
             width: calc(100% - 260px);
+            // width: 100%;
             z-index: 1000;
             transition: left 0.3s ease;
 
@@ -56,3 +57,11 @@
     }
 
 }
+
+@media screen and (max-width: 568.98px) {
+    .dashboard-tool-bar {
+        width: 100% !important;
+        left: 0 !important;
+    }
+  
+  }

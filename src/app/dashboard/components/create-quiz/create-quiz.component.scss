@@ -19,8 +19,19 @@
 @media screen and (max-width: 568px) {
   mat-card-content {
     .quiz-question-inputs {
-      // flex-wrap: wrap;
+     flex-direction: column;
   }
+  }
+  .deafult-selection-radio {
+    margin-top: 32px;
+    .mat-label {
+      margin-left: 0;
+    }
+    .radio-btn {
+      display: block;
+      margin-top: 18px;
+    }
+   
   }
 
 }

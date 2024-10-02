@@ -1,1 +1,67 @@
-<p>audience works!</p>
+<section class="auidence-section">
+  <section class="mt-3">
+    <!-- Select Student -->
+    <div class="d-flex justify-content-center wt-100 h-80vh align-items-center" *ngIf="!enableCard; else disableCard">
+      <form [formGroup]="quizForm" class="example-form wt-30">
+        <mat-form-field class="example-full-width wt-100" appearance="outline">
+          <mat-label>Select a Player</mat-label>
+          <input type="text" placeholder="Select a player" matInput formControlName="studentName"
+            [matAutocomplete]="auto" />
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayStudentName">
+            @for (option of filteredStudentName | async; track option) {
+            <mat-option [value]="option">{{ option.name }}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+        <div class="d-flex justify-content-center">
+          <span class="material-symbols-outlined mt-4" (click)="onEnter()" matRipple [matRippleCentered]="true">
+            arrow_right_alt
+          </span>
+        </div>
+      </form>
+    </div>
+
+    <ng-template #disableCard>
+      <section class=" card-selection mb-5" *ngIf="enableCard">
+        <div class="d-flex justify-content-center">
+          <h2> {{studentName.value?.name }} Pick any one card </h2>
+        </div>
+        <div class="d-flex flex-row card-wrapper flex-wrap mt-5 justify-content-center">
+          <ng-container *ngFor="let item of cards; let i = index">
+            <mat-card [style]="{ backgroundColor: item }"
+              class="play-cards wt-20 justify-content-center align-items-center m-2" (click)="onCardClick(i)"
+              [id]="getCard(i)" appearance="outlined" tabindex="0">
+              <span class="num"> {{ i + 1 }} </span>
+            </mat-card>
+          </ng-container>
+        </div>
+      </section>
+    </ng-template>
+    <div class="back-arrow d-flex justify-content-center">
+      <div class="backward">
+        <span class="material-symbols-outlined mt-4" *ngIf="enableCard" (click)="enableCard = false" matRipple [matRippleCentered]="true"
+        >
+        arrow_left_alt
+        </span>
+      </div>
+      <div class="forward" *ngIf="false">
+        <span class="material-symbols-outlined mt-4" *ngIf="enableCard" (click)="enableCard = true" matRipple [matRippleCentered]="true"
+        >
+        arrow_right_alt
+        </span>
+      </div>
+    </div>
+
+
+  </section>
+
+  <!-- <div class="parent">
+        <canvas #dotlottieCanvas id="dotlottie-canvas" class="p-rel">
+          
+        </canvas>
+        <div class="timer center">  {{ timerValue}} </div>
+    </div>
+    
+    <button mat-button (click)="playAnimation()">Play Animation</button>
+    <button mat-button (click)="stopAnimation()">Stop Animation</button> -->
+</section>

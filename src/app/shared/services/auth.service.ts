@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,7 @@ export class AuthService {
 
   private isLoggedInStatus: boolean = false;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
  
   login() {
@@ -19,6 +19,9 @@ export class AuthService {
     this.isLoggedInStatus = false;
     localStorage.removeItem('login');
     localStorage.removeItem('userInfo');
+    this.router.navigate(['/login'])
+
+    // localStorage.clear();
   }  
 
   isLoggedIn(): boolean {

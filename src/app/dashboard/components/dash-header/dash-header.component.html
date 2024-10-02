@@ -21,7 +21,7 @@
                     </span>
                     <span class="mat-body-1"> {{ userInfo.name | titlecase }} </span>
                 </button> -->
-                <button mat-button class="">
+                <button mat-button class="" (click)="logOut()">
                     <mat-icon class="mat-18"> {{ btnConst.LOGOUT_ICON }} </mat-icon>
                     <span class="mat-body-1"> {{ btnConst.LOGOUT }} </span>
                 </button>
