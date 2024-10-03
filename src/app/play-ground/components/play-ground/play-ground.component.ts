@@ -3,6 +3,7 @@
 import { SpeechService } from './../../../shared/services/speech.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SpeechTextConstant } from '../../constants/interation-effects';
 
 @Component({
   selector: 'app-play-ground',
@@ -28,12 +29,9 @@ export class PlayGroundComponent implements OnInit, OnDestroy {
 
   toggleSpeech(): void {
     this.speechEnabled = !this.speechEnabled
-
     if (this.speechEnabled) {
-
-      this.speechService.speak('Hello . Pick your lucky card');
+      this.speechService.speak(SpeechTextConstant.speech_mode_on);
     } else {
-    
       this.speechService.stop();
     }
   }

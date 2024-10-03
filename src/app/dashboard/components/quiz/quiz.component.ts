@@ -97,9 +97,9 @@ export class QuizComponent {
   onTypeSelected(event: any) { }
 
   getQuizQuestions() {
-    const existing: QuizQuestionsModel[] = this.localStorageService.getData(GenerateIdConst.quiz);
-    if (existing) this.questionList = existing;
-    else {
+    // const existing: QuizQuestionsModel[] = this.localStorageService.getData(GenerateIdConst.quiz);
+    // if (existing) this.questionList = existing;
+    
       this.quizService.getAllQuizData().subscribe((res: QuizQuestionsModel[]) => {
         if (res && res.length > NumberConstant.ZERO) {
           this.questionList = res.sort((a: any, b: any) => a['id'] - b['id']);
@@ -109,7 +109,6 @@ export class QuizComponent {
         this.isLoading = false;
         this.messageBarService.showErorMsgBar(error?.error?.message);
       });
-    }
 
   }
 

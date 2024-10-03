@@ -5,34 +5,38 @@ import { Config, DotLottie } from '@lottiefiles/dotlottie-web';
   providedIn: 'root',
 })
 export class AnimationService {
-  private dotLottie: DotLottie | null = null;
+  private animationsMap: Map<HTMLCanvasElement, DotLottie> = new Map(); // Track animations by canvas
 
-  constructor() { }
+  constructor() {}
 
   playAnimation(config: Config): void {
-    this.stopAnimation(config);
+    this.stopAnimation(config); // Ensure any existing animation on this canvas is stopped
     this.clearCanvas(config);
-    this.dotLottie = new DotLottie({
-      canvas: config.canvas,
+
+    const dotLottie = new DotLottie({
+      canvas: config?.canvas,
       src: config.src,
-      autoplay: config?.autoplay ? config.autoplay : true,
-      loop: config?.loop ? config.loop : true,
+      autoplay: config?.autoplay ?? true, // Autoplay defaults to true if not provided
+      loop: config?.loop ?? true,         // Loop defaults to true if not provided
     });
-    this.dotLottie.play();
+
+    this.animationsMap.set(config.canvas, dotLottie); // Store animation instance
+    dotLottie.play();
   }
 
   stopAnimation(config: Config): void {
-    if (this.dotLottie) {
-      this.dotLottie.stop();
-      this.dotLottie = null;
+    const dotLottie = this.animationsMap.get(config.canvas);
+    if (dotLottie) {
+      dotLottie.stop();
+      this.animationsMap.delete(config.canvas); // Remove the instance when stopped
     }
-    this.clearCanvas(config)
+    this.clearCanvas(config);
   }
+
   private clearCanvas(config: Config): void {
     const context = config.canvas.getContext('2d');
     if (context) {
       context.clearRect(0, 0, config.canvas.width, config.canvas.height);
     }
   }
-
 }

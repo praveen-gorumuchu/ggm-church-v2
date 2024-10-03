@@ -11,7 +11,7 @@ export const EndPointUrlConst = {
     GGM_MEM_KEY: 'ggm-mem-key',
     GGM_DBS: 'ggm-dbs',
     getStudent: 'students/data.json',
-    getBoolean: 'quiz/boolean.json',
+    getBoolean: 'quiz/options.json',
     getFillWord: 'quiz/fill-word.json',
     getQuestionAnswer: 'quiz/question-answer.json'
     

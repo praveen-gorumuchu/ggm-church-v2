@@ -1,17 +1,4 @@
-.card-wrapper {
-    .play-cards {
-        width: 180px;
-        height: 160px;
-        font-size: 62px;
-        cursor: pointer;
 
-        &:hover {
-            animation: bounce;
-            /* referring directly to the animation's @keyframe declaration */
-            animation-duration: 1.2s
-        }
-    }
-}
 
 .auidence-section {
     .arrow-btn {
@@ -22,4 +9,9 @@
 .material-symbols-outlined {
     font-size: 62px;
     cursor: pointer;
+}
+
+canvas {
+    width: 200px;
+    height: 200px;
 }

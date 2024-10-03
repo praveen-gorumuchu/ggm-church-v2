@@ -1,0 +1,77 @@
+::ng-deep {
+    .custom-styles {
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6, p {
+            margin: 0;
+            font-size: 48px;
+            font-weight: 500;
+        }
+    }
+
+    .quiz-questions-section {
+
+
+
+        .fill-the-word-section {
+            .question {
+                h2,h1,p,h3 {
+                    font-size: 65px;
+                    
+                }
+                
+            }
+        }
+
+        .question-ans-section {}
+
+        .question-with-options-section {
+            .user-options {
+                .radio-box {
+                    width: 250px;
+                    height: 250px;
+                    border-radius: 12px;
+                    background: #EF5A6F;
+                    align-items: center;
+                    cursor: pointer;
+                    margin: 15px;
+                }
+            }
+        }
+    }
+
+    .bottom-section-btns {
+        bottom: 50px;
+        right: 90px;
+        margin: 0 auto;
+    }
+
+
+    // Canvas
+    .canvas-section {
+        position: absolute;
+        right: 40px;
+        top: 50px;
+        z-index: 99;
+        width: 180px;
+        height: 180px;
+
+        .time-number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 42px;
+            transform: translate(-50%, -60%);
+        }
+    }
+
+    canvas {
+        width: inherit;
+        height: inherit
+    }
+
+}

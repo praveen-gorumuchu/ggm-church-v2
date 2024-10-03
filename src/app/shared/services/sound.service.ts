@@ -13,7 +13,7 @@ export class SoundService {
   loadSound(key: string, src: string): void {
     this.sounds[key] = new Howl({
       src: [src],
-      volume: 1.0, // Set the volume (0.0 to 1.0)
+      volume: 3.0, // Set the volume (0.0 to 1.0)
     });
   }
 

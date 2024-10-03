@@ -8,7 +8,10 @@ import { PlayGroundComponent } from './components/play-ground/play-ground.compon
 import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PlayCardsComponent } from './components/play-cards/play-cards.component';
+import { PaticipentComponent } from './components/paticipent/paticipent.component';
+import { ArrowsComponent } from './components/arrows/arrows.component';
+import { PlayerInteractionComponent } from './components/player-interaction/player-interaction.component';
+import { QuizQuestionsComponent } from './components/quiz-questions/quiz-questions.component';
 
 
 
@@ -17,7 +20,10 @@ import { PlayCardsComponent } from './components/play-cards/play-cards.component
     SoloPlayComponent,
     AudienceComponent,
     PlayGroundComponent,
-    PlayCardsComponent
+    PaticipentComponent,
+    ArrowsComponent,
+    PlayerInteractionComponent,
+    QuizQuestionsComponent
   ],
   imports: [
     CommonModule,

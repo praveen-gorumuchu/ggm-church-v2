@@ -1,3 +1,7 @@
+import { QuizQuestionsModel } from './../../../dashboard/models/quiz-models/quiz.model';
+import { QuizService } from './../../../dashboard/service/quiz.service';
+import { QuizPlayService } from './../../services/quiz-play.service';
+
 import { SpeechService } from './../../../shared/services/speech.service';
 import { UtilSharedService } from './../../../shared/services/util-shared.service';
 import { StudentService } from './../../../dashboard/service/student.service';
@@ -5,7 +9,7 @@ import { AnimationService } from './../../../shared/services/animation.service';
 import { Config, DotLottie } from '@lottiefiles/dotlottie-web';
 import { PlayGroundService } from './../../services/play-ground.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { CanvasConstant } from '../../constants/canvas.constant';
+import { CanvasConstant, SoundConstant, SoundConstantUrl } from '../../constants/interation-effects';
 import { TimerService } from '../../../shared/services/timer.service';
 import { SoundService } from '../../../shared/services/sound.service';
 import { TitleConstant } from '../../../shared/constants/title.constant';
@@ -13,9 +17,13 @@ import { CardColors } from '../../constants/cards-colors.constant';
 import { NumberConstant } from '../../../shared/constants/number-constant';
 import { StudentModel, StudentModelRes } from '../../../dashboard/models/students/student-list.model';
 import { TableColumnsConstant } from '../../../shared/constants/table-columns.constant';
-import { Observable } from 'rxjs';
+import { find, Observable } from 'rxjs';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { PlayGroundConstant } from '../../constants/play-ground-contant';
+import { TransliterationConst } from '../../constants/transliteration.constant';
+import { QuizNaviationEnum, QuizNavigationArrowEnum, QuizNavigationStatus } from '../../model/quiz-navigation.model';
+
 
 @Component({
   selector: 'app-audience',
@@ -23,41 +31,99 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrl: './audience.component.scss'
 })
 export class AudienceComponent implements OnInit {
-  @ViewChild('dotlottieCanvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
+  playGroundConst = PlayGroundConstant;
+  title = TitleConstant;
+  quizForm!: FormGroup;
   dotLottie!: DotLottie | null;
   timerInterval: any;
   timerValue: number = 20;
-  title = TitleConstant;
   cards = CardColors.colors;
-  numbers: number[] = Array.from({ length: 10 }, (_, i) => i);
   studentList: StudentModel[] = [];
   filteredStudentName!: Observable<StudentModel[]>;
   enableCard!: boolean;
-  quizForm!: FormGroup;
+  navigationStatus!: QuizNavigationStatus;
+  forwardArrow = false;
+  enableStudentSelection: boolean = false;
+  backWardArow = false;
+  enableQuestion: boolean = false;
+  luckyNumber!: number;
+  currentQuestion!: QuizQuestionsModel | null;
+  currentStudentIndex = -1;
+
+  @ViewChild('dotlottieCanvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
+  questionList!: QuizQuestionsModel[];
 
   constructor(private playGroundService: PlayGroundService,
     private timerService: TimerService, private animationService: AnimationService,
     private soundService: SoundService, private studentService: StudentService,
     private utilSharedService: UtilSharedService, private fb: FormBuilder,
-    private speechService: SpeechService) {
+    private speechService: SpeechService, private quizPlayService: QuizPlayService,
+    private quizService: QuizService) {
     this.quizForm = this.createFormGroup();
-    this.soundService.loadSound('clock', '../../../../assets/sounds/clock_sound.wav');
-    this.soundService.loadSound('correct', '../../../../assets/sounds/Correct_answer.wav');
-    this.soundService.loadSound('wrong', '../../../../assets/sounds/wrong_answer.wav');
+    this.enableStudentSelection = true;
+    this.getStudents();
+    this.getQuestions();
   }
 
   ngOnInit(): void {
-    this.getStudents();
-    this.timerService.getTimer().subscribe(value => {
-      this.timerValue = value;
-      if (value <= 0) this.stopAnimation();
-    });
+    // this.timerService.getTimer().subscribe(value => {
+    //   this.timerValue = value;
+    //   if (value <= 0) this.stopAnimation();
+    // });
   }
+
+  getQuestions() {
+    this.quizService.getAllQuizData().subscribe((data: QuizQuestionsModel[]) => {
+      if (data && data.length > NumberConstant.ZERO) {
+        this.questionList = data;
+        this.quizPlayService.setQuizQuestions(this.questionList);
+      }
+    }, (error: HttpErrorResponse) => console.log(error.error));
+  }
+
+  /**
+   * @function onStudentSelection
+   * @description On Student selection by admin
+   * backward arrow will be enabled to re-select the student if needed
+   */
+
+  onStudentSelection() {
+    if (this.studentName.value && (this.studentName.value as any).name) {
+      const name = (this.studentName.value.name as string).split('.')[NumberConstant.ONE];
+      const str = `${TitleConstant.HELLO} ${name} ${TransliterationConst.PICK_CARD}`;
+      this.resetNavigation();
+      this.resetArrows();
+      this.navigationStatus = {
+        next: QuizNaviationEnum.QZ_PICK_CARD,
+      }
+      this.enableCard = true;
+      this.speechService.speak(str, 1.2, 0.9);
+      this.backWardArow = true;
+    } else {
+      this.enableCard = false;
+      this.enableQuestion = false
+    };
+    const findIdx = this.studentList.findIndex((data: StudentModel) =>
+      data.id === this.studentName.value.id);
+    this.currentStudentIndex = findIdx;
+  }
+
+  /**
+   * @function getFilteredOptions
+   * @description Student dropdown filteration
+   * 
+   */
 
   getFilteredOptions() {
     this.filteredStudentName = this.utilSharedService.filteredDataComesFirst(
       this.studentName, this.studentList, TableColumnsConstant.name, true, true);
   }
+
+  /**
+   * @function getStudents
+   * @description get Student api to get the student list
+   * 
+   */
 
   getStudents() {
     this.studentService.getStudentIds().subscribe((res: StudentModelRes) => {
@@ -69,57 +135,95 @@ export class AudienceComponent implements OnInit {
     });
   }
 
+
   displayStudentName(student: StudentModel): string {
     return student && student.name ? student.name : '';
   }
 
-  onEnter() {
-    if (this.studentName.value && (this.studentName.value as any).name) {
-      this.enableCard = true;
-      const name = (this.studentName.value.name as string).split('.')[1];
-      const str = `${TitleConstant.HELLO} ${name} ${TitleConstant.PICK_YOUR_LUCKY_CARDS}`;
-      setTimeout(() => {
-        this.speechService.speak(str);
-      }, NumberConstant.THOUSAND)
-    } else this.enableCard = false;
-  }
-
   playAnimation(): void {
-    this.soundService.playSound('correct')
-    this.animationService.playAnimation(this.timerConfig());
+    this.animationService.playAnimation(this.animationConfig());
     this.timerService.startTimer(20);
   }
 
   stopAnimation(): void {
-    this.animationService.stopAnimation(this.timerConfig());
+    this.animationService.stopAnimation(this.animationConfig());
     this.timerService.stopTimer();
-    this.soundService.stopSound('correct')
+    this.soundService.stopSound('clock')
   }
 
-  getCard(i: number): string {
-    return `card${i}`
-  }
-
-  getCardStyles(index: number): { [key: string]: string } {
-    return {
-      backgroundColor: this.cards[index]
+  onArrowClick(event: QuizNavigationArrowEnum) {
+    this.resetNavigation();
+    this.resetArrows();
+    if (event === QuizNavigationArrowEnum.BACKWARD &&
+      this.navigationStatus.next === QuizNaviationEnum.QZ_PICK_CARD) {
+      this.enableStudentSelection = true;
+    } else if (event === QuizNavigationArrowEnum.FORWARD
+      && this.navigationStatus.next === QuizNaviationEnum.QZ_PICK_CARD) {
+      this.enableQuestion = true;
+    } else if (event === QuizNavigationArrowEnum.FORWARD
+      && this.navigationStatus.next === QuizNaviationEnum.QZ_QUESTION_SCREEN) {
+      this.enableStudentSelection = true
+    } else if (event === QuizNavigationArrowEnum.FORWARD) {
     }
   }
 
-  onCardClick(i: number) {
-    this.soundService.playSound('correct');
-    setTimeout(() => {
-      this.soundService.stopSound('correct')
-    }, NumberConstant.TWO_THOUSAND)
+  /**
+   * @function onCardClick emit the number from child
+   * @param evnt getLcuky number
+   */
+
+  onCardClick(evnt: number) {
+    this.resetNavigation();
+    this.resetArrows();
+    this.enableQuestion = true;
+    if (evnt && evnt !== null) {
+      this.luckyNumber = evnt
+      this.navigationStatus = {
+        next: QuizNaviationEnum.QZ_QUESTION_SCREEN
+      };
+      this.quizPlayService.addStudent(this.studentName.value);
+      this.getRandomQuestion();
+    }
+  }
+
+  isSubmitted(evnt: boolean) {
+    if (evnt) {
+      this.resetNavigation();
+      this.resetArrows();
+      this.enableStudentSelection = true;
+      this.currentStudentIndex++;
+      const currentStudent = this.studentList[this.currentStudentIndex];
+      this.studentName.patchValue(currentStudent);
+      this.onStudentSelection();
+    }
+  }
+
+
+  getRandomQuestion() {
+    if (this.luckyNumber && this.studentName.value && this.studentName.value.id) {
+      this.currentQuestion = this.quizPlayService.getNextQuestionForStudent(this.studentName.value);
+      console.log(this.currentQuestion, 'current question ');
+    }
+  }
+
+  resetArrows() {
+    this.forwardArrow = false;
+    this.backWardArow = false;
+  }
+
+  resetNavigation() {
+    this.enableCard = false;
+    this.enableQuestion = false;
+    this.enableStudentSelection = false;
   }
 
   get studentName(): AbstractControl {
     return this.quizForm.get('studentName') as AbstractControl;
   }
 
-  timerConfig(): Config {
+  animationConfig(): Config {
     return {
-      src: CanvasConstant.TIMER,
+      src: CanvasConstant.START,
       canvas: this.canvas.nativeElement,
       autoplay: true, loop: true
     }
@@ -131,6 +235,10 @@ export class AudienceComponent implements OnInit {
     })
   }
 
-
+  ngOnDestroy(): void {
+    this.enableCard = false;
+    this.forwardArrow = false;
+    this.backWardArow = false;
+  }
 
 }

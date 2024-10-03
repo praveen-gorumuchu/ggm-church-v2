@@ -1,0 +1,95 @@
+<section class="quiz-questions-section mt-5">
+    <h2>{{ selectedStudent?.name }}</h2>
+  <div class="row">
+   
+    <!-- Fill the the Word Question -->
+
+    <ng-container
+      *ngIf="currentQuestion?.type?.name === questionType.FILL_WORD"
+    >
+      <section class="fill-the-word-section custom-styles col-lg-12">
+        <div class="question" [innerHTML]="currentQuestion?.question"></div>
+        <section *ngIf="revaelAnswer" class="letter-pad mt-5">
+          <p class="answer letter-pad-text">
+            {{ currentQuestion?.answer || "Answer not available" }}
+          </p>
+        </section>
+      </section>
+    </ng-container>
+
+    <!-- Question and Answer  -->
+
+    <ng-container *ngIf="currentQuestion?.type?.name === questionType.QNA">
+      <section class="question-ans-section custom-styles col-lg-9">
+        <div class="question" [innerHTML]="currentQuestion?.question"></div>
+        <section *ngIf="revaelAnswer">
+          <p class="answer mt-5">
+            {{ currentQuestion?.answer || "Answer not available" }}
+          </p>
+        </section>
+      </section>
+    </ng-container>
+    <!-- Question and Answer -->
+
+    <ng-container *ngIf="currentQuestion?.type?.name === questionType.OPTIONS">
+      <section class="question-with-options-section custom-styles col-lg-12">
+        <div class="question" [innerHTML]="currentQuestion?.question"></div>
+        <div class="user-options pt-5">
+          <mat-radio-group>
+            <div class="d-flex align-self-center">
+              <ng-container *ngFor="let item of currentQuestion?.options">
+                <div
+                  class="radio-box d-flex justify-content-center align-items-center"
+                  (click)="selectOption(item)"
+                >
+                  <mat-radio-button [value]="item"> </mat-radio-button>
+                  <span>{{ item }} </span>
+                </div>
+              </ng-container>
+            </div>
+          </mat-radio-group>
+          <section *ngIf="revaelAnswer">
+            <p class="answer mt-5">
+              {{ currentQuestion?.answer || "Answer not available" }}
+            </p>
+          </section>
+        </div>
+      </section>
+    </ng-container>
+  </div>
+
+  <section class="mt-3 d-flex justify-content-end p-abs bottom-section-btns">
+    <button
+      mat-button
+      class="m-2"
+      [disabled]="!isAnimationStopped || !revaelAnswer"
+      (click)="submitAnswer()"
+    >
+      Submit
+    </button>
+    <button
+      mat-button
+      class="m-2"
+      [disabled]="!isAnimationStopped"
+      (click)="onReveal()"
+      *ngIf="!revaelAnswer"
+    >
+      Reveal Answer
+    </button>
+    <button
+      mat-button
+      class="m-2"
+      (click)="stopTImer()"
+      *ngIf="!revaelAnswer && !isAnimationStopped"
+    >
+      Stop timer
+    </button>
+  </section>
+
+  <section class="canvas-section">
+    <h3 class="time-number" *ngIf="timerValue">
+      {{ timerValue }}
+    </h3>
+    <canvas #timerCanvas id="timer-Canvas" class=""></canvas>
+  </section>
+</section>

@@ -51,7 +51,7 @@ const materialModules = [
     MatSpinnerComponent,
     DialogComponent,
     ShorterTextDirective,
-    AllowedNumbersDirective
+    AllowedNumbersDirective,
   ],
   imports: [
     CommonModule,

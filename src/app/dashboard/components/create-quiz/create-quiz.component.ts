@@ -60,16 +60,17 @@ export class CreateQuizComponent implements OnChanges, OnInit, OnChanges {
 
 
   initializeData(): void {
-    this.questionList = [];
-    const existing = this.localStorageService.getData(GenerateIdConst.quiz);
-    if (existing && existing.length > 0) this.questionList = existing;
-    else {
-      this.quizService.getAllQuizData().subscribe((data: QuizQuestionsModel[]) => {
-        if (data && data.length > NumberConstant.ZERO) {
-          this.questionList = data;
-        }
-      })
-    }
+    this.quizService.getAllQuizData().subscribe((data: QuizQuestionsModel[]) => {
+      if (data && data.length > NumberConstant.ZERO) {
+        this.questionList = data;
+      }
+    });
+    // this.questionList = [];
+    // const existing = this.localStorageService.getData(GenerateIdConst.quiz);
+    // if (existing && existing.length > 0) this.questionList = existing;
+    // else {
+      
+    // }
     this.idGenerationService.initialize(this.questionList);
     this.addQuestion();
   }
