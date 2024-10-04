@@ -1,1 +1,143 @@
-<p>evaluation works!</p>
+<app-mat-spinner *ngIf="isLoadingSpin" [overlay]="true"></app-mat-spinner>
+<section class="students-section mb-5 pb-5">
+  <div class="container">
+    <div class="d-flex">
+      <h3 class="page-title">{{ titles.PARTICIPENT_SCROES }}</h3>
+    </div>
+    <section class="mt-5 mb-4 pt-3">
+      <form #ngForm [formGroup]="formGroup">
+        <!-- Student Name -->
+        <div class="row">
+          <mat-form-field
+            appearance="outline"
+            class="col-lg-4 col-md-4 col-sm-6 col mb-3"
+          >
+            <input
+              matInput
+              placeholder="Search Student Name"
+              [matAutocomplete]="studentNameId"
+              formControlName="studentName"
+              #studentNameAuto
+            />
+            <mat-icon matPrefix>search</mat-icon>
+            <mat-autocomplete
+              autoActiveFirstOption
+              #studentNameId="matAutocomplete"
+              [displayWith]="displayStudentName"
+              (optionSelected)="onNameSelected($event.option)"
+            >
+              <mat-option
+                [value]="option"
+                *ngFor="let option of filteredStudentName | async"
+              >
+                {{ option.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <!-- Student class -->
+          <mat-form-field
+            appearance="outline"
+            class="col-lg-4 col-md-4 col-sm-6 col mb-3"
+          >
+            <input
+              matInput
+              placeholder="Search Class"
+              [matAutocomplete]="matStudentClass"
+              formControlName="studentClass"
+              #studentClassAuto
+            />
+            <mat-icon matPrefix>search</mat-icon>
+            <mat-autocomplete
+              autoActiveFirstOption
+              #matStudentClass="matAutocomplete"
+              [displayWith]="displayStudentClass"
+              (optionSelected)="onNameSelected($event.option)"
+            >
+              <mat-option
+                [value]="option"
+                *ngFor="let option of filteredStudentClass | async"
+              >
+                {{ option.class }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <!-- student Rank -->
+          <mat-form-field
+            appearance="outline"
+            class="col-lg-4 col-md-4 col-sm-6 col mb-3"
+          >
+            <input
+              matInput
+              placeholder="Search Rank"
+              [matAutocomplete]="matStudentRank"
+              formControlName="studentRank"
+            />
+            <mat-icon matPrefix>search</mat-icon>
+            <mat-autocomplete
+              autoActiveFirstOption
+              #matStudentRank="matAutocomplete"
+              [displayWith]="displayStudentRank"
+            >
+              <mat-option
+                [value]="option"
+                *ngFor="let option of filteredRank | async"
+              >
+                {{ option.rank }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <!-- Student Percentage -->
+          <mat-form-field
+            appearance="outline"
+            class="col-lg-4 col-md-4 col-sm-6 col mb-3"
+          >
+            <input
+              matInput
+              placeholder="Search Percentage"
+              [matAutocomplete]="matStudentPercentage"
+              formControlName="studentPercentage"
+              #studentClassAuto
+            />
+            <mat-icon matPrefix>search</mat-icon>
+            <mat-autocomplete
+              autoActiveFirstOption
+              #matStudentPercentage="matAutocomplete"
+              [displayWith]="displayStudentPercentage"
+            >
+              <mat-option
+                [value]="option"
+                *ngFor="let option of filteredPercentage | async"
+              >
+                {{ option.percentage }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </form>
+    </section>
+    <section class="">
+      <div class="d-flex">
+        <button
+          mat-flat-button
+          color="primary"
+          class="mr-3"
+          (click)="onSumbit()"
+        >
+          Submit
+        </button>
+        <button mat-button (click)="onClear()">Clear</button>
+      </div>
+    </section>
+  </div>
+  <section class="container">
+    <app-data-tables
+      [dataSource]="dataSource"
+      [tableCols]="columns"
+      [buttons]="buttons"
+      [isLoading]="isLoading"
+      [isSearch]="isSearch"
+      [checkbox]="true"
+      (actionItems)="actionItems($event)"
+    ></app-data-tables>
+  </section>
+</section>

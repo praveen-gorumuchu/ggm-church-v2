@@ -126,7 +126,7 @@ export class DataTablesComponent implements OnInit, OnChanges, AfterContentCheck
 
   showTrucatedText(elt: any, column: any, max: number): string {
     const name = elt[column.key];
-    const val =  this.utilSharedService.shortName(name, max);
+    const val = this.utilSharedService.shortName(name, max);
     return val ? val : name
   }
 
@@ -317,11 +317,11 @@ export class DataTablesComponent implements OnInit, OnChanges, AfterContentCheck
   }
 
   isClikdeRow(slectedRow: any, selection: SelectionModel<any>) {
-    const inActive = slectedRow.deletionFlag >= NumberConstant.ONE;
-    if (!inActive) {
-      selection.toggle(slectedRow);
-    }
-    this.resetCheckBoxValidation();
+    // const inActive = slectedRow.deletionFlag >= NumberConstant.ONE;
+    // if (!inActive) {
+    //   selection.toggle(slectedRow);
+    // }
+    // this.resetCheckBoxValidation();
   }
 
   ineerTable(data: any) { }
@@ -332,7 +332,7 @@ export class DataTablesComponent implements OnInit, OnChanges, AfterContentCheck
   }
 
   isDisabledEdit(): boolean {
-    let disbale = false;
+    let disbale = true;
     disbale = this.selectedRowLen <= NumberConstant.ZERO ? true : false
     return disbale;
   }

@@ -14,9 +14,12 @@
     tr {
       th {
         .mat-sort-header-arrow {
-          color: #fff;
+          // color: #fff;
         }
       }
+    }
+    .mat-sort-header-content{
+      text-align: left;
     }
   }
 }

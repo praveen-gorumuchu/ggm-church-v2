@@ -14,5 +14,4 @@ export const EndPointUrlConst = {
     getBoolean: 'quiz/options.json',
     getFillWord: 'quiz/fill-word.json',
     getQuestionAnswer: 'quiz/question-answer.json'
-    
 }

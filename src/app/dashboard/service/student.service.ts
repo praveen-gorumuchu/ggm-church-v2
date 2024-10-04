@@ -59,8 +59,31 @@ export class StudentService {
         key: TableColumnsConstant.CREATED_DATE, display: DataTableHeaderMapper.creationDate,
         config: { isDate: true, format: StringConstant.DDMMYYY_FORMAT }
       },
+    ];
+  }
 
 
+  setQuizResultTableCols(): TableHeaders[] {
+    return [
+      { key: TableColumnsConstant.SELECT, display: '' },
+      { key: TableColumnsConstant.studentId, display: DataTableHeaderMapper.std_id },
+      { key: TableColumnsConstant.studentName, display: DataTableHeaderMapper.name },
+      {
+        key: TableColumnsConstant.rank, display: DataTableHeaderMapper.rank
+      },
+      {
+        key: TableColumnsConstant.percentage, display: DataTableHeaderMapper.percentage
+      },
+      {
+        key: TableColumnsConstant.correctAnswers, display: DataTableHeaderMapper.correctAnswers
+      },
+      { key: TableColumnsConstant.wrongAnswers, display: DataTableHeaderMapper.wrongAnswers },
+      {
+        key: TableColumnsConstant.totalQuestions, display: DataTableHeaderMapper.totalQuestions
+      },
+      {
+        key: TableColumnsConstant.organisedBy, display: DataTableHeaderMapper.organisedBy
+      }
     ];
   }
 }

@@ -48,6 +48,6 @@ export class PlayGroundComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy(): void {
-    this.quizPlayService.resetData();
+    // this.quizPlayService.resetData();
   }
 }

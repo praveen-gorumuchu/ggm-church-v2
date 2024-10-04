@@ -7,6 +7,7 @@ export interface StudentHistoryModel {
   previousCategory: CategoryEnum | null,
   answeredQuestions: AnsweredQuestion[];
   score: number;
+  class: string
 }
 
 
@@ -18,12 +19,14 @@ export interface AnsweredQuestion {
   answer?: string;
   userAnswer: string | boolean;
   options?: string[];
+  timeTaken?: number
 }
 
 
 export interface QuizResult {
   studentName: string,
   studentId: string;
+  class: string
   totalQuestions: number;
   correctAnswers: number;
   wrongAnswers: number;
@@ -31,6 +34,8 @@ export interface QuizResult {
   attemptedDate: Date;
   organisedBy: UserRoleEnum;
   organizer: string,
-  answeredQuestions: Array<AnsweredQuestion>
+  answeredQuestions: Array<AnsweredQuestion>,
+  percentage?: number,
+  rank?: number
   
 }

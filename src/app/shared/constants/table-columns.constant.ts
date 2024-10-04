@@ -1,5 +1,4 @@
 export class TableColumnsConstant {
-
   static readonly CREATION_DATE = 'creationDate';
   static readonly name = 'name';
   static readonly CREATED_DATE = 'createdDate';
@@ -20,5 +19,13 @@ export class TableColumnsConstant {
   static readonly question = 'question';
   static readonly value = 'value';
   static readonly answer = 'answer';
+  static readonly rank = 'rank';
+  static readonly percentage = 'percentage';
+  static readonly studentId = 'studentId';
+  static readonly studentName = 'studentName';
+  static readonly correctAnswers = 'correctAnswers';
+  static readonly wrongAnswers = 'wrongAnswers';
+  static readonly totalQuestions = 'totalQuestions';
+  static readonly organisedBy = 'organisedBy';
 
 }

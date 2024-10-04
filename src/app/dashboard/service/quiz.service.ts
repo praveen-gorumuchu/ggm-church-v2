@@ -86,9 +86,6 @@ export class QuizService {
   }
 
 
-  
-
-
   setDataTableButtons(): DataTableButtons[] {
     return [
       {
@@ -125,8 +122,6 @@ export class QuizService {
         key: TableColumnsConstant.CREATED_DATE, display: DataTableHeaderMapper.creationDate,
         config: { isDate: true, format: StringConstant.DDMMYYY_FORMAT }
       },
-
-
     ];
   }
 

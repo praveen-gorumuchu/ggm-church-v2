@@ -17,6 +17,12 @@ export enum DataTableHeaderMapper {
     question = "Question",
     answer = "Auestion",
     category = "Category",
-    questionId = 'Question Id'
+    questionId = 'Question Id',
+    rank = "Rank",
+    percentage = "Percentage",
+    correctAnswers = "Correct Answers",
+    wrongAnswers = "Wrong Ans",
+    totalQuestions = "Total Questions",
+    organisedBy = "Organised By"
   }
   

@@ -111,51 +111,52 @@ export class UtilSharedService {
     );
   
     const sorter = (a: any, b: any) => {
-      const aVal = hasKey ? a[key] : a;
-      const bVal = hasKey ? b[key] : b;
+      const aVal = hasKey ? String(a[key]) : String(a);
+      const bVal = hasKey ? String(b[key]) : String(b);
   
-      // Ensure both aVal and bVal are not undefined or null
-      if (!aVal || !bVal) return 0;
+      if (aVal == null || bVal == null) return 0;
   
-      // Regular expression to extract numeric part from the id
       const extractNumber = (value: string) => {
-        const match = value.match(/\d+/); // Extract numbers from the string
+        const match = value.match(/\d+/);
         return match ? parseInt(match[0], 10) : 0;
       };
   
       const aNum = extractNumber(aVal);
       const bNum = extractNumber(bVal);
   
-      return aNum - bNum; // Compare based on the extracted numeric values
+      return aNum - bNum;
     };
   
     return stringArray.sort(sorter);
   };
   
-  
-  
-
   filteredDataComesFirst(ctrl: AbstractControl, arr: any[], key?: string, sort?: boolean,
     duplicates?: boolean, inActive?: boolean): Observable<any> {
-    if (inActive) this.removeInactiveItems(arr)
+  
+    if (inActive) this.removeInactiveItems(arr);
     if (duplicates) arr = this.removeDuplicates(arr, key);
     const data = sort ? this.alphaNumericSort(arr, key) : arr;
-    return ctrl.valueChanges.pipe(startWith(''),
-      debounceTime(NumberConstant.TWO_HUNDERED), distinctUntilChanged(),
+  
+    return ctrl.valueChanges.pipe(
+      startWith(''),
+      debounceTime(NumberConstant.TWO_HUNDERED),
+      distinctUntilChanged(),
       switchMap((value: any) => {
         if (!value || value === '') return of(data.slice());
-        else {
-          const inputValue = typeof value === StringConstant.number ? value.toString() : value;
-          const name = typeof inputValue === StringConstant.string ? inputValue : inputValue[key ? key : ''];
-          const filteredData = this.filter((name as string).trim(), data, key);
-          const restData = data.filter((item1: any) =>
-            !filteredData.some((item2: any) => key && key !== '' ? item1[key] === item2[key] :
-              item1 === item2));
-          return of([...filteredData]);
-        }
+  
+        const inputValue = typeof value === 'number' ? value.toString() : value;
+        const name = typeof inputValue === 'string' ? inputValue : inputValue[key ? key : ''];
+  
+        const filteredData = this.filter(name.trim().toLowerCase(), data, key);
+        const restData = data.filter((item1: any) =>
+          !filteredData.some((item2: any) => key && key !== '' ? item1[key] === item2[key] :
+            item1 === item2));
+        
+        return of([...filteredData]);
       })
-    )
+    );
   }
+  
 
   filterBooks(ctrl: AbstractControl, arr: any[], key: string): Observable<any[]> {
     const data = arr.slice();

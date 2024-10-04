@@ -42,6 +42,7 @@ export class QuizPlayService {
       this.studentsHistory.push({
         studentId: studentData.id,
         studentName: studentData.name,
+        class: studentData.class,
         answeredQuestions: [],
         previousCategory: null,
         score: 0,
@@ -165,33 +166,49 @@ export class QuizPlayService {
    * @returns An array of results for each student.
    */
   endQuiz(): QuizResult[] {
-    const reulst: QuizResult[] = this.studentsHistory.map((student: StudentHistoryModel) => {
-
+    const results: QuizResult[] = this.studentsHistory.map((student: StudentHistoryModel) => {
       const correctAnswers: AnsweredQuestion[] =
-        student.answeredQuestions.filter((answeredQuestion: AnsweredQuestion) => {
-          return answeredQuestion.userAnswer === answeredQuestion.answer
-        });
+        student.answeredQuestions.filter((answeredQuestion: AnsweredQuestion) => 
+          answeredQuestion.userAnswer === answeredQuestion.answer
+        );
+  
       const wrongAnswers: AnsweredQuestion[] =
-        student.answeredQuestions.filter((answeredQuestion: AnsweredQuestion) => {
-            return answeredQuestion.userAnswer !== answeredQuestion.answer
-          })
-
+        student.answeredQuestions.filter((answeredQuestion: AnsweredQuestion) => 
+          answeredQuestion.userAnswer !== answeredQuestion.answer
+        );
+  
+      const totalScore = correctAnswers.length * 10;
+      const totalPossibleScore = student.answeredQuestions.length * 10;
+      const percentage = (totalScore / totalPossibleScore) * 100;
+  
       return {
         studentId: student.studentId,
+        class: student.class,
         studentName: student.studentName,
         totalQuestions: student.answeredQuestions.length,
         correctAnswers: correctAnswers.length,
-        wrongAnswers: wrongAnswers.length,  // Questions answered incorrectly
-        score: correctAnswers.length * 10,  // Each correct answer gives 10 points
+        wrongAnswers: wrongAnswers.length,
+        score: totalScore,
+        percentage: percentage,  // Calculate percentage
         organisedBy: this.loginService.loginUser.role,
         organizer: this.loginService.loginUser.name,
         attemptedDate: new Date(),
-        answeredQuestions: student.answeredQuestions
+        answeredQuestions: student.answeredQuestions,
       };
     });
-    localStorage.setItem(StorageKeyConstant.quiz_result, JSON.stringify(reulst));
-    return reulst
+  
+    // Sort students by score to determine the ranking
+    const sortedResults = results.sort((a, b) => b.score - a.score);
+  
+    // Assign ranks based on the sorted order
+    sortedResults.forEach((result: QuizResult, index) => {
+      result.rank = index + 1;  // Rank starts from 1
+    });
+  
+    localStorage.setItem(StorageKeyConstant.quiz_result, JSON.stringify(sortedResults));
+    return sortedResults;
   }
+  
 
   /**
    * Remove duplicated answered questions from the result to ensure uniqueness.
