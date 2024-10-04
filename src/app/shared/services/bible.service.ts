@@ -63,7 +63,6 @@ export class BibleService {
         this.bibleBooksObs.next(data.list);
         this.bookList = this.sharedService.combineBibleBooks(data.list);
       }), catchError(error => {
-        console.error('Error fetching data', error);
         return of([]);
       })
       )

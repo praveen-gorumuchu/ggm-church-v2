@@ -120,7 +120,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.bibleService.currentBookObsCast.subscribe((data: BibleBook) => {
         this.currentBook = data;
         this.currentChapter = this.currentBook.chapters[0];
-        console.log(this.currentBook);
       }),
       this.bibleService.chapterIndexObsCast.subscribe((index: number) => {
         this.currentChapterIndex = index;

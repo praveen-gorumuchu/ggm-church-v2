@@ -1,0 +1,15 @@
+::ng-deep {
+    body.dark {
+        .mat-mdc-dialog-surface {
+            background: #0c0e13;
+            color: #d2d2d2;
+            border-radius: 12px;
+            button {
+
+            }
+        }
+    }
+    .container {
+        min-width: 420px;
+    }
+}

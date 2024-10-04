@@ -15,6 +15,7 @@ export enum DataTableHeaderMapper {
     age = "Age",
     phoneNum = "Phone Number",
     question = "Question",
+    answer = "Auestion",
     category = "Category",
     questionId = 'Question Id'
   }

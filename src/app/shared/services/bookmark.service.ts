@@ -58,7 +58,6 @@ export class BookMarkService {
       try {
         return JSON.parse(storedData);
       } catch (error) {
-        console.error('Error parsing stored data:', error);
         return [];
       }
     }

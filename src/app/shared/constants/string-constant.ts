@@ -53,5 +53,7 @@ export const StringConstant = {
    WITHDRAW_TITLE: 'WITHDRAW_TITLE',
    delete: 'delete',
    IN_ACTIVE_RECORDS: 'IN_ACTIVE_RECORDS',
-   GLOBAL_RESULT: 'Fetched the global result.!'
+   GLOBAL_RESULT: 'Fetched the global result.!',
+   TRUE: 'true',
+   FALSE: 'false'
 }

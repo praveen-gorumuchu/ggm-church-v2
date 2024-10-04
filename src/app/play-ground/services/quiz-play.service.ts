@@ -1,19 +1,28 @@
-import { MessageBarService } from './../../shared/services/message-bar.service';
-import { LoginService } from './../../shared/services/login.service';
-import { Injectable, inject } from '@angular/core';
-import { AnsweredQuestion, QuizResult, StudentHistoryModel } from '../model/student-history.model';
-import { CategoryEnum, QuizQuestionsModel } from '../../dashboard/models/quiz-models/quiz.model';
-import { StudentModel } from '../../dashboard/models/students/student-list.model';
+import { Injectable } from "@angular/core";
+import { QuizQuestionsModel } from "../../dashboard/models/quiz-models/quiz.model";
+import { StudentModel } from "../../dashboard/models/students/student-list.model";
+import { LoginService } from "../../shared/services/login.service";
+import { MessageBarService } from "../../shared/services/message-bar.service";
+import { AnsweredQuestion, QuizResult, StudentHistoryModel } from "../model/student-history.model";
+import { GenerateIdConst } from "../../shared/constants/generate-id.constant";
+import { StorageKeyConstant } from "../../shared/constants/storage-keys.constant";
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuizPlayService {
-  constructor(private loginService: LoginService,
-    private messageBarService: MessageBarService
-  ) { }
-  private studentsHistory: StudentHistoryModel[] = []; // Stores history of each student
-  private quizQuestions: QuizQuestionsModel[] = []; // Stores all available quiz questions
+  constructor(private loginService: LoginService, private messageBarService: MessageBarService) { }
+
+  private studentsHistory: StudentHistoryModel[] = [];
+  private quizQuestions: QuizQuestionsModel[] = []; // Shared pool for all students
+
+
+
+
+  getRemainingPoolList(): QuizQuestionsModel[] {
+    return this.quizQuestions;
+  }
+
 
   /**
    * Set all quiz questions for the current quiz session.
@@ -26,11 +35,9 @@ export class QuizPlayService {
   /**
    * Add a student to the quiz session if they are not already added.
    * Initializes their score and answered questions list.
-   * @param studentId - Unique identifier for the student.
-   * @param studentName - Name of the student.
+   * @param studentData - Student information to add.
    */
   addStudent(studentData: StudentModel) {
-    // Check if the student is already added
     if (!this.studentsHistory.find(s => s.studentId === studentData.id)) {
       this.studentsHistory.push({
         studentId: studentData.id,
@@ -44,7 +51,7 @@ export class QuizPlayService {
 
   /**
    * Get the next available question for the student.
-   * Ensures that the same category is not asked consecutively and the question has not been answered before.
+   * Ensures no duplicate questions and no consecutive category types.
    * @param studentData - The student requesting the next question.
    * @returns The next quiz question or null if no questions are available.
    */
@@ -52,43 +59,29 @@ export class QuizPlayService {
     const student = this.studentsHistory.find(s => s.studentId === studentData.id);
     if (!student) {
       this.messageBarService.showErorMsgBar('Student not found');
-      return null
-    };
-
-    const previousCategory = student.previousCategory;
-
-    // Filter available questions based on category and answered questions
-    let availableQuestions = this.quizQuestions.filter(
-      q => q.type.name !== previousCategory && !student.answeredQuestions.find(aq => aq.id === q.id)
-    );
-
-    // Reset filter if no more questions are left
-    if (availableQuestions.length === 0) {
-      availableQuestions = this.quizQuestions.filter((questions: QuizQuestionsModel) =>
-        !student.answeredQuestions.find((answeredQuestion: AnsweredQuestion) =>
-          answeredQuestion.id === questions.id)
-      );
+      return null;
     }
 
+    if (this.quizQuestions.length === 0) {
+      this.messageBarService.showErorMsgBar('No more questions are left for the quiz');
+      return null;
+    }
+
+    const availableQuestions = this.getFilteredQuestionsForStudent(student);
+
     if (availableQuestions.length === 0) {
-      this.messageBarService.showErorMsgBar('No more Question are left')
-      return null
-    };
+      this.messageBarService.showErorMsgBar('No more questions are available for this student');
+      return null;
+    }
 
-    // Select a random question from the available ones
-    const randomIndex = Math.floor(Math.random() * availableQuestions.length);
-    const nextQuestion = availableQuestions[randomIndex];
-
-    // Update student's previous category and add the question to their answered list
+    const nextQuestion = this.getRandomQuestion(availableQuestions);
     student.previousCategory = nextQuestion.type.name;
-    student.answeredQuestions.push(nextQuestion as any);
-
     return nextQuestion;
   }
 
   /**
    * Submit the student's answer for a specific question.
-   * Updates the student's score and records the answered question.
+   * Updates the student's score and removes the question from the global pool.
    * @param studentData - The student submitting the answer.
    * @param question - The question being answered.
    * @param userAnswer - The answer submitted by the student.
@@ -97,15 +90,56 @@ export class QuizPlayService {
     const student = this.studentsHistory.find(s => s.studentId === studentData.id);
 
     if (!student) {
-      this.messageBarService.showErorMsgBar('User Not Found');
-      return
-    };
+      this.messageBarService.showErorMsgBar('Student not found');
+      return;
+    }
 
-    if (userAnswer === question.answer) student.score += 10;
+    if (userAnswer === question.answer) {
+      student.score += 10;
+    }
 
+    this.removeQuestionFromGlobalPool(question);
     this.recordAnsweredQuestion(student, question, userAnswer);
+  }
 
-    this.quizQuestions = this.quizQuestions.filter((q: QuizQuestionsModel) => q.id !== question.id);
+  /**
+   * Remove the answered question from the global pool.
+   * Once removed, no other student can get this question.
+   * @param question - The question to remove.
+   */
+  private removeQuestionFromGlobalPool(question: QuizQuestionsModel) {
+    this.quizQuestions = this.quizQuestions.filter(q => q.id !== question.id);
+  }
+
+  /**
+   * Filter the available questions for a student, ensuring no consecutive categories.
+   * Excludes questions that have been globally removed.
+   * @param student - The student for whom to filter the questions.
+   * @returns Filtered list of available questions.
+   */
+  private getFilteredQuestionsForStudent(student: StudentHistoryModel): QuizQuestionsModel[] {
+    const previousCategory = student.previousCategory;
+
+    let filteredQuestions = this.quizQuestions.filter(q =>
+      q.type.name !== previousCategory
+    );
+
+    // If no questions are available, reset the filter to allow same categories
+    if (filteredQuestions.length === 0) {
+      filteredQuestions = this.quizQuestions;
+    }
+
+    return filteredQuestions;
+  }
+
+  /**
+   * Select a random question from the filtered list.
+   * @param availableQuestions - Array of filtered questions.
+   * @returns A randomly selected question.
+   */
+  private getRandomQuestion(availableQuestions: QuizQuestionsModel[]): QuizQuestionsModel {
+    const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+    return availableQuestions[randomIndex];
   }
 
   /**
@@ -114,7 +148,7 @@ export class QuizPlayService {
    * @param question - The question that was answered.
    * @param userAnswer - The answer submitted by the student.
    */
-  private recordAnsweredQuestion(student: StudentHistoryModel, question: QuizQuestionsModel, userAnswer: boolean) {
+  private recordAnsweredQuestion(student: StudentHistoryModel, question: QuizQuestionsModel, userAnswer?: any) {
     student.answeredQuestions.push({
       id: question.id,
       question: question.question,
@@ -127,21 +161,57 @@ export class QuizPlayService {
 
   /**
    * End the quiz session and calculate results for all students.
+   * Ensures that duplicate questions are not counted and handles unanswered questions properly.
    * @returns An array of results for each student.
    */
-
   endQuiz(): QuizResult[] {
-    return this.studentsHistory.map(student => ({
-      studentId: student.studentId,
-      studentName: student.studentName,
-      totalQuestions: student.answeredQuestions.length,
-      correctAnswers: student.score / 10, // Total correct answers
-      wrongAnswers: student.answeredQuestions.length - (student.score / 10),
-      score: student.score,
-      orgnasidedBy: this.loginService.loginUser,
-      attemptedDate: new Date(),
-      answeredQuestions: student.answeredQuestions
-    }));
+    const reulst: QuizResult[] = this.studentsHistory.map((student: StudentHistoryModel) => {
+
+      const correctAnswers: AnsweredQuestion[] =
+        student.answeredQuestions.filter((answeredQuestion: AnsweredQuestion) => {
+          return answeredQuestion.userAnswer === answeredQuestion.answer
+        });
+      const wrongAnswers: AnsweredQuestion[] =
+        student.answeredQuestions.filter((answeredQuestion: AnsweredQuestion) => {
+            return answeredQuestion.userAnswer !== answeredQuestion.answer
+          })
+
+      return {
+        studentId: student.studentId,
+        studentName: student.studentName,
+        totalQuestions: student.answeredQuestions.length,
+        correctAnswers: correctAnswers.length,
+        wrongAnswers: wrongAnswers.length,  // Questions answered incorrectly
+        score: correctAnswers.length * 10,  // Each correct answer gives 10 points
+        organisedBy: this.loginService.loginUser.role,
+        organizer: this.loginService.loginUser.name,
+        attemptedDate: new Date(),
+        answeredQuestions: student.answeredQuestions
+      };
+    });
+    localStorage.setItem(StorageKeyConstant.quiz_result, JSON.stringify(reulst));
+    return reulst
   }
 
+  /**
+   * Remove duplicated answered questions from the result to ensure uniqueness.
+   * @param answeredQuestions - Array of answered questions.
+   * @returns A unique array of answered questions.
+   */
+  private removeDuplicateAnswers(answeredQuestions: AnsweredQuestion[]): AnsweredQuestion[] {
+    const uniqueQuestions = new Map<string, AnsweredQuestion>();
+
+    answeredQuestions.forEach(question => {
+      if (!uniqueQuestions.has(question.id)) {
+        uniqueQuestions.set(question.id, question);
+      }
+    });
+
+    return Array.from(uniqueQuestions.values());
+  }
+
+  resetData(){
+    this.studentsHistory = [];
+    this.quizQuestions = [];
+  }
 }

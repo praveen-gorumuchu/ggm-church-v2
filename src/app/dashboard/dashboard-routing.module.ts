@@ -13,20 +13,74 @@ import { ThemeEnumModel } from '../shared/models/routes/route-data.model';
 const routes: Routes = [
   {
     path: '', component: DashboardComponent,
+
     children: [
       {
         path: '', redirectTo: 'home', pathMatch: 'full'
       },
-      { path: 'home', component: OverviewComponent },
-      { path: 'create-quiz', component: CreateQuizComponent },
-      { path: 'quiz', component: QuizComponent },
-      { path: 'register-student', component: RegisterStudentComponent },
-      { path: 'students', component: StudentsComponent },
-      { path: 'evaluation', component: EvaluationComponent },
-    
+      {
+        path: 'home', component: OverviewComponent,
+        data: {
+          header: {
+            theme: ThemeEnumModel.LIGHT, isHeader: false, hideGlobalNav: true
+          }, body: {
+            theme: 'light', noMargin: true
+          }
+        },
+      },
+      {
+        path: 'create-quiz', component: CreateQuizComponent,
+        data: {
+          header: {
+            theme: ThemeEnumModel.LIGHT, isHeader: false, hideGlobalNav: true
+          }, body: {
+            theme: 'light',noMargin: true
+          }
+        },
+      },
+      {
+        path: 'quiz', component: QuizComponent,
+        data: {
+          header: {
+            theme: ThemeEnumModel.LIGHT, isHeader: false, hideGlobalNav: true
+          }, body: {
+            theme: 'light', noMargin: true
+          }
+        },
+      },
+      {
+        path: 'register-student', component: RegisterStudentComponent,
+        data: {
+          header: {
+            theme: ThemeEnumModel.LIGHT, isHeader: false, hideGlobalNav: true
+          }, body: {
+            theme: 'light', noMargin: true
+          }
+        },
+      },
+      {
+        path: 'students', component: StudentsComponent,
+        data: {
+          header: {
+            theme: ThemeEnumModel.LIGHT, isHeader: false, hideGlobalNav: true
+          }, body: {
+            theme: 'light', noMargin: true
+          }
+        },
+      },
+      {
+        path: 'evaluation', component: EvaluationComponent,
+        data: {
+          header: {
+            theme: ThemeEnumModel.LIGHT, isHeader: false, hideGlobalNav: true
+          }, body: {
+            theme: 'light', noMargin: true
+          }
+        },
+      }
     ]
   },
- 
+
 ];
 
 @NgModule({

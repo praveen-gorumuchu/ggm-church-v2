@@ -261,9 +261,7 @@ export class UtilSharedService {
       // Clean up and remove the link
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
-    } else {
-      console.error('No data found in localStorage');
-    }
+    } 
   }
 
   downloadJson(key: string, fileName: string) {
@@ -288,9 +286,7 @@ export class UtilSharedService {
       // Clean up and remove the link
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
-    } else {
-      console.error('No data found in localStorage');
-    }
+    } 
   }
   extractValues(dataList: any[], key: string) {
     return dataList.map(item => {

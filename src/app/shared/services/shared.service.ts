@@ -42,7 +42,6 @@ export class SharedService {
   combineBibleBooks(bibleBooks: BibleBookTypes[]): BibileBookList[] {
     if (!bibleBooks || !Array.isArray(bibleBooks)) {
       // Return an empty array if bibleBooks is null, undefined, or not an array
-      console.error('Invalid bibleBooks input: ', bibleBooks);
       return [];
     }
     

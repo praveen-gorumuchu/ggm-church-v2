@@ -1,6 +1,6 @@
 // sound.service.ts
 import { Injectable } from '@angular/core';
-import { Howl } from 'howler';
+import { Howl, HowlOptions } from 'howler';
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +8,14 @@ import { Howl } from 'howler';
 export class SoundService {
   private sounds: { [key: string]: Howl } = {};
 
-  constructor() {}
+  constructor() { }
 
-  loadSound(key: string, src: string): void {
+  loadSound(key: string, config: HowlOptions): void {
     this.sounds[key] = new Howl({
-      src: [src],
-      volume: 3.0, // Set the volume (0.0 to 1.0)
+      src: [config.src as string],
+      volume: config.volume ? config.volume : 2.0, // Set the volume (0.0 to 1.0)
+      autoplay: config.autoplay ? config.autoplay : false,
+      loop: config.loop ? config?.loop : false
     });
   }
 

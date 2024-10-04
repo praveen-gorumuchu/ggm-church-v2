@@ -83,7 +83,6 @@ export class BookMarkComponent implements OnInit, OnChanges, OnDestroy {
        }
     });
     bottomSheetRef.afterDismissed().subscribe((result) => {
-      console.log(result);
       if (result) {
         if (result.action === 'book') {
           this.onBookMarkClick(result.data as BookmarkListModel)

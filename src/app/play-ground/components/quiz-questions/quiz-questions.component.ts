@@ -6,18 +6,17 @@ import { SoundService } from './../../../shared/services/sound.service';
 import { AnimationService } from './../../../shared/services/animation.service';
 import { TimerService } from './../../../shared/services/timer.service';
 import { StudentService } from './../../../dashboard/service/student.service';
-import { Component, ElementRef, EventEmitter, Input, NgZone, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { Time } from '@angular/common';
-import { CategoryEnum, QuizQuestionsModel, QuizResponseModel } from '../../../dashboard/models/quiz-models/quiz.model';
-import { NumberConstant } from '../../../shared/constants/number-constant';
-import { HttpErrorResponse } from '@angular/common/http';
+import { AfterViewChecked, Component, ElementRef, EventEmitter, Input, NgZone, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { CategoryEnum, QuizQuestionsModel } from '../../../dashboard/models/quiz-models/quiz.model';
 import { StudentModel } from '../../../dashboard/models/students/student-list.model';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { GenerateIdConst } from '../../../shared/constants/generate-id.constant';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { CanvasConstant, SoundConstant, SoundConstantUrl } from '../../constants/interation-effects';
 import { InteractionEffectEnum } from '../../model/interaction-effect.model';
 import { Config } from '@lottiefiles/dotlottie-web';
+import { MatRadioChange } from '@angular/material/radio';
+import { NumberConstant } from '../../../shared/constants/number-constant';
+import { StringConstant } from '../../../shared/constants/string-constant';
 
 @Component({
   selector: 'app-quiz-questions',
@@ -38,8 +37,13 @@ export class QuizQuestionsComponent implements OnInit, OnChanges {
   timerInterval: any;
   timerValue!: number;
   isAnimationStopped = false;
+  isValidAnswer: boolean = false;
+
+
   @Output() isSubmit = new EventEmitter<boolean>();
 
+  @ViewChild('correctAnswer', { static: true }) correctAnswer!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('inCorrectAnswer', { static: true }) inCorrectAnswer!: ElementRef<HTMLCanvasElement>;
   @ViewChild('timerCanvas', { static: true }) timerCanvas!: ElementRef<HTMLCanvasElement>;
 
   constructor(private studentService: StudentService, private speechService: SpeechService,
@@ -55,7 +59,7 @@ export class QuizQuestionsComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    // this.getQuestions();
+
   }
 
   ngAfterViewInit(): void {
@@ -67,79 +71,13 @@ export class QuizQuestionsComponent implements OnInit, OnChanges {
           this.stopAnimation(InteractionEffectEnum.TIMER)
         }
       });
+
     }
   }
-
 
   ngOnChanges(changes: SimpleChanges): void {
     this.getRandomQuestion();
     this.resetAnimationState();
-  }
-
-  getRandomQuestion() {
-    // if (this.luckyNum && this.selectedStudent && this.selectedStudent.id) {
-    //   this.currentQuestion = this.quizPlayService.getNextQuestionForStudent(this.selectedStudent);
-
-    //   console.log(this.currentQuestion, 'current question ');
-    // }
-    if (this.currentQuestion) {
-      this.sanitizedQuestion = this.sanitizer.bypassSecurityTrustHtml(this.currentQuestion.question);
-    }
-  }
-
-  // getQuestions() {
-  //   this.quizService.getAllQuizData().subscribe((data: QuizQuestionsModel[]) => {
-  //     if (data && data.length > NumberConstant.ZERO) {
-  //       this.questionList = data;
-  //       this.quizPlayService.setQuizQuestions(this.questionList);
-  //     }
-  //   }, (error: HttpErrorResponse) => console.log(error.error));
-  // }
-
-  loadInteractions(type: InteractionEffectEnum) {
-    switch (type) {
-      case InteractionEffectEnum.TIMER:
-        this.timerService.startTimer(this.currentQuestion?.timer || 40);
-        this.animationService.playAnimation(this.animationConfig(InteractionEffectEnum.TIMER));
-        this.soundService.playSound(SoundConstant.TIMER);
-        break;
-
-      default:
-        break;
-    }
-  }
-
-  stopTImer() {
-    if (this.timerValue) {
-      this.stopAnimation(InteractionEffectEnum.TIMER)
-
-    }
-  }
-
-
-  stopAnimation(type: InteractionEffectEnum): void {
-    if (this.isAnimationStopped) return;
-    switch (type) {
-      case InteractionEffectEnum.TIMER:
-        this.soundService.stopSound(SoundConstant.TIMER);
-        this.timerService.stopTimer();
-        this.animationService.stopAnimation(this.animationConfig(InteractionEffectEnum.TIMER));
-        this.isAnimationStopped = true;
-        break;
-
-      default:
-        break;
-    }
-  }
-
-
-  selectOption(item: string) {
-    this.userAnswer.patchValue(item);
-    console.log(this.userAnswer.value);
-  }
-
-  onReveal() {
-    this.revaelAnswer = true;
   }
 
   submitAnswer() {
@@ -147,16 +85,215 @@ export class QuizQuestionsComponent implements OnInit, OnChanges {
       this.userAnswer.value) {
       this.quizPlayService.submitAnswer(this.selectedStudent,
         this.currentQuestion, this.userAnswer.value);
+        this.resetInterationEffects();
     }
-    this.resetValues();
-    this.isSubmit.emit(true);
+    setImmediate(() => {
+      this.isSubmit.emit(true);
+      this.resetValues();
+
+    })
   }
+
+
+  selectOption(item: string) {
+    this.userAnswer.patchValue(item);
+  }
+
+
+  validateAns(event: MatRadioChange) {
+    if (event.value === StringConstant.TRUE) {
+      this.userAnswer.patchValue(this.currentQuestion?.answer);
+    } else if (event.value === StringConstant.FALSE) {
+      this.userAnswer.patchValue(StringConstant.FALSE);
+    }
+  }
+
+  /**
+   * @function getRandomQuestion
+   * @description function to give the randomised question 
+   */
+
+
+  getRandomQuestion() {
+    if (this.currentQuestion) {
+      this.sanitizedQuestion = this.sanitizer.bypassSecurityTrustHtml(this.currentQuestion.question);
+      this.timerValue = this.currentQuestion.timer || 40;
+    }
+  }
+
+  /**
+   * @function loadInteractions
+   * @description function to play the interactions such as sound, animation, timer
+   * @param type
+   */
+
+  loadInteractions(type: InteractionEffectEnum) {
+    this.resetAnimationState();
+    switch (type) {
+      case InteractionEffectEnum.TIMER:
+        this.timerService.startTimer(this.currentQuestion?.timer || 40);
+        if (this.timerCanvas.nativeElement) {
+          this.animationService.playAnimation(this.animationConfig(InteractionEffectEnum.TIMER));
+        }
+        this.soundService.playSound(SoundConstant.TIMER);
+        break;
+
+      case InteractionEffectEnum.CORRECT:
+        if (this.correctAnswer.nativeElement) {
+          this.animationService.playAnimation(this.animationConfig(InteractionEffectEnum.CORRECT));
+        }
+        this.soundService.playSound(SoundConstant.CORRECT);
+        break;
+
+      case InteractionEffectEnum.WRONG:
+        if (this.inCorrectAnswer.nativeElement) {
+          this.animationService.playAnimation(this.animationConfig(InteractionEffectEnum.WRONG));
+        }
+        this.soundService.playSound(SoundConstant.WRONG);
+
+        break;
+
+      default:
+        break;
+    }
+  }
+
+
+
+
+  stopTImer(flag: boolean) {
+    if (flag && this.currentQuestion?.timer) {
+      this.timeTaken.patchValue(Number(this.currentQuestion?.timer) - this.timerValue);
+    }
+    if (this.timerValue) {
+      this.stopAnimation(InteractionEffectEnum.TIMER)
+    }
+  }
+
+
+  stopAnimation(type: InteractionEffectEnum): void {
+    switch (type) {
+      case InteractionEffectEnum.TIMER:
+        this.soundService.stopSound(SoundConstant.TIMER);
+        this.timerService.stopTimer();
+        if (this.timerCanvas.nativeElement) {
+          this.animationService.stopAnimation(this.animationConfig(InteractionEffectEnum.TIMER));
+        }
+        this.isAnimationStopped = true;
+
+        break;
+
+      case InteractionEffectEnum.CORRECT:
+        if (this.correctAnswer.nativeElement) {
+          this.animationService.stopAnimation(this.animationConfig(InteractionEffectEnum.CORRECT));
+        }
+        this.soundService.stopSound(SoundConstant.CORRECT);
+
+        break;
+
+      case InteractionEffectEnum.WRONG:
+        if (this.inCorrectAnswer.nativeElement) {
+          this.animationService.stopAnimation(this.animationConfig(InteractionEffectEnum.WRONG));
+        }
+        this.soundService.stopSound(SoundConstant.WRONG);
+
+        break;
+
+      default:
+        this.resetAnimationState();
+        break;
+    }
+  }
+
+  onReveal() {
+    this.revaelAnswer = true;
+    if (this.revaelAnswer && this.userAnswer.value === this.currentQuestion?.answer) {
+      this.loadInteractions(InteractionEffectEnum.CORRECT);
+      setTimeout(() => {
+        this.stopAnimation(InteractionEffectEnum.CORRECT);
+        this.soundService.playSound(SoundConstant.CORRECT);
+      }, NumberConstant.FIVE_THOUSAND);
+    } else if (this.userAnswer.value !== this.currentQuestion?.answer) {
+      this.loadInteractions(InteractionEffectEnum.WRONG);
+      setTimeout(() => {
+        this.stopAnimation(InteractionEffectEnum.WRONG);
+        this.soundService.stopSound(SoundConstant.WRONG);
+      }, NumberConstant.FIVE_THOUSAND)
+    }
+  }
+
 
   resetValues() {
     this.currentQuestion = null;
     this.revaelAnswer = false;
     this.quizForm.reset();
     this.quizForm.setErrors(null);
+    this.sanitizedQuestion = '';
+    this.revaelAnswer = false;
+    this.isAnimationStopped = false;
+  }
+
+
+
+  loadSound() {
+    this.soundService.loadSound(SoundConstant.TIMER, {
+      src: SoundConstantUrl.TIMER,
+      loop: true, volume: 2.0
+    });
+    this.soundService.loadSound(SoundConstant.CORRECT, {
+      src: SoundConstantUrl.CORRECT, loop: true
+    });
+    this.soundService.loadSound(SoundConstant.WRONG, {
+      src: SoundConstantUrl.WRONG, loop: true, volume: 2.0
+    });
+    this.soundService.loadSound(SoundConstant.CELEBRATION, {
+      src: SoundConstantUrl.CARD_CLICK, loop: true
+    });
+  }
+
+  animationConfig(type: InteractionEffectEnum): Config {
+    const config: Config = {
+      loop: true, autoplay: true,
+      canvas: null as any
+    };
+    switch (type) {
+      case InteractionEffectEnum.TIMER:
+        config.src = CanvasConstant.TIMER
+        config.canvas = this.timerCanvas.nativeElement;
+
+        return config
+
+      case InteractionEffectEnum.CORRECT:
+        config.src = CanvasConstant.CORRECT
+        config.canvas = this.correctAnswer.nativeElement
+
+        return config
+
+      case InteractionEffectEnum.WRONG:
+        config.src = CanvasConstant.WRONG
+        config.canvas = this.inCorrectAnswer.nativeElement
+        return config
+
+      default:
+        return null as any;
+    }
+
+  }
+
+  resetAnimationState(): void {
+    this.isAnimationStopped = false;
+  }
+
+  getQuestionId(): string {
+    if (this.currentQuestion && this.currentQuestion.id) {
+      return this.currentQuestion.id.replace(/\D/g, '');
+    }
+    return '';
+  }
+
+  getActiveRadio(item: string) {
+    const res = (this.userAnswer.value as string).trim() === item.trim();
+    return res
   }
 
 
@@ -164,39 +301,42 @@ export class QuizQuestionsComponent implements OnInit, OnChanges {
     return this.quizForm.get('userAnswer') as AbstractControl
   }
 
-  loadSound() {
-    this.soundService.loadSound(SoundConstant.TIMER, SoundConstantUrl.TIMER);
-    this.soundService.loadSound(SoundConstant.CORRECT, SoundConstantUrl.CORRECT);
-    this.soundService.loadSound(SoundConstant.WRONG, SoundConstantUrl.WRONG);
-    this.soundService.loadSound(SoundConstant.CELEBRATION, SoundConstantUrl.CARD_CLICK);
+  get userOption(): AbstractControl {
+    return this.quizForm.get('userOption') as AbstractControl
   }
 
-  animationConfig(type: InteractionEffectEnum): Config {
-    const config: Config = {
-      canvas: this.timerCanvas.nativeElement,
-      loop: true, autoplay: true
-    };
-    switch (type) {
-      case InteractionEffectEnum.TIMER:
-        config.src = CanvasConstant.TIMER
-        break;
+  get manulAns(): AbstractControl {
+    return this.quizForm.get('manulAns') as AbstractControl
+  }
 
-      default:
-        break;
+  get timeTaken(): AbstractControl {
+    return this.quizForm.get('timeTaken') as AbstractControl
+  }
+
+  resetInterationEffects() {
+    if (this.timerCanvas.nativeElement) {
+      this.animationService.stopAnimation(this.animationConfig(InteractionEffectEnum.TIMER))
     }
-    return config
+    if (this.correctAnswer.nativeElement) {
+      this.animationService.stopAnimation(this.animationConfig(InteractionEffectEnum.CORRECT))
+    }
+    if (this.inCorrectAnswer.nativeElement) {
+      this.animationService.stopAnimation(this.animationConfig(InteractionEffectEnum.WRONG))
+      this.soundService.stopSound(SoundConstant.CORRECT);
+      this.soundService.stopSound(SoundConstant.TIMER);
+      this.soundService.stopSound(SoundConstant.WRONG);
+      this.timerService.stopTimer();
+    }
   }
 
-  resetAnimationState(): void {
-    this.isAnimationStopped = false;
-  }
 
   createForm(): FormGroup {
     return this.fb.group({
-      question: ['', [Validators.required]],
+      question: ['', []],
       userAnswer: ['', [Validators.required]],
-      userOption: ['', [Validators.required]],
-
+      userOption: [null, []],
+      manulAns: [null, []],
+      timeTaken: [null]
     })
   }
 

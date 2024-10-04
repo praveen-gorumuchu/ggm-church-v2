@@ -5,7 +5,7 @@ export interface DataTableActions {
 }
 
 export namespace ActionType {
-  export type StatusEnum = 'Edit' | 'Delete' | 'View' | 'Register' | 'Print'|'Cancel'|'PrintAll' | 'AssessmentStart' | 'Download'| 'Download ALL'| 'Preview' | 'Excel'|'Update';
+  export type StatusEnum = 'Edit' | 'CLOSE' | 'Delete' | 'View' | 'Register' | 'Print'|'Cancel'|'PrintAll' | 'AssessmentStart' | 'Download'| 'Download ALL'| 'Preview' | 'Excel'|'Update';
   export const StatusEnum = {
     EDIT: 'Edit' as StatusEnum,
     DELETE: 'Delete' as StatusEnum,
@@ -22,6 +22,7 @@ export namespace ActionType {
     DOWNLOADALL: 'Download All' as StatusEnum,
     PREVIEW: 'Preview' as StatusEnum,
     EXCEL: 'Excel' as StatusEnum,
-    DOWNLOADCERT: 'Download Certificate' as StatusEnum
+    DOWNLOADCERT: 'Download Certificate' as StatusEnum,
+    CLOSE: 'CLOSE' as StatusEnum,
   }
 }

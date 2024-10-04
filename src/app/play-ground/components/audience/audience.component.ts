@@ -23,6 +23,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { PlayGroundConstant } from '../../constants/play-ground-contant';
 import { TransliterationConst } from '../../constants/transliteration.constant';
 import { QuizNaviationEnum, QuizNavigationArrowEnum, QuizNavigationStatus } from '../../model/quiz-navigation.model';
+import { LocalStorageService } from '../../../shared/services/local-storage.service';
+import { GenerateIdConst } from '../../../shared/constants/generate-id.constant';
+import { MatDailogComponent } from '../../../shared/components/mat-dailog/mat-dailog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogData } from '../../../shared/constants/dailog-constant';
+import { Route, Router } from '@angular/router';
+import { RouterConstant } from '../../../shared/constants/router.constant';
 
 
 @Component({
@@ -58,7 +65,8 @@ export class AudienceComponent implements OnInit {
     private soundService: SoundService, private studentService: StudentService,
     private utilSharedService: UtilSharedService, private fb: FormBuilder,
     private speechService: SpeechService, private quizPlayService: QuizPlayService,
-    private quizService: QuizService) {
+    private quizService: QuizService, private localStorageService: LocalStorageService,
+    public dialog: MatDialog, private router: Router) {
     this.quizForm = this.createFormGroup();
     this.enableStudentSelection = true;
     this.getStudents();
@@ -73,6 +81,11 @@ export class AudienceComponent implements OnInit {
   }
 
   getQuestions() {
+    // const data = this.localStorageService.getData(GenerateIdConst.quiz);
+    // if(data){
+    //   this.questionList = data;
+    //   this.quizPlayService.setQuizQuestions(this.questionList);
+    // }
     this.quizService.getAllQuizData().subscribe((data: QuizQuestionsModel[]) => {
       if (data && data.length > NumberConstant.ZERO) {
         this.questionList = data;
@@ -176,33 +189,55 @@ export class AudienceComponent implements OnInit {
     this.resetNavigation();
     this.resetArrows();
     this.enableQuestion = true;
-    if (evnt && evnt !== null) {
-      this.luckyNumber = evnt
-      this.navigationStatus = {
-        next: QuizNaviationEnum.QZ_QUESTION_SCREEN
-      };
-      this.quizPlayService.addStudent(this.studentName.value);
-      this.getRandomQuestion();
-    }
+    this.luckyNumber = evnt
+    this.navigationStatus = {
+      next: QuizNaviationEnum.QZ_QUESTION_SCREEN
+    };
+    this.quizPlayService.addStudent(this.studentName.value);
+    this.getRandomQuestion();
+
   }
 
   isSubmitted(evnt: boolean) {
+    const remainingPool = this.quizPlayService.getRemainingPoolList().length > 0;
     if (evnt) {
       this.resetNavigation();
       this.resetArrows();
-      this.enableStudentSelection = true;
-      this.currentStudentIndex++;
-      const currentStudent = this.studentList[this.currentStudentIndex];
-      this.studentName.patchValue(currentStudent);
-      this.onStudentSelection();
+      if (remainingPool) {
+        this.enableStudentSelection = true;
+        this.currentStudentIndex++;
+        const currentStudent = this.studentList[this.currentStudentIndex];
+        this.studentName.patchValue(currentStudent);
+        this.onStudentSelection();
+      } else {
+        this.openDailog();
+      }
     }
+  }
+
+  openDailog() {
+    const dialogRef = this.dialog.open(MatDailogComponent, {
+      data: DialogData.noQuestionsLeft
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+          this.router.navigate([RouterConstant.evaluation])
+      }
+    });
+
+
   }
 
 
   getRandomQuestion() {
-    if (this.luckyNumber && this.studentName.value && this.studentName.value.id) {
+    const isStudentExist = this.studentName.value && this.studentName.value.id || false;
+    const remainingPool = this.quizPlayService.getRemainingPoolList().length > 0;
+    if (isStudentExist && remainingPool) {
       this.currentQuestion = this.quizPlayService.getNextQuestionForStudent(this.studentName.value);
-      console.log(this.currentQuestion, 'current question ');
+    } else {
+      this.currentQuestion = null;
+      this.resetNavigation();
     }
   }
 

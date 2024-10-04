@@ -54,13 +54,9 @@ export class SpeechService {
         this.utterance.pitch = 1; // Pitch of the speech
         this.speechSynthesis.speak(this.utterance);
       } else {
-        console.warn('Telugu voice not found. Defaulting to English.');
         this.speak(text); // Fallback to English or default voice
-        alert('Telugu voice is not supported in your browser.');
       }
-    } else {
-      console.error('Speech Synthesis API is not supported in this browser.');
-    }
+    } 
   }
   
   stop(): void {

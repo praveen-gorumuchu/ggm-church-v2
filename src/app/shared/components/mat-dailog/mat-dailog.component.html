@@ -1,0 +1,21 @@
+<section class="container px-4 py-2">
+    <ng-container *ngIf="data">
+        <div class="row">
+            <div class="col">
+                <div class="info-dailog">
+                    <h2> {{ data.title }} </h2>
+                    <p> {{ data.subTitle }} </p>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end py-3">
+            <ng-container *ngFor="let button of data.buttons">
+                <button mat-button (click)="onButtonClick(button)"> {{ button.name}} </button>
+            </ng-container>
+
+        </div>
+
+    </ng-container>
+
+
+</section>

@@ -14,14 +14,14 @@ export class PaticipentComponent {
   @Input() studentName!: any;
   cards = CardColors.colors;
   @Output() cardEmitter = new EventEmitter<number>();
-  
+
   constructor(private soundService: SoundService) {
     this.loadSounds();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnChanges(changes: SimpleChanges): void { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   getCard(i: number): string {
     return `card${i}`
@@ -33,7 +33,7 @@ export class PaticipentComponent {
     this.soundService.playSound(SoundConstant.CARD_CLICK);
     setTimeout(() => {
       this.soundService.stopSound(SoundConstant.CARD_CLICK);
-    }, NumberConstant.TWO_THOUSAND);
+    }, NumberConstant.THREE_THOUSAND);
   }
 
   getCardStyles(index: number): { [key: string]: string } {
@@ -47,8 +47,10 @@ export class PaticipentComponent {
   }
 
   loadSounds() {
-    this.soundService.loadSound(SoundConstant.CARD_CLICK, SoundConstantUrl.CARD_CLICK)
-    this.soundService.loadSound(SoundConstant.CARD_CLICK, SoundConstantUrl.CARD_CLICK)
+    this.soundService.loadSound(SoundConstant.CARD_CLICK, {
+      src: SoundConstantUrl.CARD_CLICK,
+      autoplay: false, loop: false, volume: 3.0
+    })
   }
 
   ngOnDestroy(): void {

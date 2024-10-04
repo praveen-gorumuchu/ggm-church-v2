@@ -19,5 +19,6 @@ export class TableColumnsConstant {
   static readonly type = 'type';
   static readonly question = 'question';
   static readonly value = 'value';
+  static readonly answer = 'answer';
 
 }

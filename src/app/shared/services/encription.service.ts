@@ -12,7 +12,6 @@ export class EncriptionService {
 
   encrypt(value: string): string {
     const bytes = CryptoJS.AES.encrypt(value, environment.barrer).toString();
-    console.log(bytes, 'decrpt', this.decrypt(bytes));
     return bytes;
   }
 

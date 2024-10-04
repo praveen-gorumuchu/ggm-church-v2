@@ -1,5 +1,5 @@
 import { CategoryEnum, CategoryListModel, QuizQuestionsModel } from "../../dashboard/models/quiz-models/quiz.model";
-import { UserInfo } from "../../shared/models/user-data/uder-list.model";
+import { UserInfo, UserRoleEnum } from "../../shared/models/user-data/uder-list.model";
 
 export interface StudentHistoryModel {
   studentId: string,
@@ -29,7 +29,8 @@ export interface QuizResult {
   wrongAnswers: number;
   score: number;
   attemptedDate: Date;
-  orgnasidedBy: UserInfo;
+  organisedBy: UserRoleEnum;
+  organizer: string,
   answeredQuestions: Array<AnsweredQuestion>
   
 }

@@ -9,6 +9,14 @@
           <mat-icon>{{ speechEnabled ? 'volume_up' : 'volume_off' }}</mat-icon>
           {{ speechEnabled ? 'Disable Speech' : 'Enable Speech' }}
         </button>
+        <span class="m-1">
+          <a href="/dashboard/home" target="_self" mat-button>
+            Dashboard
+          </a>
+        </span>
+        <span class="m-1">
+          <button mat-button (click)="endQuiz()">End quiz</button>
+        </span>
       </div>
     </div>
   </mat-toolbar>

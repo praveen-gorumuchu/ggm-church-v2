@@ -81,12 +81,10 @@ export class CreateQuizComponent implements OnChanges, OnInit, OnChanges {
       this.messageBarService.showErorMsgBar(StringConstant.ERROR_MSG);
       return
     }
-    console.log(this.quizForm)
     const combinedData: QuizQuestionsModel[] = [...this.getNewData(), ...this.questionList];
     const uniqueData = this.utilService.removeDuplicates(combinedData);
     const data: QuizResponseModel = { data: uniqueData }
     this.localStorageService.setData(GenerateIdConst.quiz, uniqueData);
-    console.log(uniqueData);
     this.messageBarService.showSuccessMsgBar(StringConstant.CREATE_SUCCESS);
     this.quizQuestions.clear();
     this.initializeData();

@@ -26,8 +26,6 @@ export class SongsComponent implements OnInit {
       if (iframe.requestFullscreen) {
         iframe.requestFullscreen();
       }
-    } else {
-      console.error('Iframe element not found.');
     }
   }
 }

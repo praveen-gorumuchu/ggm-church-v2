@@ -24,6 +24,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShorterTextDirective } from './directives/shorter-text.directive';
 import { AllowedNumbersDirective } from './directives/allowed-number.directive';
+import { MatDailogComponent } from './components/mat-dailog/mat-dailog.component';
 
 
 const materialModules = [
@@ -52,6 +53,7 @@ const materialModules = [
     DialogComponent,
     ShorterTextDirective,
     AllowedNumbersDirective,
+    MatDailogComponent,
   ],
   imports: [
     CommonModule,

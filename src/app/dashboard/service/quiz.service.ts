@@ -82,9 +82,7 @@ export class QuizService {
         document.body.removeChild(a);
         window.URL.revokeObjectURL(url);
       });
-    } else {
-      console.error('No data found in localStorage');
-    }
+    } 
   }
 
 
@@ -115,6 +113,8 @@ export class QuizService {
       { key: TableColumnsConstant.ID, display: DataTableHeaderMapper.questionId },
       { key: TableColumnsConstant.question, display: DataTableHeaderMapper.question,
         config: { isSmallText: true, max: 20 }
+       },
+       { key: TableColumnsConstant.answer, display: DataTableHeaderMapper.question,
        },
       {
         key: TableColumnsConstant.type, display: DataTableHeaderMapper.category,
