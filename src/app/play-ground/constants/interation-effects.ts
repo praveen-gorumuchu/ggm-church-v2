@@ -10,11 +10,11 @@ export class CanvasConstant {
 }
 
 export const SoundConstantUrl = {
-    CARD_CLICK: '../../../../assets/sounds/Correct_answer.wav',
-    WRONG: '../../../assets/sounds/wrong.mp3',
-    CORRECT: '../../../assets/sounds/Correct_answer.wav',
-    CELEBRATION: '../../../assets/sounds/celebration.mp3',
-    TIMER: '../../../../assets/sounds/clock_sound.wav',
+    CARD_CLICK: 'assets/sounds/Correct_answer.wav',
+    WRONG: 'assets/sounds/wrong.mp3',
+    CORRECT: 'assets/sounds/Correct_answer.wav',
+    CELEBRATION: 'assets/sounds/celebration.mp3',
+    TIMER: 'assets/sounds/clock_sound.wav',
 }
 
 export const SoundConstant = {
