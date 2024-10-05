@@ -215,6 +215,8 @@ export class AudienceComponent implements OnInit {
       } else this.openDailog();
       if (this.currentStudentIndex >= this.studentList.length) {
         this.round++;
+        this.currentStudentIndex = -1;
+        this.studentName.patchValue(this.studentList[0]);
       }
     }
   }
@@ -226,6 +228,7 @@ export class AudienceComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        this.quizPlayService.endQuiz();
         this.router.navigate([RouterConstant.evaluation])
       }
     });
@@ -278,6 +281,7 @@ export class AudienceComponent implements OnInit {
     this.enableCard = false;
     this.forwardArrow = false;
     this.backWardArow = false;
+    this.quizPlayService.endQuiz();
   }
 
 }

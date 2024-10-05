@@ -8,7 +8,7 @@ import { StorageKeyConstant } from '../../../shared/constants/storage-keys.const
 import { TableCols, TableHeaders } from '../../../shared/models/new/table-headers.model copy';
 import { QuizResult } from '../../model/student-history.model';
 import { LocalStorageService } from './../../../shared/services/local-storage.service';
-import { AfterViewInit, Component, ElementRef, ViewChild, } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, } from '@angular/core';
 import { StringConstant } from '../../../shared/constants/string-constant';
 import { ActionType, DataTableActions } from '../../../shared/models/new/data-table-actions';
 import { CanvasConstant, SoundConstant, SoundConstantUrl } from '../../constants/interation-effects';
@@ -19,7 +19,7 @@ import { InteractionEffectEnum } from '../../model/interaction-effect.model';
   templateUrl: './leader-board.component.html',
   styleUrl: './leader-board.component.scss'
 })
-export class LeaderBoardComponent implements AfterViewInit {
+export class LeaderBoardComponent implements AfterViewInit, OnDestroy{
 
   resultList: QuizResult[] = [];
   headers: TableHeaders[] = [];
@@ -57,17 +57,21 @@ export class LeaderBoardComponent implements AfterViewInit {
         this.resultList && this.resultList.length > NumberConstant.ZERO) {
         this.showCelebration = true;
         setTimeout(() => {
-          this.soundService.stopSound(SoundConstant.CELEBRATION);
-          this.animationService.stopAnimation({
-            src: CanvasConstant.CELEBRATION,
-            canvas: this.celebrationCanvas.nativeElement
-          });
-          this.showCelebration = false;
+          this.stopAnimation();
         }, NumberConstant.THIRTY * NumberConstant.THOUSAND)
       } else {
         this.messageBarService.showErorMsgBar(StringConstant.ERROR_MSG)
       }
     }
+  }
+
+  stopAnimation() {
+    this.soundService.stopSound(SoundConstant.CELEBRATION);
+    this.animationService.stopAnimation({
+      src: CanvasConstant.CELEBRATION,
+      canvas: this.celebrationCanvas.nativeElement
+    });
+    this.showCelebration = false;
   }
 
   loadInteractions() {
@@ -112,6 +116,10 @@ export class LeaderBoardComponent implements AfterViewInit {
   }
   actionItems(event: DataTableActions) {
     console.log(event)
+  }
+
+  ngOnDestroy(): void {
+      this.stopAnimation();
   }
 
 }
