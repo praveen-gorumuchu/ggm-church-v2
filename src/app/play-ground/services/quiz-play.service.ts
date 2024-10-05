@@ -11,6 +11,7 @@ import { TitleConstant } from '../../shared/constants/title.constant';
 import moment from 'moment';
 import { StringConstant } from '../../shared/constants/string-constant';
 import { MomentFormats } from '../../shared/constants/moment-formats';
+import { NumberConstant } from '../../shared/constants/number-constant';
 
 @Injectable({
   providedIn: 'root',
@@ -94,7 +95,7 @@ export class QuizPlayService {
    * @param question - The question being answered.
    * @param userAnswer - The answer submitted by the student.
    */
-  submitAnswer(studentData: StudentModel, question: QuizQuestionsModel, userAnswer: any) {
+  submitAnswer(studentData: StudentModel, question: QuizQuestionsModel, userAnswer: any, timeTaken: number) {
     const student = this.studentsHistory.find(s => s.studentId === studentData.id);
 
     if (!student) {
@@ -107,7 +108,7 @@ export class QuizPlayService {
     }
 
     this.removeQuestionFromGlobalPool(question);
-    this.recordAnsweredQuestion(student, question, userAnswer);
+    this.recordAnsweredQuestion(student, question, userAnswer, timeTaken);
   }
 
   /**
@@ -156,16 +157,77 @@ export class QuizPlayService {
    * @param question - The question that was answered.
    * @param userAnswer - The answer submitted by the student.
    */
-  private recordAnsweredQuestion(student: StudentHistoryModel, question: QuizQuestionsModel, userAnswer?: any) {
+  private recordAnsweredQuestion(student: StudentHistoryModel,
+    question: QuizQuestionsModel, userAnswer: any, timeTaken: number) {
     student.answeredQuestions.push({
       id: question.id,
       question: question.question,
       type: question.type,
       answer: question.answer,
       userAnswer,
+      timeTaken,
       options: question.options || [],
     } as AnsweredQuestion);
   }
+
+  /**
+  * Calculate results for a specific student, including score and percentage.
+  * @param student - The student for whom to calculate the results.
+  * @returns The calculated result for the student.
+  */
+  private calculateResultsForStudent(student: StudentHistoryModel): QuizResult {
+    const correctAnswers: AnsweredQuestion[] =
+      student.answeredQuestions.filter((answeredQuestion: AnsweredQuestion) =>
+        answeredQuestion.userAnswer === answeredQuestion.answer
+      );
+
+    const wrongAnswers: AnsweredQuestion[] =
+      student.answeredQuestions.filter((answeredQuestion: AnsweredQuestion) =>
+        answeredQuestion.userAnswer !== answeredQuestion.answer
+      );
+
+    let totalScore = 0;
+    const maxPoints = 10;
+
+    correctAnswers.forEach(answeredQuestion => {
+      const question = this.quizQuestions.find(q => q.id === answeredQuestion.id); //
+      const totalTime = question ? question.timer : 40;
+
+      const firstThird = totalTime / 3; // First third of the total time
+      const secondThird = 2 * firstThird; // Second third of the total time
+
+      const timeTaken = answeredQuestion.timeTaken;
+
+      if (timeTaken <= firstThird) {
+        totalScore += maxPoints; // Full points for fast responses
+      } else if (timeTaken <= secondThird) {
+        totalScore += maxPoints * 0.65; // Reduced points for mid-range responses
+      } else {
+        totalScore += maxPoints * 0.3; // Minimal points for slow responses
+      }
+    });
+
+    const totalPossibleScore = student.answeredQuestions.length * maxPoints;
+    totalScore = Math.min(totalScore, totalPossibleScore);
+
+    const percentage = (totalScore / totalPossibleScore) * 100;
+
+    return {
+      studentId: student.studentId,
+      class: student.class,
+      studentName: student.studentName,
+      totalQuestions: student.answeredQuestions.length,
+      correctAnswers: correctAnswers.length,
+      wrongAnswers: wrongAnswers.length,
+      score: totalScore,
+      percentage: percentage,
+      organisedBy: this.loginService.loginUser.role,
+      organizer: this.loginService.loginUser.name,
+      attemptedDate: new Date(),
+      answeredQuestions: student.answeredQuestions,
+    };
+  }
+
 
   /**
    * End the quiz session and calculate results for all students.
@@ -173,36 +235,9 @@ export class QuizPlayService {
    * @returns An array of results for each student.
    */
   endQuiz(): QuizResult[] {
-    const results: QuizResult[] = this.studentsHistory.map((student: StudentHistoryModel) => {
-      const correctAnswers: AnsweredQuestion[] =
-        student.answeredQuestions.filter((answeredQuestion: AnsweredQuestion) =>
-          answeredQuestion.userAnswer === answeredQuestion.answer
-        );
-
-      const wrongAnswers: AnsweredQuestion[] =
-        student.answeredQuestions.filter((answeredQuestion: AnsweredQuestion) =>
-          answeredQuestion.userAnswer !== answeredQuestion.answer
-        );
-
-      const totalScore = correctAnswers.length * 10;
-      const totalPossibleScore = student.answeredQuestions.length * 10;
-      const percentage = (totalScore / totalPossibleScore) * 100;
-
-      return {
-        studentId: student.studentId,
-        class: student.class,
-        studentName: student.studentName,
-        totalQuestions: student.answeredQuestions.length,
-        correctAnswers: correctAnswers.length,
-        wrongAnswers: wrongAnswers.length,
-        score: totalScore,
-        percentage: percentage,  // Calculate percentage
-        organisedBy: this.loginService.loginUser.role,
-        organizer: this.loginService.loginUser.name,
-        attemptedDate: new Date(),
-        answeredQuestions: student.answeredQuestions,
-      };
-    });
+    const results: QuizResult[] = this.studentsHistory.map((student: StudentHistoryModel) =>
+      this.calculateResultsForStudent(student) // Use the new method to calculate results
+    );
 
     // Sort students by score to determine the ranking
     const sortedResults = results.sort((a, b) => b.score - a.score);
@@ -211,12 +246,16 @@ export class QuizPlayService {
     sortedResults.forEach((result: QuizResult, index) => {
       result.rank = index + 1;  // Rank starts from 1
     });
-    const dateTime = moment(new Date()).format(MomentFormats.MOMENT_MONTH_DATE_YEAR_TIME);
-    localStorage.setItem(`${StorageKeyConstant.quiz_result}_${dateTime}`,
-      JSON.stringify(sortedResults));
-      this.resetData();
-    // this.utilSharedService.downloadJsonFile(`${StringConstant.quizResult}`,
-    //   `${TitleConstant.QUIZ_RESULT}_${moment(new Date()).format(MomentFormats.MOMENT_DAY_MONTH_DATE_YEAR_TIME)}`)
+
+    
+    if (sortedResults && sortedResults.length > NumberConstant.ZERO) {
+      const dateTime = moment(new Date()).format(MomentFormats.MOMENT_MONTH_DATE_YEAR_TIME);
+      localStorage.setItem(`${StorageKeyConstant.quiz_result}_${dateTime}`,
+        JSON.stringify(sortedResults));
+    }
+
+
+    this.resetData();
     return sortedResults;
   }
 

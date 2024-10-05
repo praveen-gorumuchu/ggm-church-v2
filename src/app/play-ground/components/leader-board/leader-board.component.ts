@@ -1,3 +1,5 @@
+import { AnimationService } from './../../../shared/services/animation.service';
+import { SoundService } from './../../../shared/services/sound.service';
 import { MessageBarService } from './../../../shared/services/message-bar.service';
 
 import { StudentService } from '../../../dashboard/service/student.service';
@@ -6,24 +8,38 @@ import { StorageKeyConstant } from '../../../shared/constants/storage-keys.const
 import { TableCols, TableHeaders } from '../../../shared/models/new/table-headers.model copy';
 import { QuizResult } from '../../model/student-history.model';
 import { LocalStorageService } from './../../../shared/services/local-storage.service';
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, } from '@angular/core';
 import { StringConstant } from '../../../shared/constants/string-constant';
 import { ActionType, DataTableActions } from '../../../shared/models/new/data-table-actions';
+import { CanvasConstant, SoundConstant, SoundConstantUrl } from '../../constants/interation-effects';
+import { InteractionEffectEnum } from '../../model/interaction-effect.model';
 
 @Component({
   selector: 'app-leader-board',
   templateUrl: './leader-board.component.html',
   styleUrl: './leader-board.component.scss'
 })
-export class LeaderBoardComponent {
+export class LeaderBoardComponent implements AfterViewInit {
 
   resultList: QuizResult[] = [];
   headers: TableHeaders[] = [];
   podiumList: QuizResult[] = [];
+  showCelebration: boolean = false;
+
+  @ViewChild('celebrationCanvas', { static: false }) celebrationCanvas!: ElementRef<HTMLCanvasElement>;
 
   constructor(private localStorageService: LocalStorageService,
-    private studentService: StudentService, private messageBarService: MessageBarService) {
+    private studentService: StudentService, private messageBarService: MessageBarService,
+    private soundService: SoundService, private animationService: AnimationService) {
     this.getResult();
+    this.loadSound();
+  }
+
+
+  ngAfterViewInit(): void {
+    if(this.celebrationCanvas && this.celebrationCanvas.nativeElement) {
+      this.loadInteractions();
+    }
   }
 
   getResult() {
@@ -33,14 +49,56 @@ export class LeaderBoardComponent {
       const localData = this.localStorageService.getData(`${StorageKeyConstant.quiz_result}_${getLatest}`);
       this.resultList = localData as QuizResult[];
       const topThree = this.resultList.splice(0, 3);
-      this.podiumList = topThree.sort((a: any, b: any) => b?.rank - a?.rank);
+      this.setPodium(topThree);
       if (this.resultList && this.resultList.length > NumberConstant.ZERO) {
         this.headers = this.studentService.setLeaderBoardHeaders();
+        this.showCelebration = true;
+        setTimeout(() => {
+          this.soundService.stopSound(SoundConstant.CELEBRATION);
+          this.animationService.stopAnimation({
+            src: CanvasConstant.CELEBRATION,
+            canvas: this.celebrationCanvas.nativeElement
+          });
+          this.showCelebration = false;
+        }, NumberConstant.THIRTY * NumberConstant.THOUSAND)
       } else {
         this.messageBarService.showErorMsgBar(StringConstant.ERROR_MSG)
       }
     }
   }
+
+  loadInteractions() {
+    if (this.celebrationCanvas && this.celebrationCanvas.nativeElement) {
+      this.animationService.playAnimation({
+        src: CanvasConstant.CELEBRATION,
+        canvas: this.celebrationCanvas.nativeElement
+      });
+    }
+    this.soundService.playSound(SoundConstant.CELEBRATION);
+  }
+
+  setPodium(data: QuizResult[]) {
+    this.podiumList = [
+      data[1],
+      data[0],
+      data[2]
+    ];
+  }
+
+  getCssClass(index: number): string {
+    return index === 1 ? 'first' : index === 0 ? 'second' : 'third'
+  }
+
+
+  loadSound() {
+    this.soundService.loadSound(SoundConstant.CELEBRATION, {
+      src: SoundConstantUrl.CELEBRATION,
+      loop: false, volume: 2.0
+    });
+  }
+
+
+
   findLatestDate(dates: string[]): string {
     return dates
       .map(date => date.replace(`${StorageKeyConstant.quiz_result}_`, '')) // Remove the base key

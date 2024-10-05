@@ -17,7 +17,7 @@ export interface QuizQuestionsModel {
     deletedBy: string;
     deletionDate: Date | null;
     version?: number;
-    timer?: number
+    timer: number
   }
 
   export interface QuizResponseModel {

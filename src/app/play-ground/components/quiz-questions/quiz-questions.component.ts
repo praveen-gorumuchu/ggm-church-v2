@@ -84,7 +84,7 @@ export class QuizQuestionsComponent implements OnInit, OnChanges {
     if (this.currentQuestion && this.selectedStudent && this.selectedStudent.id &&
       this.userAnswer.value) {
       this.quizPlayService.submitAnswer(this.selectedStudent,
-        this.currentQuestion, this.userAnswer.value);
+        this.currentQuestion, this.userAnswer.value, this.timeTaken.value);
         this.resetInterationEffects();
     }
     setImmediate(() => {
@@ -158,17 +158,18 @@ export class QuizQuestionsComponent implements OnInit, OnChanges {
     }
   }
 
-
-
-
   stopTImer(flag: boolean) {
-    if (flag && this.currentQuestion?.timer) {
-      this.timeTaken.patchValue(Number(this.currentQuestion?.timer) - this.timerValue);
-    }
-    if (this.timerValue) {
-      this.stopAnimation(InteractionEffectEnum.TIMER)
+    if (flag) {
+      if (this.currentQuestion && this.currentQuestion.timer !== undefined) {
+        const timeTaken = Number(this.currentQuestion.timer) - this.timerValue;
+        this.timeTaken.patchValue(timeTaken);
+      }
+      if (this.timerValue) {
+        this.stopAnimation(InteractionEffectEnum.TIMER);
+      }
     }
   }
+  
 
 
   stopAnimation(type: InteractionEffectEnum): void {

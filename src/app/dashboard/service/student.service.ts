@@ -115,6 +115,7 @@ export class StudentService {
         }
       },
       { key: TableColumnsConstant.studentName, display: DataTableHeaderMapper.name },
+      { key: TableColumnsConstant.score, display: DataTableHeaderMapper.score },
       { key: TableColumnsConstant.percentage, display: DataTableHeaderMapper.percentage },
     ]
   }

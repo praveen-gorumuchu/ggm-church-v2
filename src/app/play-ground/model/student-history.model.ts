@@ -19,7 +19,7 @@ export interface AnsweredQuestion {
   answer?: string;
   userAnswer: string | boolean;
   options?: string[];
-  timeTaken?: number
+  timeTaken: number
 }
 
 
@@ -37,5 +37,4 @@ export interface QuizResult {
   answeredQuestions: Array<AnsweredQuestion>,
   percentage?: number,
   rank?: number
-  
 }

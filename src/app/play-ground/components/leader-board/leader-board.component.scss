@@ -1,96 +1,134 @@
 ::ng-deep {
-    .leader-board-section.dark {
-      .table-responsive {
-        background: none;
-        box-shadow: none;
+  .leader-board-section.dark {
+    .table-responsive {
+      background: none;
+      box-shadow: none;
+    }
+
+    .mat-mdc-table {
+      background-color: transparent;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+      /* Add vertical gap between rows */
+    }
+
+    .mat-mdc-header-row,
+    .mat-mdc-row {
+      background-color: #283243;
+      color: #fff;
+      border: none !important;
+    }
+
+    .mat-mdc-cell {
+      border: none !important;
+
+      /* Apply border-radius to first and last cells */
+      &:first-child {
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
       }
-  
-      .mat-mdc-table {
-        background-color: transparent;
-        border-collapse: separate;
-        border-spacing: 0 10px; /* Add vertical gap between rows */
+
+      &:last-child {
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
       }
-  
-      .mat-mdc-header-row,
-      .mat-mdc-row {
-        background-color: #283243;
-        color: #fff;
+    }
+
+    .mat-mdc-header-row {
+      background-color: #283243;
+
+      .mat-mdc-header-cell {
         border: none !important;
-      }
-  
-      .mat-mdc-cell {
-        border: none !important;
-        /* Apply border-radius to first and last cells */
+
+        /* Apply border-radius to the header row cells */
         &:first-child {
           border-top-left-radius: 8px;
           border-bottom-left-radius: 8px;
         }
+
         &:last-child {
           border-top-right-radius: 8px;
           border-bottom-right-radius: 8px;
         }
       }
-  
-      .mat-mdc-header-row {
-        background-color: #283243;
-        .mat-mdc-header-cell {
-          border: none !important;
-          /* Apply border-radius to the header row cells */
-          &:first-child {
-            border-top-left-radius: 8px;
-            border-bottom-left-radius: 8px;
-          }
-          &:last-child {
-            border-top-right-radius: 8px;
-            border-bottom-right-radius: 8px;
-          }
-        }
-      }
-      .podium {
-        display: flex;
-        justify-content: center;
-        align-items: flex-end;
-        gap: 10px; /* Space between boxes */
-      }
-      
+    }
+
+    .podium {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 10px;
+      position: relative;
+
       .podium-box {
-        flex: 1; /* Ensures all boxes have equal width */
-        background-color: #283243; /* Podium background */
-        color: #fff;
+        flex: 1;
+        background-color: #283243;
         text-align: center;
         padding: 20px;
         border-radius: 8px;
         font-weight: bold;
+        height: auto;
+        overflow: hidden;
+        transition: transform 0.3s; // Add transition for smooth scaling
+
+        &.first {
+          min-height: 250px;
+        }
+
+        &.second,
+        &.third {
+          .circle {
+            top: -3%;
+          }
+        }
+
+        .circle {
+          width: 88px;
+          height: 88px;
+          background: #1c222e;
+          border-radius: 50%;
+          position: absolute;
+          top: -50px;
+          z-index: 1;
+
+          img {
+            width: 60px;
+          }
+
+        }
+
+        &::after {}
+
+        .rank-detials {
+          .score {
+            color: #76839a;
+            font-weight: 400;
+          }
+
+          h3 {
+            color: #ead8b1;
+          }
+        }
       }
-      
-      /* Heights for podium boxes */
-      .podium-box.first {
-        height: 150px; /* Top 1 should be highest */
-      }
-      
-      .podium-box.second {
-        height: 130px; /* Second place */
-      }
-      
-      .podium-box.third {
-        height: 110px; /* Third place */
-      }
-      
-      /* Make sure Top 1 is in the center */
-      .podium-box.first {
-        order: 0; /* Center position */
-      }
-      
-      .podium-box.second {
-        order: 1; /* Left */
-      }
-      
-      .podium-box.third {
-        order: 2; /* Right */
-      }
-      
-      
-      
     }
+
   }
-  
+
+  .celebration-canvas {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .background-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+  }
+
+
+}

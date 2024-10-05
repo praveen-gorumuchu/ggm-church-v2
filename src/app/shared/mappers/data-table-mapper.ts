@@ -23,6 +23,7 @@ export enum DataTableHeaderMapper {
     correctAnswers = "Correct Answers",
     wrongAnswers = "Wrong Ans",
     totalQuestions = "Total Questions",
-    organisedBy = "Organised By"
+    organisedBy = "Organised By",
+    score = "Earned Points"
   }
   
