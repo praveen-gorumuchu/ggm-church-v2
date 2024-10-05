@@ -29,12 +29,13 @@ export class SpeechService {
   }
 
   // Speak in English (or default language)
-  speak(text: string, rate = 1, pitch = 1): void {
+  speak(text: string, rate = 1, pitch = 1, volume?: number): void {
     this.cancel();
     this.utterance.text = text;
     this.utterance.lang = 'en-US';
     this.utterance.rate = rate;
     this.utterance.pitch = pitch;
+    this.utterance.volume = volume ? volume : 1;
     this.speechSynthesis.speak(this.utterance);
   }
 

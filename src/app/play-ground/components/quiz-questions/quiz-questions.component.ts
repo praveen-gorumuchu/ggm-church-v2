@@ -212,7 +212,7 @@ export class QuizQuestionsComponent implements OnInit, OnChanges {
       setTimeout(() => {
         this.stopAnimation(InteractionEffectEnum.CORRECT);
         this.soundService.playSound(SoundConstant.CORRECT);
-      }, NumberConstant.FIVE_THOUSAND);
+      }, NumberConstant.ONE_THOUSAND);
     } else if (this.userAnswer.value !== this.currentQuestion?.answer) {
       this.loadInteractions(InteractionEffectEnum.WRONG);
       setTimeout(() => {
@@ -241,7 +241,7 @@ export class QuizQuestionsComponent implements OnInit, OnChanges {
       loop: true, volume: 2.0
     });
     this.soundService.loadSound(SoundConstant.CORRECT, {
-      src: SoundConstantUrl.CORRECT, loop: true
+      src: SoundConstantUrl.CORRECT, loop: false, volume: 3.0
     });
     this.soundService.loadSound(SoundConstant.WRONG, {
       src: SoundConstantUrl.WRONG, loop: true, volume: 2.0

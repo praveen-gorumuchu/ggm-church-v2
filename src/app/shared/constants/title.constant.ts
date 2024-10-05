@@ -6,7 +6,7 @@ export const TitleConstant = {
     cardsTitle: 'Discover Bible & Worship ',
     PICK_A_NUMBER: 'Pick a number',
     REVEAL_THE_QUESTION: 'Reveal the question',
-    PICK_YOUR_LUCKY_CARD: 'Pick your lucky card',
+    PICK_YOUR_LUCKY_CARD: 'Select any one number',
     PICK_YOUR_LUCKY_CARDS: 'Nee lucky number card teesuko',
     HELLO: 'Hello'
 }

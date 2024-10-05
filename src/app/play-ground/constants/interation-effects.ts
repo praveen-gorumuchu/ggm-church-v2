@@ -6,13 +6,14 @@ export class CanvasConstant {
     static readonly TIMER = 'https://lottie.host/ed562d3a-ce50-4f11-8275-bd58970afab2/YgRATdxIFM.json';
     static readonly START = 'https://lottie.host/acdfea00-fc93-4d46-9245-3d244c39ab68/InnNgddzMe.json';
     static readonly WRONG = 'https://lottie.host/0c87bf34-d832-405f-a704-6c2bc426c13b/fFHjVBA82t.json'
+    static readonly CELEBRATION = 'https://lottie.host/8e203d98-5517-4e20-8b62-835812ff2e60/qsSchYI1Gh.json'
 }
 
 export const SoundConstantUrl = {
     CARD_CLICK: '../../../../assets/sounds/Correct_answer.wav',
-    WRONG: '../../../../assets/sounds/wrong_answer.wav',
-    CORRECT: '',
-    CELEBRATION: '',
+    WRONG: '../../../assets/sounds/wrong.mp3',
+    CORRECT: '../../../assets/sounds/Correct_answer.wav',
+    CELEBRATION: '../../../assets/sounds/celebration.mp3',
     TIMER: '../../../../assets/sounds/clock_sound.wav',
 }
 

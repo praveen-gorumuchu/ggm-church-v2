@@ -103,14 +103,14 @@ export class AudienceComponent implements OnInit {
   onStudentSelection() {
     if (this.studentName.value && (this.studentName.value as any).name) {
       const name = (this.studentName.value.name as string).split('.')[NumberConstant.ONE];
-      const str = `${TitleConstant.HELLO} ${name} ${TransliterationConst.PICK_CARD}`;
+      const str = `${TitleConstant.HELLO} ${name} ${TitleConstant.PICK_YOUR_LUCKY_CARD}`;
       this.resetNavigation();
       this.resetArrows();
       this.navigationStatus = {
         next: QuizNaviationEnum.QZ_PICK_CARD,
       }
       this.enableCard = true;
-      this.speechService.speak(str, 1.2, 0.9);
+      this.speechService.speak(str, 1.3, 0.9, 1);
       this.backWardArow = true;
     } else {
       this.enableCard = false;
