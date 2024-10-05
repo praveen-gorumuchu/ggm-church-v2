@@ -99,14 +99,15 @@ export class QuizComponent {
   getQuizQuestions() {
     // const existing: QuizQuestionsModel[] = this.localStorageService.getData(GenerateIdConst.quiz);
     // if (existing) this.questionList = existing;
-    
+      this.isLoadingSpin = true;
       this.quizService.getAllQuizData().subscribe((res: QuizQuestionsModel[]) => {
         if (res && res.length > NumberConstant.ZERO) {
           this.questionList = res.sort((a: any, b: any) => a['id'] - b['id']);
           this.getFilteredOptions();
+          this.isLoadingSpin = false
         }
       }, (error: HttpErrorResponse) => {
-        this.isLoading = false;
+        this.isLoadingSpin = false;
         this.messageBarService.showErorMsgBar(error?.error?.message);
       });
 

@@ -60,18 +60,18 @@ export const DashboardMenu = [
         icon: 'quiz'
     },
     {
-        name: 'playQuiz',
-        title: 'Play Quiz',
-        url: 'play-ground/auidence',
-        subMenu: [],
-        icon: 'video_library'
-    },
-    {
         name: 'evaluation',
         title: 'Evaluation',
         url: 'dashboard/evaluation',
         subMenu: [],
         icon: 'library_books'
+    },
+    {
+        name: 'playQuiz',
+        title: 'Play Quiz',
+        url: 'play-ground/auidence',
+        subMenu: [],
+        icon: 'video_library'
     },
     
 

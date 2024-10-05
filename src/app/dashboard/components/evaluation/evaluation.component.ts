@@ -86,6 +86,7 @@ export class EvaluationComponent {
 
   onSumbit() {
     this.isSearch = true;
+    this.isLoading = true;
     this.dataSource = [];
     this.searchData();
   }
@@ -143,11 +144,11 @@ export class EvaluationComponent {
     if (this.columns && this.columns.length > NumberConstant.ZERO) {
       this.dataSource = data;
       console.log(this.columns, this.dataSource)
-      this.isSearch = true
+      this.isSearch = true;
     } else {
-      this.isLoadingSpin = false;
       this.messageBarService.showErorMsgBar(StringConstant.ERROR_MSG);
     }
+    this.isLoading = false;
   }
 
 
@@ -173,6 +174,7 @@ export class EvaluationComponent {
       return matchesName && matchRank && matchPercentage && matchClass;
     });
 
+    this.isLoading = false;
     this.callToDataTable(filteredData);
   }
 

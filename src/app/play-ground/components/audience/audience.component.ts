@@ -1,3 +1,4 @@
+import { MessageBarService } from './../../../shared/services/message-bar.service';
 import { QuizQuestionsModel } from './../../../dashboard/models/quiz-models/quiz.model';
 import { QuizService } from './../../../dashboard/service/quiz.service';
 import { QuizPlayService } from './../../services/quiz-play.service';
@@ -30,7 +31,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogData } from '../../../shared/constants/dailog-constant';
 import { Route, Router } from '@angular/router';
 import { RouterConstant } from '../../../shared/constants/router.constant';
-
+import { StringConstant } from '../../../shared/constants/string-constant';
 
 @Component({
   selector: 'app-audience',
@@ -56,6 +57,7 @@ export class AudienceComponent implements OnInit {
   luckyNumber!: number;
   currentQuestion!: QuizQuestionsModel | null;
   currentStudentIndex = -1;
+  isLoadingSpin: boolean = false;
 
   @ViewChild('dotlottieCanvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
   questionList!: QuizQuestionsModel[];
@@ -66,7 +68,7 @@ export class AudienceComponent implements OnInit {
     private utilSharedService: UtilSharedService, private fb: FormBuilder,
     private speechService: SpeechService, private quizPlayService: QuizPlayService,
     private quizService: QuizService, private localStorageService: LocalStorageService,
-    public dialog: MatDialog, private router: Router) {
+    public dialog: MatDialog, private router: Router, private messageBarService: MessageBarService) {
     this.quizForm = this.createFormGroup();
     this.enableStudentSelection = true;
     this.getStudents();
@@ -139,12 +141,16 @@ export class AudienceComponent implements OnInit {
    */
 
   getStudents() {
+    this.isLoadingSpin = true;
     this.studentService.getStudentIds().subscribe((res: StudentModelRes) => {
       if (res && res.data && res.data.length > NumberConstant.ZERO) {
         this.studentList = this.utilSharedService.alphaNumericSort(res.data, TableColumnsConstant.ID)
         this.getFilteredOptions();
+        this.isLoadingSpin = false;
       }
     }, (error: HttpErrorResponse) => {
+      this.isLoadingSpin = false;
+      this.messageBarService.showErorMsgBar(StringConstant.ERROR_MSG)
     });
   }
 
