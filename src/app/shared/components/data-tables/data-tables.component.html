@@ -17,18 +17,24 @@
         (click)="isAction(selection.hasValue(), selection.selected, button)" [disabled]="isDisabled(button) || button.disable">
         <mat-icon class="va-m"> {{ button.icon }} </mat-icon>
         {{ button.name | titlecase }}
+        <span *ngIf="button.print">
+          <button printTitle="GGM" #print printSectionId="dataTableId" ngxPrint hidden="true"
+          styleSheetFile="../../../../assets/scss/ngx-print.style.scss" [useExistingCss]="true">
+          </button>
+        </span>
       </button>
     </div>
+  
   </div>
   <div id="dataTableId" *ngIf="dataTableSource.data.length > 0">
     <div class="table-responsive mb-5 mat-elevation-z8">
       <table mat-table [dataSource]="dataTableSource" matSort (matSortChange)="sortData($event)" class=" text-left">
         <ng-container *ngFor="let col of tableCols; let i = index" [matColumnDef]="col.key">
           <ng-container *ngIf="i === 0 && checkbox">
-            <th mat-header-cell *matHeaderCellDef>
+            <th mat-header-cell *matHeaderCellDef class="no-print">
               <mat-checkbox #matCheckbox (change)="checkBoxSelection($event)" [disabled]="isDisableMaterToggle()"> </mat-checkbox>
             </th>
-            <td mat-cell *matCellDef="let row" (click)="isClikdeRow(row, selection)">
+            <td mat-cell *matCellDef="let row" (click)="isClikdeRow(row, selection)" class="no-print">
               <mat-checkbox (change)="isSelectedCheckBox($event, row, selection)" [checked]="selection.isSelected(row)"
                 [disabled]="row.deletionFlag >= 1">
               </mat-checkbox>
@@ -128,7 +134,7 @@
     </div>
 
     <mat-paginator *ngIf="pagination" (page)="pageChanged($event)" #paginator class="no-print"
-      [length]="dataTableSource.filteredData.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons
+      [length]="dataTableSource.filteredData.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 15, 20, 50, 100]" showFirstLastButtons
       aria-label="Select page">
     </mat-paginator>
   </div>

@@ -260,6 +260,12 @@ export class DataTablesComponent implements OnInit, OnChanges, AfterContentCheck
       case ActionType.StatusEnum.PREVIEW:
         this.previewFile(selected, data, type);
         break;
+        case ActionType.StatusEnum.PRINT:
+          this.onPrint(type);
+          break;
+        case ActionType.StatusEnum.PRINT_ALL:
+          this.onPrint(type);
+          break;
       default: this.routeToParent(selected, data, type.name);
         break;
     }
@@ -304,6 +310,31 @@ export class DataTablesComponent implements OnInit, OnChanges, AfterContentCheck
           this.actionItems.emit(data);
 
         }
+      });
+    }
+  }
+
+  onPrint(type: DataTableButtons): void {
+    if (type.name === ActionType.StatusEnum.PRINT || ActionType.StatusEnum.PRINT_ALL) {
+      this.pagination = false;
+      const printId = this.print.nativeElement.attributes[StringConstant.printsectionid].value;
+      this.dataTableService.setTableStyles(printId, [StringConstant.border, StringConstant.mt5],
+        [StringConstant.boxShadow]);
+      if (type.name === ActionType.StatusEnum.PRINT_ALL) {
+        this.paginator.pageSize = this.dataSource.length;
+      }
+      setTimeout(() => {
+        this.print.nativeElement.click();
+        this.print.nativeElement.disbale = true;
+        this.pagination = true;
+        this.dataTableSource.paginator = this.paginator;
+        if (this.paginator && this.paginator !== undefined) this.paginator.pageSize = NumberConstant.FIVE;
+        this.dataTableService.setTableStyles(printId, [StringConstant.boxShadow],
+          [StringConstant.border, StringConstant.mt5]);
+      });
+      const event = this.print.nativeElement.addEventListener(StringConstant.click, (event: Event) => {
+        event.stopPropagation();
+        event.preventDefault();
       });
     }
   }

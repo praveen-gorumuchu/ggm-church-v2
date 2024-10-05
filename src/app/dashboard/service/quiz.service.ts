@@ -10,6 +10,7 @@ import { DataTableButtons, TableHeaders } from '../../shared/models/new/table-he
 import { HttpClient } from '@angular/common/http';
 import { CategoryEnum, QuizQuestionsModel, QuizResponseModel } from '../models/quiz-models/quiz.model';
 import JSZip from 'jszip';
+import { MomentFormats } from '../../shared/constants/moment-formats';
 
 @Injectable({
   providedIn: 'root'
@@ -120,7 +121,7 @@ export class QuizService {
       { key: TableColumnsConstant.CREATED_BY, display: DataTableHeaderMapper.createdBy },
       {
         key: TableColumnsConstant.CREATED_DATE, display: DataTableHeaderMapper.creationDate,
-        config: { isDate: true, format: StringConstant.DDMMYYY_FORMAT }
+        config: { isDate: true, format: MomentFormats.DDMMYYY_FORMAT }
       },
     ];
   }

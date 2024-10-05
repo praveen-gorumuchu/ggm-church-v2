@@ -1,7 +1,7 @@
 export class TableColumnsConstant {
   static readonly CREATION_DATE = 'creationDate';
   static readonly name = 'name';
-  static readonly CREATED_DATE = 'createdDate';
+  static readonly CREATED_DATE = 'creationDate';
   static readonly COMMENTS = 'comments';
   static readonly STATUS = 'status';
   static readonly YEAR = 'year';

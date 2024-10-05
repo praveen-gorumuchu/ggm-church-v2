@@ -1,3 +1,4 @@
+import { UtilSharedService } from './../../shared/services/util-shared.service';
 import { Injectable } from "@angular/core";
 import { QuizQuestionsModel } from "../../dashboard/models/quiz-models/quiz.model";
 import { StudentModel } from "../../dashboard/models/students/student-list.model";
@@ -6,12 +7,18 @@ import { MessageBarService } from "../../shared/services/message-bar.service";
 import { AnsweredQuestion, QuizResult, StudentHistoryModel } from "../model/student-history.model";
 import { GenerateIdConst } from "../../shared/constants/generate-id.constant";
 import { StorageKeyConstant } from "../../shared/constants/storage-keys.constant";
+import { TitleConstant } from '../../shared/constants/title.constant';
+import moment from 'moment';
+import { StringConstant } from '../../shared/constants/string-constant';
+import { MomentFormats } from '../../shared/constants/moment-formats';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuizPlayService {
-  constructor(private loginService: LoginService, private messageBarService: MessageBarService) { }
+  constructor(private loginService: LoginService, private messageBarService: MessageBarService,
+    private utilSharedService: UtilSharedService
+  ) { }
 
   private studentsHistory: StudentHistoryModel[] = [];
   private quizQuestions: QuizQuestionsModel[] = []; // Shared pool for all students
@@ -204,8 +211,9 @@ export class QuizPlayService {
     sortedResults.forEach((result: QuizResult, index) => {
       result.rank = index + 1;  // Rank starts from 1
     });
-  
     localStorage.setItem(StorageKeyConstant.quiz_result, JSON.stringify(sortedResults));
+    this.utilSharedService.downloadJsonFile(StorageKeyConstant.quiz_result, 
+      `${TitleConstant.QUIZ_RESULT}_${moment(new Date()).format(MomentFormats.MOMENT_DAY_MONTH_DATE_YEAR_TIME)}`)
     return sortedResults;
   }
   

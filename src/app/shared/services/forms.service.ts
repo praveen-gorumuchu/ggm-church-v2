@@ -3,6 +3,7 @@ import { AbstractControl, FormGroup, ValidationErrors, Validators } from '@angul
 import { StringConstant } from '../constants/string-constant';
 import { NumberConstant } from '../constants/number-constant';
 import { FromInputConstant } from '../constants/from-input-constant';
+import { MomentFormats } from '../constants/moment-formats';
 
 @Injectable({
   providedIn: 'root'
@@ -60,7 +61,7 @@ export class FormsService {
     if (touched && ctrl.hasError(StringConstant.required) && !ctrl.hasError(StringConstant.DATE_PICKER_PARSE)) {
       return StringConstant.REUIRED;
     } else if (touched && ctrl.hasError(StringConstant.DATE_PICKER_PARSE)) {
-      return `${StringConstant.INVALID_FORMAT}.! ${StringConstant.ALLOWED}: ${StringConstant.MOMENT_DDMMMYYY}`
+      return `${StringConstant.INVALID_FORMAT}.! ${StringConstant.ALLOWED}: ${MomentFormats.MOMENT_DDMMMYYY}`
     } else if (touched && !ctrl.hasError(StringConstant.required) &&
       !ctrl.hasError(StringConstant.DATE_PICKER_PARSE) && ctrl.hasError(StringConstant.MIN_DATE_PCIKER))
       return `${StringConstant.MIN_DATE_ERROR} ${min}`

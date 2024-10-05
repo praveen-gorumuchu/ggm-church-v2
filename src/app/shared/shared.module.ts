@@ -25,7 +25,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShorterTextDirective } from './directives/shorter-text.directive';
 import { AllowedNumbersDirective } from './directives/allowed-number.directive';
 import { MatDailogComponent } from './components/mat-dailog/mat-dailog.component';
-
+import { NgxPrintModule } from 'ngx-print';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DD_MM_YYY_FORMAT } from './constants/date-format';
 
 const materialModules = [
   MatToolbarModule,
@@ -59,7 +62,8 @@ const materialModules = [
     CommonModule,
     ...materialModules,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgxPrintModule
   ],
   exports: [
     ...materialModules,
@@ -68,7 +72,9 @@ const materialModules = [
     ShorterTextDirective, AllowedNumbersDirective
   ],
   providers: [
-    provideHttpClient()
+    provideHttpClient(),
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: DD_MM_YYY_FORMAT },
   ]
 })
 export class SharedModule { }

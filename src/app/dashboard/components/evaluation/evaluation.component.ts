@@ -19,6 +19,7 @@ import { QuizResult } from '../../../play-ground/model/student-history.model';
 import { StorageKeyConstant } from '../../../shared/constants/storage-keys.constant';
 import { PageTitleConstant } from '../../../shared/constants/page-title.constant';
 import { TitleConstant } from '../../../shared/constants/title.constant';
+import { ExcelFileExportService } from '../../../shared/services/excel-file-export.service';
 
 @Component({
   selector: 'app-evaluation',
@@ -41,14 +42,18 @@ export class EvaluationComponent {
   filteredStudentName!: Observable<StudentModel[]>;
   filteredStudentClass!: Observable<StudentModel[]>;
 
+  excelOrder: string[] = [];
+  fileHeader: string[][] = [];
+
   isLoadingSpin: boolean = false;
   isSearch: boolean = false;
   userRole!: UserRoleEnum;
+  reportData: any;
 
   constructor(private router: Router, private loginService: LoginService,
     private studentService: StudentService, private messageBarService: MessageBarService,
     private utilSharedService: UtilSharedService, private fb: FormBuilder,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService, private excelFileExportService: ExcelFileExportService
   ) {
     this.formGroup = this.createForm();
     this.userRole = this.loginService.loginUser.role;
@@ -57,7 +62,7 @@ export class EvaluationComponent {
   }
 
   ngOnInit(): void {
-    if(this.studentList && this.studentList.length > 0) {
+    if (this.studentList && this.studentList.length > 0) {
       this.getFilteredOptions();
     }
   }
@@ -151,37 +156,53 @@ export class EvaluationComponent {
     const nameVal = (this.studentName?.value?.name || '').trim().toLowerCase();
     const rank = this.studentRank?.value?.rank || null;
     const percentage = this.studentPercentage?.value?.percentage || null;
-  
+
     // Check if all the fields are empty
     if (!rank && !nameVal && !classVal && !percentage) {
       this.messageBarService.showErorMsgBar(StringConstant.GLOBAL_RESULT);
       this.callToDataTable(this.quizResult);
       return;
     }
-  
+
     const filteredData = this.quizResult.filter((data: QuizResult) => {
       const matchClass = classVal ? data.class.toLowerCase() === classVal : true;
       const matchPercentage = percentage !== null ? data.percentage === percentage : true;
       const matchRank = rank !== null ? data.rank === rank : true;
       const matchesName = nameVal ? data.studentName.toLowerCase() === nameVal : true;
-  
+
       return matchesName && matchRank && matchPercentage && matchClass;
     });
-  
+
     this.callToDataTable(filteredData);
   }
-  
+
 
 
   actionItems(event: DataTableActions) {
     if (event && event.action === ActionType.StatusEnum.EDIT && event.data &&
       event.data.length > NumberConstant.ZERO) {
-    }
-    if (event && event.action === ActionType.StatusEnum.DELETE && event.data &&
+    } else if (event && event.action === ActionType.StatusEnum.DELETE && event.data &&
       event.data.length > NumberConstant.ZERO) {
       const remarks = event.deletedRemarks ? event.deletedRemarks : '';
 
-    }
+    }else if (event && event.action == ActionType.StatusEnum.EXCEL) {
+      this.reset();
+      this.excelOrder = this.excelFileExportService.excelOrder(this.studentService.setQuizResultTableCols());
+      this.fileHeader.push(this.excelFileExportService.getFileHeader(this.studentService.setQuizResultTableCols()));
+      this.exportExcel();
+    } 
+  }
+
+  exportExcel() {
+    this.reportData = JSON.parse(JSON.stringify(this.dataSource, this.excelOrder));
+    const fileName = StringConstant.quizResult;
+    const title = [{ title: fileName }];
+    this.excelFileExportService.excelExport(this.fileHeader, title, this.reportData, fileName);
+  }
+
+  reset() {
+    this.excelOrder = [];
+    this.fileHeader = [];
   }
 
   get studentName(): AbstractControl {

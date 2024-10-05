@@ -15,7 +15,7 @@ import { DashHeaderComponent } from './components/dash-header/dash-header.compon
 import { OverviewComponent } from './components/overview/overview.component';
 import { QuizComponent } from './components/quiz/quiz.component';
 import { QuillModule } from 'ngx-quill';
-
+import { NgxPrintModule } from 'ngx-print';
 
 
 @NgModule({
@@ -38,6 +38,7 @@ import { QuillModule } from 'ngx-quill';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxPrintModule,
     QuillModule.forRoot({
       modules: {
         toolbar: [

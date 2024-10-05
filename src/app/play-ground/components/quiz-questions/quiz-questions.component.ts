@@ -212,13 +212,13 @@ export class QuizQuestionsComponent implements OnInit, OnChanges {
       setTimeout(() => {
         this.stopAnimation(InteractionEffectEnum.CORRECT);
         this.soundService.playSound(SoundConstant.CORRECT);
-      }, NumberConstant.ONE_THOUSAND);
+      }, NumberConstant.THREE_THOUSAND );
     } else if (this.userAnswer.value !== this.currentQuestion?.answer) {
       this.loadInteractions(InteractionEffectEnum.WRONG);
       setTimeout(() => {
         this.stopAnimation(InteractionEffectEnum.WRONG);
         this.soundService.stopSound(SoundConstant.WRONG);
-      }, NumberConstant.FIVE_THOUSAND)
+      }, NumberConstant.THREE_THOUSAND)
     }
   }
 

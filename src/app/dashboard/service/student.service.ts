@@ -9,6 +9,8 @@ import { TableColumnsConstant } from '../../shared/constants/table-columns.const
 import { DataTableHeaderMapper } from '../../shared/mappers/data-table-mapper';
 import { StringConstant } from '../../shared/constants/string-constant';
 import { ActionType } from '../../shared/models/new/data-table-actions';
+import { IconConstant } from '../../shared/constants/icon.constant';
+import { MomentFormats } from '../../shared/constants/moment-formats';
 
 
 @Injectable({
@@ -24,6 +26,19 @@ export class StudentService {
 
   setDataTableButtons(): DataTableButtons[] {
     return [
+     
+      {
+        name: ActionType.StatusEnum.EXCEL,
+        icon: IconConstant.download,
+        color: 'primary'
+      },
+      {
+        name: ActionType.StatusEnum.PRINT_ALL,
+        color: 'accent',
+        icon: IconConstant.download,
+        disable: false,
+        print: true
+      },
       {
         name: ActionType.StatusEnum.EDIT,
         color: 'primary',
@@ -48,16 +63,16 @@ export class StudentService {
       {
         key: TableColumnsConstant.class, display: DataTableHeaderMapper.class
       },
+      { key: TableColumnsConstant.CREATED_BY, display: DataTableHeaderMapper.createdBy },
+      {
+        key: TableColumnsConstant.CREATED_DATE, display: DataTableHeaderMapper.creationDate,
+        config: { isDate: true, format: MomentFormats.DDMMYYY_FORMAT }
+      },
       {
         key: TableColumnsConstant.age, display: DataTableHeaderMapper.age
       },
       {
         key: TableColumnsConstant.phoneNum, display: DataTableHeaderMapper.phoneNum
-      },
-      { key: TableColumnsConstant.CREATED_BY, display: DataTableHeaderMapper.createdBy },
-      {
-        key: TableColumnsConstant.CREATED_DATE, display: DataTableHeaderMapper.creationDate,
-        config: { isDate: true, format: StringConstant.DDMMYYY_FORMAT }
       },
     ];
   }
@@ -83,7 +98,11 @@ export class StudentService {
       },
       {
         key: TableColumnsConstant.organisedBy, display: DataTableHeaderMapper.organisedBy
-      }
+      },
+      {
+        key: TableColumnsConstant.CREATED_DATE, display: DataTableHeaderMapper.creationDate,
+        config: { isDate: true, format: MomentFormats.DDMMYYY_FORMAT }
+      },
     ];
   }
 }

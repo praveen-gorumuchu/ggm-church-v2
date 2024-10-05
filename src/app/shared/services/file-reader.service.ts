@@ -5,6 +5,7 @@ import moment from 'moment';
 
 import { StringConstant } from '../constants/string-constant';
 import { BlobData, PreviewFileData } from '../models/files/file-upload-res';
+import { MomentFormats } from '../constants/moment-formats';
 
 @Injectable({
   providedIn: 'root'
@@ -82,7 +83,7 @@ export class FileReaderService {
       }
     })
     zip.generateAsync({ type: 'blob' }).then((content:any) => {
-      const date = moment().format(StringConstant.MOMENT_DD_MM_YYYY);
+    const date = moment().format(MomentFormats.MOMENT_DD_MM_YYYY);
       const fileName = `${StringConstant.TM_ZIP_FILE_NAME}_${date}`;
       saveAs(content, fileName)
     })

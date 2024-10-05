@@ -1,5 +1,5 @@
 export class CardColors {
     static readonly colors = [
-        '#EF5A6F', '#DEAC80', '#03346E', '#028391', '#97BE5A', '#40A2E3', '#A1C398', '#D91656', '#FABC3F', '#6439FF'
+        '#EF5A6F', '#FF6600', '#03346E', '#028391', '#97BE5A', '#4379F2', '#0D7C66', '#D91656', '#E8B86D', '#640D5F'
     ]
 }
