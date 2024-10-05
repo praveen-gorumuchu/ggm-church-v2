@@ -37,7 +37,7 @@ export class LeaderBoardComponent implements AfterViewInit {
 
 
   ngAfterViewInit(): void {
-    if(this.celebrationCanvas && this.celebrationCanvas.nativeElement) {
+    if (this.celebrationCanvas && this.celebrationCanvas.nativeElement) {
       this.loadInteractions();
     }
   }
@@ -52,6 +52,9 @@ export class LeaderBoardComponent implements AfterViewInit {
       this.setPodium(topThree);
       if (this.resultList && this.resultList.length > NumberConstant.ZERO) {
         this.headers = this.studentService.setLeaderBoardHeaders();
+      }
+      if (this.podiumList && this.podiumList.length > NumberConstant.ZERO ||
+        this.resultList && this.resultList.length > NumberConstant.ZERO) {
         this.showCelebration = true;
         setTimeout(() => {
           this.soundService.stopSound(SoundConstant.CELEBRATION);
