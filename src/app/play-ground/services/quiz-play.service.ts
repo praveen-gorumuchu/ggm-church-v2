@@ -175,19 +175,19 @@ export class QuizPlayService {
   endQuiz(): QuizResult[] {
     const results: QuizResult[] = this.studentsHistory.map((student: StudentHistoryModel) => {
       const correctAnswers: AnsweredQuestion[] =
-        student.answeredQuestions.filter((answeredQuestion: AnsweredQuestion) => 
+        student.answeredQuestions.filter((answeredQuestion: AnsweredQuestion) =>
           answeredQuestion.userAnswer === answeredQuestion.answer
         );
-  
+
       const wrongAnswers: AnsweredQuestion[] =
-        student.answeredQuestions.filter((answeredQuestion: AnsweredQuestion) => 
+        student.answeredQuestions.filter((answeredQuestion: AnsweredQuestion) =>
           answeredQuestion.userAnswer !== answeredQuestion.answer
         );
-  
+
       const totalScore = correctAnswers.length * 10;
       const totalPossibleScore = student.answeredQuestions.length * 10;
       const percentage = (totalScore / totalPossibleScore) * 100;
-  
+
       return {
         studentId: student.studentId,
         class: student.class,
@@ -203,20 +203,23 @@ export class QuizPlayService {
         answeredQuestions: student.answeredQuestions,
       };
     });
-  
+
     // Sort students by score to determine the ranking
     const sortedResults = results.sort((a, b) => b.score - a.score);
-  
+
     // Assign ranks based on the sorted order
     sortedResults.forEach((result: QuizResult, index) => {
       result.rank = index + 1;  // Rank starts from 1
     });
-    localStorage.setItem(StorageKeyConstant.quiz_result, JSON.stringify(sortedResults));
-    this.utilSharedService.downloadJsonFile(StorageKeyConstant.quiz_result, 
-      `${TitleConstant.QUIZ_RESULT}_${moment(new Date()).format(MomentFormats.MOMENT_DAY_MONTH_DATE_YEAR_TIME)}`)
+    const dateTime = moment(new Date()).format(MomentFormats.MOMENT_MONTH_DATE_YEAR_TIME);
+    localStorage.setItem(`${StorageKeyConstant.quiz_result}_${dateTime}`,
+      JSON.stringify(sortedResults));
+
+    // this.utilSharedService.downloadJsonFile(`${StringConstant.quizResult}`,
+    //   `${TitleConstant.QUIZ_RESULT}_${moment(new Date()).format(MomentFormats.MOMENT_DAY_MONTH_DATE_YEAR_TIME)}`)
     return sortedResults;
   }
-  
+
 
   /**
    * Remove duplicated answered questions from the result to ensure uniqueness.
@@ -235,7 +238,7 @@ export class QuizPlayService {
     return Array.from(uniqueQuestions.values());
   }
 
-  resetData(){
+  resetData() {
     this.studentsHistory = [];
     this.quizQuestions = [];
   }

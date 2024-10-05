@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class LocalStorageService {
-  constructor() {}
+  constructor() { }
 
   // Retrieve data from localStorage
   getData(key: string): any {
@@ -21,5 +21,19 @@ export class LocalStorageService {
   checkForDuplicates(newId: string, existingData: any[]): boolean {
     return existingData.some(item => item.id === newId);
   }
-  
+
+
+  getKeys(key: string): string[] {
+    const matchingKeys: string[] = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const localKey = localStorage.key(i);
+      if (localKey && localKey.includes(key)) {
+        matchingKeys.push(localKey);
+      }
+    }
+    return matchingKeys;
+
+
+  }
+
 }

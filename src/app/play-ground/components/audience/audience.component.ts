@@ -2,7 +2,6 @@ import { MessageBarService } from './../../../shared/services/message-bar.servic
 import { QuizQuestionsModel } from './../../../dashboard/models/quiz-models/quiz.model';
 import { QuizService } from './../../../dashboard/service/quiz.service';
 import { QuizPlayService } from './../../services/quiz-play.service';
-
 import { SpeechService } from './../../../shared/services/speech.service';
 import { UtilSharedService } from './../../../shared/services/util-shared.service';
 import { StudentService } from './../../../dashboard/service/student.service';
@@ -10,7 +9,7 @@ import { AnimationService } from './../../../shared/services/animation.service';
 import { Config, DotLottie } from '@lottiefiles/dotlottie-web';
 import { PlayGroundService } from './../../services/play-ground.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { CanvasConstant, SoundConstant, SoundConstantUrl } from '../../constants/interation-effects';
+import { CanvasConstant } from '../../constants/interation-effects';
 import { TimerService } from '../../../shared/services/timer.service';
 import { SoundService } from '../../../shared/services/sound.service';
 import { TitleConstant } from '../../../shared/constants/title.constant';
@@ -18,20 +17,18 @@ import { CardColors } from '../../constants/cards-colors.constant';
 import { NumberConstant } from '../../../shared/constants/number-constant';
 import { StudentModel, StudentModelRes } from '../../../dashboard/models/students/student-list.model';
 import { TableColumnsConstant } from '../../../shared/constants/table-columns.constant';
-import { find, Observable } from 'rxjs';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PlayGroundConstant } from '../../constants/play-ground-contant';
-import { TransliterationConst } from '../../constants/transliteration.constant';
 import { QuizNaviationEnum, QuizNavigationArrowEnum, QuizNavigationStatus } from '../../model/quiz-navigation.model';
 import { LocalStorageService } from '../../../shared/services/local-storage.service';
-import { GenerateIdConst } from '../../../shared/constants/generate-id.constant';
 import { MatDailogComponent } from '../../../shared/components/mat-dailog/mat-dailog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogData } from '../../../shared/constants/dailog-constant';
 import { Route, Router } from '@angular/router';
 import { RouterConstant } from '../../../shared/constants/router.constant';
 import { StringConstant } from '../../../shared/constants/string-constant';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-audience',
@@ -71,15 +68,12 @@ export class AudienceComponent implements OnInit {
     public dialog: MatDialog, private router: Router, private messageBarService: MessageBarService) {
     this.quizForm = this.createFormGroup();
     this.enableStudentSelection = true;
-    this.getStudents();
-    this.getQuestions();
+    
   }
 
   ngOnInit(): void {
-    // this.timerService.getTimer().subscribe(value => {
-    //   this.timerValue = value;
-    //   if (value <= 0) this.stopAnimation();
-    // });
+    this.getStudents();
+    this.getQuestions();
   }
 
   getQuestions() {

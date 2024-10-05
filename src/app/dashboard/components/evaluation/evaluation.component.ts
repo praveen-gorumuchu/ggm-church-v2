@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../../../shared/services/login.service';
 import { MessageBarService } from '../../../shared/services/message-bar.service';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UtilSharedService } from '../../../shared/services/util-shared.service';
 import { StudentService } from '../../service/student.service';
 import { ActionType, DataTableActions } from '../../../shared/models/new/data-table-actions';
@@ -13,13 +13,14 @@ import { TableColumnsConstant } from '../../../shared/constants/table-columns.co
 import { HttpErrorResponse } from '@angular/common/http';
 import { StringConstant } from '../../../shared/constants/string-constant';
 import { DataTableButtons, TableHeaders } from '../../../shared/models/new/table-headers.model copy';
-import { Observable } from 'rxjs';
+import { every, Observable } from 'rxjs';
 import { UserRoleEnum } from '../../../shared/models/user-data/uder-list.model';
 import { QuizResult } from '../../../play-ground/model/student-history.model';
 import { StorageKeyConstant } from '../../../shared/constants/storage-keys.constant';
 import { PageTitleConstant } from '../../../shared/constants/page-title.constant';
 import { TitleConstant } from '../../../shared/constants/title.constant';
 import { ExcelFileExportService } from '../../../shared/services/excel-file-export.service';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-evaluation',
@@ -36,6 +37,7 @@ export class EvaluationComponent {
   quizResult: QuizResult[] = [];
   titles = PageTitleConstant;
   isLoading: boolean = false;
+  resultArray: string[] = [];
 
   filteredRank!: Observable<QuizResult[]>;
   filteredPercentage!: Observable<QuizResult[]>;
@@ -56,9 +58,9 @@ export class EvaluationComponent {
     private localStorageService: LocalStorageService, private excelFileExportService: ExcelFileExportService
   ) {
     this.formGroup = this.createForm();
+    this.resultArray = this.localStorageService.getKeys(StorageKeyConstant.quiz_result);
     this.userRole = this.loginService.loginUser.role;
     this.getStudents();
-    this.getQuizResult();
   }
 
   ngOnInit(): void {
@@ -94,6 +96,7 @@ export class EvaluationComponent {
   onClear() {
     this.formGroup.reset();
     this.dataSource = [];
+    this.resultDate.patchValue(this.resultArray[NumberConstant.ZERO])
   }
 
   displayStudentName(student: StudentModel): string {
@@ -121,8 +124,8 @@ export class EvaluationComponent {
     this.studentService.getStudentIds().subscribe((res: StudentModelRes) => {
       if (res && res.data && res.data.length > NumberConstant.ZERO) {
         this.studentList = this.utilSharedService.alphaNumericSort(res.data, TableColumnsConstant.ID)
+        this.defaultQuizResult();
         this.getFilteredOptions();
-        this.getQuizResult()
         this.isLoadingSpin = false
       }
     }, (error: HttpErrorResponse) => {
@@ -131,10 +134,25 @@ export class EvaluationComponent {
     });
   }
 
-  getQuizResult() {
-    const localData: QuizResult[] = this.localStorageService.getData(StorageKeyConstant.quiz_result);
+  defaultQuizResult() {
+  const key = this.resultArray[NumberConstant.ZERO];
+    if (this.resultArray && this.resultArray.length > NumberConstant.ZERO) {
+      this.resultDate.patchValue(key);
+      this.getQuizResult(key);
+    }
+  }
+
+  getQuizResult(key: string) {
+    const localData: QuizResult[] = this.localStorageService.getData(key);
     if (localData && localData.length > NumberConstant.ZERO) {
       this.quizResult = localData;
+    }
+  }
+
+
+  onResultChange(evnet: any) {
+    if (this.resultDate.value) {
+      this.getQuizResult(this.resultDate.value);
     }
   }
 
@@ -187,12 +205,12 @@ export class EvaluationComponent {
       event.data.length > NumberConstant.ZERO) {
       const remarks = event.deletedRemarks ? event.deletedRemarks : '';
 
-    }else if (event && event.action == ActionType.StatusEnum.EXCEL) {
+    } else if (event && event.action == ActionType.StatusEnum.EXCEL) {
       this.reset();
       this.excelOrder = this.excelFileExportService.excelOrder(this.studentService.setQuizResultTableCols());
       this.fileHeader.push(this.excelFileExportService.getFileHeader(this.studentService.setQuizResultTableCols()));
       this.exportExcel();
-    } 
+    }
   }
 
   exportExcel() {
@@ -205,6 +223,10 @@ export class EvaluationComponent {
   reset() {
     this.excelOrder = [];
     this.fileHeader = [];
+  }
+
+  getQuizResultDate(key: string): string {
+    return key.replace(`${StorageKeyConstant.quiz_result}_`, '')
   }
 
   get studentName(): AbstractControl {
@@ -223,12 +245,17 @@ export class EvaluationComponent {
     return this.formGroup.get('studentPercentage') as AbstractControl
   }
 
+  get resultDate(): AbstractControl {
+    return this.formGroup.get('resultDate') as AbstractControl
+  }
+
   createForm() {
     return this.fb.group({
       studentName: [''],
       studentClass: [''],
       studentRank: [null],
-      studentPercentage: [null]
+      studentPercentage: [null],
+      resultDate: [null, [Validators.required]]
     })
   }
 
