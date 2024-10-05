@@ -1,0 +1,49 @@
+.mat-table-card-section {
+    .mat-mdc-card-content {
+        padding: 0;
+    }
+    .table-card-content {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+
+        .table-header {
+           
+        }
+
+        .table-cell {
+            flex: 1;
+            /* This makes all cells equal width */
+            background-color: #283243;
+            font-weight: 600;
+            color: #fff;
+            padding: 8px 6px;
+
+            &:nth-child(odd) {
+
+                /* Optional: alternate row color */
+            }
+        }
+
+        .table-header {
+            background-color: #283243;
+            font-weight: 400;
+            color: #fff;
+            padding: 4px 12px;
+            margin-top: 8px;
+            display: flex;
+
+            border-radius: 8px;
+        }
+        .table-body {
+            .table-header {
+                .table-cell {
+                    font-weight: 400;
+                    color: #c3c3c3;
+                }
+            }
+        }
+        
+    }
+
+}

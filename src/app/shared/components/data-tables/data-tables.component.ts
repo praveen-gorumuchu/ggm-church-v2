@@ -45,7 +45,8 @@ export class DataTablesComponent implements OnInit, OnChanges, AfterContentCheck
   @Input() dataTableId!: HTMLElement;
   @Input() screen!: DisplayScreen.TypeEnum;
   @Input() SelectionData = false;
-  title = StringConstant.SEARCH_RESULT;
+  @Input() title = StringConstant.SEARCH_RESULT;
+  @Input() onlyTable = true;
   paginator!: MatPaginator;
   sort!: MatSort;
   selection = new SelectionModel<any>(true, []);

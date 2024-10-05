@@ -1,9 +1,13 @@
 <app-mat-spinner *ngIf="isLoadingSpin" [overlay]="true"></app-mat-spinner>
 <section class="auidence-section">
-  <section class="mt-3">
+  <section class="mt-5">
+    <div class="title d-flex justify-content-center" *ngIf="enableStudentSelection">
+      <h2> Round : {{ round }} </h2>
+    </div>
     <!-- Admin will Select Student -->
-    <div class="d-flex justify-content-center wt-100 h-80vh align-items-center"
+    <div class="d-flex justify-content-center wt-100 align-items-center mt-5"
       *ngIf="!enableCard && !enableQuestion && enableStudentSelection">
+     
       <form [formGroup]="quizForm" class="example-form wt-30">
         <mat-form-field class="example-full-width wt-100" appearance="outline">
           <mat-label> {{playGroundConst.SELECT_A_PARTICIPENT }} </mat-label>

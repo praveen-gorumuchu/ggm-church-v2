@@ -29,6 +29,7 @@ import { NgxPrintModule } from 'ngx-print';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DD_MM_YYY_FORMAT } from './constants/date-format';
+import { MatCardTableComponent } from './components/mat-card-table/mat-card-table.component';
 
 const materialModules = [
   MatToolbarModule,
@@ -57,6 +58,7 @@ const materialModules = [
     ShorterTextDirective,
     AllowedNumbersDirective,
     MatDailogComponent,
+    MatCardTableComponent,
   ],
   imports: [
     CommonModule,
@@ -69,7 +71,7 @@ const materialModules = [
     ...materialModules,
     NoPageFoundComponent,
     SafePipe, DataTablesComponent, MatSpinnerComponent, DialogComponent, FileUploadComponent,
-    ShorterTextDirective, AllowedNumbersDirective
+    ShorterTextDirective, AllowedNumbersDirective, MatCardTableComponent
   ],
   providers: [
     provideHttpClient(),

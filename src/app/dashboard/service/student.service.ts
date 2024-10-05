@@ -26,7 +26,7 @@ export class StudentService {
 
   setDataTableButtons(): DataTableButtons[] {
     return [
-     
+
       {
         name: ActionType.StatusEnum.EXCEL,
         icon: IconConstant.download,
@@ -105,4 +105,18 @@ export class StudentService {
       },
     ];
   }
+
+  setLeaderBoardHeaders(): TableHeaders[] {
+    return [
+      {
+        key: TableColumnsConstant.rank, display: DataTableHeaderMapper.rank,
+        config: {
+          icon: true, iconName: IconConstant.military_tech
+        }
+      },
+      { key: TableColumnsConstant.studentName, display: DataTableHeaderMapper.name },
+      { key: TableColumnsConstant.percentage, display: DataTableHeaderMapper.percentage },
+    ]
+  }
+
 }

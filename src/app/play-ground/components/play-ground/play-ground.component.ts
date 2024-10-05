@@ -1,3 +1,4 @@
+import { MenuListModel, MenuListNameEnum } from './../../../shared/constants/menu-list';
 import { QuizPlayService } from './../../services/quiz-play.service';
 
 
@@ -8,6 +9,7 @@ import { SpeechTextConstant } from '../../constants/interation-effects';
 import { GenerateIdConst } from '../../../shared/constants/generate-id.constant';
 import { StorageKeyConstant } from '../../../shared/constants/storage-keys.constant';
 import { RouterConstant } from '../../../shared/constants/router.constant';
+import { MenuList, PlayGroundMenu } from '../../../shared/constants/menu-list';
 
 @Component({
   selector: 'app-play-ground',
@@ -16,6 +18,7 @@ import { RouterConstant } from '../../../shared/constants/router.constant';
 })
 export class PlayGroundComponent implements OnInit, OnDestroy {
   speechEnabled: boolean = false;
+  menuList: MenuListModel[] = PlayGroundMenu;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute,
     private speechService: SpeechService, private quizPlayService: QuizPlayService
@@ -31,6 +34,15 @@ export class PlayGroundComponent implements OnInit, OnDestroy {
     this.router.navigate(['/home'])
   }
 
+  onMenuClick(menu: MenuListModel) {
+    if (menu.name === MenuListNameEnum.endQuiz) {
+      const result = this.quizPlayService.endQuiz();
+      this.router.navigate([menu.url]);
+    } else {
+      this.router.navigate([menu.url]);
+    }
+  }
+
   toggleSpeech(): void {
     this.speechEnabled = !this.speechEnabled
     if (this.speechEnabled) {
@@ -38,12 +50,6 @@ export class PlayGroundComponent implements OnInit, OnDestroy {
     } else {
       this.speechService.stop();
     }
-  }
-
-  endQuiz() {
-    const result = this.quizPlayService.endQuiz();
-    this.router.navigate([RouterConstant.evaluation])
-    // localStorage.setItem(StorageKeyConstant.quiz_result, JSON.stringify(result));
   }
 
 

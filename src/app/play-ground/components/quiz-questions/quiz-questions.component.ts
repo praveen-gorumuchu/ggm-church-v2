@@ -213,7 +213,7 @@ export class QuizQuestionsComponent implements OnInit, OnChanges {
         this.stopAnimation(InteractionEffectEnum.CORRECT);
         this.soundService.playSound(SoundConstant.CORRECT);
       }, NumberConstant.THREE_THOUSAND );
-    } else if (this.userAnswer.value !== this.currentQuestion?.answer) {
+    } else if (this.revaelAnswer && this.userAnswer.value !== this.currentQuestion?.answer) {
       this.loadInteractions(InteractionEffectEnum.WRONG);
       setTimeout(() => {
         this.stopAnimation(InteractionEffectEnum.WRONG);
@@ -238,7 +238,7 @@ export class QuizQuestionsComponent implements OnInit, OnChanges {
   loadSound() {
     this.soundService.loadSound(SoundConstant.TIMER, {
       src: SoundConstantUrl.TIMER,
-      loop: true, volume: 2.0
+      loop: false, volume: 2.0
     });
     this.soundService.loadSound(SoundConstant.CORRECT, {
       src: SoundConstantUrl.CORRECT, loop: false, volume: 3.0
@@ -246,9 +246,7 @@ export class QuizQuestionsComponent implements OnInit, OnChanges {
     this.soundService.loadSound(SoundConstant.WRONG, {
       src: SoundConstantUrl.WRONG, loop: true, volume: 2.0
     });
-    this.soundService.loadSound(SoundConstant.CELEBRATION, {
-      src: SoundConstantUrl.CARD_CLICK, loop: true
-    });
+
   }
 
   animationConfig(type: InteractionEffectEnum): Config {
@@ -266,6 +264,7 @@ export class QuizQuestionsComponent implements OnInit, OnChanges {
       case InteractionEffectEnum.CORRECT:
         config.src = CanvasConstant.CORRECT
         config.canvas = this.correctAnswer.nativeElement
+        config.loop = true
 
         return config
 

@@ -4,6 +4,7 @@ import { ThemeEnumModel } from '../shared/models/routes/route-data.model';
 import { AudienceComponent } from './components/audience/audience.component';
 import { PlayGroundComponent } from './components/play-ground/play-ground.component';
 import { SoloPlayComponent } from './components/solo-play/solo-play.component';
+import { LeaderBoardComponent } from './components/leader-board/leader-board.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,16 @@ const routes: Routes = [
       },
       {
         path: 'auidence', component: AudienceComponent,
+        data: {
+          header: {
+            theme: ThemeEnumModel.DARK_HEADER, isHeader: false, hideGlobalNav: true
+          }, body: {
+            theme: 'dark', noMargin: true
+          }
+        },
+      },
+      {
+        path: 'leaderboard', component: LeaderBoardComponent,
         data: {
           header: {
             theme: ThemeEnumModel.DARK_HEADER, isHeader: false, hideGlobalNav: true

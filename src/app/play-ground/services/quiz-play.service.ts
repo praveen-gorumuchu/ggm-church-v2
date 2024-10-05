@@ -214,7 +214,7 @@ export class QuizPlayService {
     const dateTime = moment(new Date()).format(MomentFormats.MOMENT_MONTH_DATE_YEAR_TIME);
     localStorage.setItem(`${StorageKeyConstant.quiz_result}_${dateTime}`,
       JSON.stringify(sortedResults));
-
+      this.resetData();
     // this.utilSharedService.downloadJsonFile(`${StringConstant.quizResult}`,
     //   `${TitleConstant.QUIZ_RESULT}_${moment(new Date()).format(MomentFormats.MOMENT_DAY_MONTH_DATE_YEAR_TIME)}`)
     return sortedResults;

@@ -1,0 +1,32 @@
+<section class="mat-table-card-section">
+    <mat-card class="table-card">
+        <mat-card-content>
+          <div class="table-card-content">
+            <div class="table-header">
+              <div class="table-cell" *ngFor="let column of headers">
+                {{ column.display }}
+              </div>
+            </div>
+            <div class="table-body">
+              <div class="table-header" *ngFor="let row of dataSource">
+                <div class="table-cell" *ngFor="let column of headers let i = index">
+                    <ng-container *ngIf="i === 0">
+                        <span>
+                            <mat-icon class="mat-18 va-m">military_tech</mat-icon>
+                            {{ row[column.key] }} 
+                        </span>
+                    </ng-container>
+                    <ng-container *ngIf=" i !== 0">
+                        {{ row[column.key] }} 
+                    </ng-container>
+                    
+                    
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+</section>
+
+  

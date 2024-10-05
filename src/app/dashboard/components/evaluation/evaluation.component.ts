@@ -59,6 +59,7 @@ export class EvaluationComponent {
   ) {
     this.formGroup = this.createForm();
     this.resultArray = this.localStorageService.getKeys(StorageKeyConstant.quiz_result);
+    this.resultArray = this.resultArray.sort((a: any, b:any) => a - b);
     this.userRole = this.loginService.loginUser.role;
     this.getStudents();
   }

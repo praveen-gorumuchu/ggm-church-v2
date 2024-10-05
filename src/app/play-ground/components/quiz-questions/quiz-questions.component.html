@@ -38,7 +38,7 @@
               {{ currentQuestion?.answer || "Answer not available" }}
             </div>
           </div>
-          <div class="user-options pt-5">
+          <div class="user-options py-5">
             <mat-radio-group formControlName="userOption" (change)="selectOption($event.value)">
               <div class="d-flex align-items-center">
                 <ng-container *ngFor="let item of currentQuestion?.options">

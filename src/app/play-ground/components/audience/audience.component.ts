@@ -55,6 +55,7 @@ export class AudienceComponent implements OnInit {
   currentQuestion!: QuizQuestionsModel | null;
   currentStudentIndex = -1;
   isLoadingSpin: boolean = false;
+  round: number = NumberConstant.ONE;
 
   @ViewChild('dotlottieCanvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
   questionList!: QuizQuestionsModel[];
@@ -68,7 +69,7 @@ export class AudienceComponent implements OnInit {
     public dialog: MatDialog, private router: Router, private messageBarService: MessageBarService) {
     this.quizForm = this.createFormGroup();
     this.enableStudentSelection = true;
-    
+
   }
 
   ngOnInit(): void {
@@ -206,11 +207,14 @@ export class AudienceComponent implements OnInit {
       if (remainingPool) {
         this.enableStudentSelection = true;
         this.currentStudentIndex++;
-        const currentStudent = this.studentList[this.currentStudentIndex];
-        this.studentName.patchValue(currentStudent);
-        this.onStudentSelection();
-      } else {
-        this.openDailog();
+        if (this.currentStudentIndex < this.studentList.length) {
+          const currentStudent = this.studentList[this.currentStudentIndex];
+          this.studentName.patchValue(currentStudent);
+          this.onStudentSelection();
+        }
+      } else this.openDailog();
+      if (this.currentStudentIndex >= this.studentList.length) {
+        this.round++;
       }
     }
   }
@@ -222,7 +226,7 @@ export class AudienceComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-          this.router.navigate([RouterConstant.evaluation])
+        this.router.navigate([RouterConstant.evaluation])
       }
     });
 

@@ -6,26 +6,28 @@
   </div>
 </section>
 <ng-container *ngIf="isSearch && !isLoading && dataTableSource.data.length > 0; else noDataFound">
-  <mat-divider></mat-divider>
-  <div class="row mb-4 mt-5 align-items-center no-print">
-    <div class="col-lg-6">
-      <h4 class="mb-0"> {{ title | titlecase }} </h4>
+  <ng-container *ngIf="onlyTable">
+    <mat-divider></mat-divider>
+    <div class="row mb-4 mt-5 align-items-center no-print">
+      <div class="col-lg-6">
+        <h4 class="mb-0"> {{ title | titlecase }} </h4>
+      </div>
+      <!-- Action Buttons -->
+      <div class="col-lg-6 justify-content-end d-flex" *ngIf="buttons && buttons.length > 0">
+        <button mat-button [color]="button.color" class="mr-2" *ngFor="let button of buttons"
+          (click)="isAction(selection.hasValue(), selection.selected, button)" [disabled]="isDisabled(button) || button.disable">
+          <mat-icon class="va-m"> {{ button.icon }} </mat-icon>
+          {{ button.name | titlecase }}
+          <span *ngIf="button.print">
+            <button printTitle="GGM" #print printSectionId="dataTableId" ngxPrint hidden="true"
+            styleSheetFile="../../../../assets/scss/ngx-print.style.scss" [useExistingCss]="true">
+            </button>
+          </span>
+        </button>
+      </div>
     </div>
-    <!-- Action Buttons -->
-    <div class="col-lg-6 justify-content-end d-flex">
-      <button mat-button [color]="button.color" class="mr-2" *ngFor="let button of buttons"
-        (click)="isAction(selection.hasValue(), selection.selected, button)" [disabled]="isDisabled(button) || button.disable">
-        <mat-icon class="va-m"> {{ button.icon }} </mat-icon>
-        {{ button.name | titlecase }}
-        <span *ngIf="button.print">
-          <button printTitle="GGM" #print printSectionId="dataTableId" ngxPrint hidden="true"
-          styleSheetFile="../../../../assets/scss/ngx-print.style.scss" [useExistingCss]="true">
-          </button>
-        </span>
-      </button>
-    </div>
+  </ng-container>
   
-  </div>
   <div id="dataTableId" *ngIf="dataTableSource.data.length > 0">
     <div class="table-responsive mb-5 mat-elevation-z8">
       <table mat-table [dataSource]="dataTableSource" matSort (matSortChange)="sortData($event)" class=" text-left">
@@ -53,6 +55,14 @@
               >
                 {{ showTrucatedText(element, col, col.config.max) }}
               </span>
+              <!-- FOr an ICon -->
+              <ng-container *ngIf="col.config.icon">
+                <span class="va-m">
+                  <mat-icon class="mat-18 va-m"> {{ col.config.iconName }} </mat-icon>
+                  {{ element[col.key] }}
+                </span>
+              </ng-container>
+
               <ng-container *ngIf="col.config.obj">
                 {{ getValueFromObject(element, col) }}
               </ng-container>

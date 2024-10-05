@@ -13,7 +13,7 @@ export const MenuList = [
         subMenu: [],
         icon: ''
     },
-    
+
     {
         name: 'about',
         title: 'About',
@@ -73,9 +73,40 @@ export const DashboardMenu = [
         subMenu: [],
         icon: 'video_library'
     },
-    
-
 ]
+
+export const PlayGroundMenu = [
+    {
+        name: 'dashboard',
+        title: 'Dashboard',
+        url: 'dashboard/home',
+        subMenu: [],
+        icon: ''
+    },
+    {
+        name: 'leaderBoard',
+        title: 'Leader Board',
+        url: 'play-ground/leaderboard',
+        subMenu: [],
+        icon: ''
+    },
+    {
+        name: 'endQuiz',
+        title: 'End Quiz',
+        url: 'dashboard/evaluation',
+        subMenu: [],
+        icon: ''
+    },
+    // {
+    //     name: 'demo',
+    //     title: 'Demo',
+    //     url: 'play-ground/leaderboard',
+    //     subMenu: [],
+    //     icon: 'group'
+    // },
+]
+
+
 
 export interface MenuListModel {
     name: string,
@@ -83,4 +114,9 @@ export interface MenuListModel {
     url: string,
     subMenu: Array<MenuListModel>,
     icon: string
+}
+
+export enum MenuListNameEnum {
+    leaderBoard = 'leaderBoard',
+    endQuiz = 'endQuiz',
 }

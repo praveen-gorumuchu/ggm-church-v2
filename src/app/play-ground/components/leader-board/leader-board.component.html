@@ -1,0 +1,27 @@
+<section class="leader-board-section container my-5 py-5 dark">
+  <ng-container *ngIf="resultList && resultList.length > 0">
+    <!-- <app-mat-card-table [dataSource]="resultList" [headers]="headers">
+
+        </app-mat-card-table> -->
+
+    <section>
+        <div class="podium">
+            <div *ngFor="let item of podiumList" [ngClass]="item.class" class="podium-box">
+              {{ item.studentName }}
+            </div>
+          </div>
+    </section>
+
+    <app-data-tables
+      id="print"
+      [dataSource]="resultList"
+      [tableCols]="headers"
+      [isLoading]="false"
+      [isSearch]="true"
+      [checkbox]="false"
+      (actionItems)="actionItems($event)"
+      [onlyTable]="false"
+    >
+    </app-data-tables>
+  </ng-container>
+</section>

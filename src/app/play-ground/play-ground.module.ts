@@ -12,6 +12,7 @@ import { PaticipentComponent } from './components/paticipent/paticipent.componen
 import { ArrowsComponent } from './components/arrows/arrows.component';
 import { PlayerInteractionComponent } from './components/player-interaction/player-interaction.component';
 import { QuizQuestionsComponent } from './components/quiz-questions/quiz-questions.component';
+import { LeaderBoardComponent } from './components/leader-board/leader-board.component';
 
 
 
@@ -23,7 +24,8 @@ import { QuizQuestionsComponent } from './components/quiz-questions/quiz-questio
     PaticipentComponent,
     ArrowsComponent,
     PlayerInteractionComponent,
-    QuizQuestionsComponent
+    QuizQuestionsComponent,
+    LeaderBoardComponent
   ],
   imports: [
     CommonModule,

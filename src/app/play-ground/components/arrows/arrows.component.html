@@ -1,13 +1,13 @@
 <section class="play-ground-arrows">
     <div class="d-flex justify-content-between">
         <div class="backward" (click)="onArrowClick(arrowEnum.BACKWARD)">
-            <span class="material-symbols-outlined mt-4" *ngIf="backWardArow" matRipple
+            <span class="material-symbols-outlined" *ngIf="backWardArow" matRipple
                 [matRippleCentered]="true">
                 arrow_left_alt
             </span>
         </div>
         <div class="forward" (click)="onArrowClick(arrowEnum.FORWARD)">
-            <span class="material-symbols-outlined mt-4" *ngIf="forwardArrow"  matRipple
+            <span class="material-symbols-outlined" *ngIf="forwardArrow"  matRipple
                 [matRippleCentered]="true">
                 arrow_right_alt
             </span>
