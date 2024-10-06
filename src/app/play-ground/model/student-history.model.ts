@@ -8,6 +8,7 @@ export interface StudentHistoryModel {
   answeredQuestions: AnsweredQuestion[];
   score: number;
   class: string
+  totalTimeTaken: number
 }
 
 
@@ -37,4 +38,5 @@ export interface QuizResult {
   answeredQuestions: Array<AnsweredQuestion>,
   percentage?: number,
   rank?: number
+  totalTimeTaken: number
 }

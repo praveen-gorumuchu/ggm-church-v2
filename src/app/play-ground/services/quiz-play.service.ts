@@ -54,6 +54,7 @@ export class QuizPlayService {
         answeredQuestions: [],
         previousCategory: null,
         score: 0,
+        totalTimeTaken: 0
       });
     }
   }
@@ -168,6 +169,7 @@ export class QuizPlayService {
       timeTaken,
       options: question.options || [],
     } as AnsweredQuestion);
+    student.totalTimeTaken = (student.totalTimeTaken || 0) + timeTaken;
   }
 
   /**
@@ -225,8 +227,39 @@ export class QuizPlayService {
       organizer: this.loginService.loginUser.name,
       attemptedDate: new Date(),
       answeredQuestions: student.answeredQuestions,
+      totalTimeTaken: student.totalTimeTaken || 0,
     };
   }
+
+  /**
+ * Sort students by score and total time taken, then assign ranks.
+ * Students with the same score and time get the same rank.
+ * @param results - Array of student quiz results.
+ * @returns Sorted and ranked array of quiz results.
+ */
+  private sortAndRankStudents(results: QuizResult[]): QuizResult[] {
+    // Sort by score first, then by total time taken
+    const sortedResults = results.sort((a, b) => {
+      if (b.score !== a.score) {
+        return b.score - a.score; // Sort by score in descending order
+      } else {
+        return a.totalTimeTaken - b.totalTimeTaken; // Sort by total time taken in ascending order
+      }
+    });
+
+    // Assign ranks, ensuring students with the same score and time get the same rank
+    let currentRank = 1;
+    sortedResults.forEach((result: QuizResult, index) => {
+      if (index > 0 && (sortedResults[index].score !== sortedResults[index - 1].score ||
+        sortedResults[index].totalTimeTaken !== sortedResults[index - 1].totalTimeTaken)) {
+        currentRank = index + 1;
+      }
+      result.rank = currentRank;
+    });
+
+    return sortedResults;
+  }
+
 
 
   /**
@@ -238,16 +271,9 @@ export class QuizPlayService {
     const results: QuizResult[] = this.studentsHistory.map((student: StudentHistoryModel) =>
       this.calculateResultsForStudent(student) // Use the new method to calculate results
     );
-
-    // Sort students by score to determine the ranking
-    const sortedResults = results.sort((a, b) => b.score - a.score);
-
-    // Assign ranks based on the sorted order
-    sortedResults.forEach((result: QuizResult, index) => {
-      result.rank = index + 1;  // Rank starts from 1
-    });
-
     
+    const sortedResults = this.sortAndRankStudents(results);
+
     if (sortedResults && sortedResults.length > NumberConstant.ZERO) {
       const dateTime = moment(new Date()).format(MomentFormats.MOMENT_MONTH_DATE_YEAR_TIME);
       localStorage.setItem(`${StorageKeyConstant.quiz_result}_${dateTime}`,
