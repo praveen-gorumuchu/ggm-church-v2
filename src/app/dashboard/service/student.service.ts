@@ -1,3 +1,4 @@
+import { AttendanceModel } from './../models/quiz-models/attendance/attendance.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -22,6 +23,55 @@ export class StudentService {
 
   getStudentIds(): Observable<StudentModelRes> {
     return this.http.get<StudentModelRes>(`${environment.baseUrl}/${EndPointUrlConst.getStudent}`);
+  }
+
+
+  setStudentButtons(): DataTableButtons[] {
+    return [
+      {
+        name: ActionType.StatusEnum.QUIZ,
+        color: 'warn',
+        icon: IconConstant.quiz,
+        disable: false
+      },
+       {
+        name: ActionType.StatusEnum.MARK,
+        color: 'primary',
+        icon: IconConstant.done_all,
+        disable: false
+      },
+      {
+        name: ActionType.StatusEnum.UN_MARK,
+        color: 'warn',
+        icon: IconConstant.remove_done,
+        disable: false
+      },
+      {
+        name: ActionType.StatusEnum.EDIT,
+        color: 'primary',
+        icon: 'edit',
+        disable: false
+      },
+
+    ]
+  }
+
+  setAttendanceButtons(): DataTableButtons[] {
+    return [
+      {
+        name: ActionType.StatusEnum.MARK,
+        color: 'primary',
+        // icon: 'edit',
+        disable: false
+      },
+      {
+        name: ActionType.StatusEnum.UN_MARK,
+        color: 'warn',
+        // icon: StringConstant.delete,
+        disable: false
+      },
+
+    ]
   }
 
   setDataTableButtons(): DataTableButtons[] {
@@ -119,5 +169,14 @@ export class StudentService {
       { key: TableColumnsConstant.percentage, display: DataTableHeaderMapper.percentage },
     ]
   }
+
+
+  availableStudents(studentList: StudentModel[], attendance: AttendanceModel[]): StudentModel[] {
+    return studentList.filter(student => {
+        const attendanceEntry = attendance.find(a => a.studentId === student.id);
+        return attendanceEntry ? attendanceEntry.quiz : false; 
+    });
+}
+
 
 }

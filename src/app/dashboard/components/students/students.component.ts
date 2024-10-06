@@ -1,3 +1,4 @@
+import { AttendanceService } from './../../service/attendance.service';
 import { UtilSharedService } from './../../../shared/services/util-shared.service';
 import { SharedService } from './../../../shared/services/shared.service';
 import { StudentService } from './../../service/student.service';
@@ -10,7 +11,7 @@ import { DataTableButtons, TableHeaders } from '../../../shared/models/new/table
 import { ActionType, DataTableActions } from '../../../shared/models/new/data-table-actions';
 import { NumberConstant } from '../../../shared/constants/number-constant';
 import { StudentModel, StudentModelRes } from '../../models/students/student-list.model';
-import { Z } from '@angular/cdk/keycodes';
+import { E, Z } from '@angular/cdk/keycodes';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MessageBarService } from '../../../shared/services/message-bar.service';
 import { StringConstant } from '../../../shared/constants/string-constant';
@@ -18,6 +19,7 @@ import { TableColumnsConstant } from '../../../shared/constants/table-columns.co
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { AttendanceModel } from '../../models/quiz-models/attendance/attendance.model';
 
 
 @Component({
@@ -37,6 +39,8 @@ export class StudentsComponent implements OnInit {
   dataSource: any[] = [];
   buttons: DataTableButtons[] = [];
   studentList: StudentModel[] = [];
+  attendanceList: AttendanceModel[] = [];
+
   filteredStudentName!: Observable<StudentModel[]>;
   filteredStudentClass!: Observable<StudentModel[]>;
 
@@ -45,7 +49,8 @@ export class StudentsComponent implements OnInit {
 
   constructor(private router: Router, private loginService: LoginService,
     private studentService: StudentService, private messageBarService: MessageBarService,
-    private utilSharedService: UtilSharedService, private fb: FormBuilder
+    private utilSharedService: UtilSharedService, private fb: FormBuilder,
+    private attendanceService: AttendanceService
   ) {
     this.formGroup = this.createForm();
     this.userRole = this.loginService.loginUser.role;
@@ -53,18 +58,18 @@ export class StudentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.getFilteredOptions();
+    this.getFilteredOptions();
   }
 
 
   getFilteredOptions() {
     this.filteredStudentName = this.utilSharedService.filteredDataComesFirst(
       this.studentName, this.studentList, TableColumnsConstant.name, true, true);
-      
+
     this.filteredStudentClass =
       this.utilSharedService.filteredDataComesFirst(this.className, this.studentList,
         TableColumnsConstant.class, true, true);
-   
+
   }
 
 
@@ -106,40 +111,55 @@ export class StudentsComponent implements OnInit {
 
   callToDataTable(data: StudentModel[]) {
     this.columns = this.studentService.setDataTableCols();
-    this.buttons = this.studentService.setDataTableButtons();
+    this.buttons = this.studentService.setStudentButtons();
     if (this.columns && this.columns.length > NumberConstant.ZERO) {
       this.dataSource = data;
-      this.isSearch = true
+      this.isSearch = true;
+      this.setDataForAttendance();
     } else {
       this.isLoading = false;
       this.messageBarService.showErorMsgBar(StringConstant.ERROR_MSG);
     }
   }
 
+  onAttendance() {
+    this.isLoading = false;
+    this.isSearch = true
+    this.columns = this.studentService.setDataTableCols();
+    this.buttons = this.studentService.setAttendanceButtons();
+    this.dataSource = this.studentList;
+    this.setDataForAttendance();
+  }
+
+
+  setDataForAttendance() {
+    this.attendanceService.setStudentList(this.dataSource);
+    this.attendanceList = this.attendanceService.getAttendance();
+  }
 
   searchData() {
     const classVal = (this.className?.value?.class || '').trim().toLowerCase();
     const nameVal = (this.studentName?.value?.name || '').trim().toLowerCase();
-  
+
     if (!classVal && !nameVal) {
       this.messageBarService.showErorMsgBar(StringConstant.GLOBAL_RESULT);
       this.callToDataTable(this.studentList);
       return;
     }
-  
+
     // Filter based on provided values
     const filteredData = this.studentList.filter((data: StudentModel) => {
       const matchesClass = classVal ? data.class.toLowerCase() === classVal : true;
       const matchesName = nameVal ? data.name.toLowerCase() === nameVal : true;
-  
+
       // Return true only if both criteria match
       return matchesClass && matchesName;
     });
-  
+
     // Call the method to update the table with the filtered data
     this.callToDataTable(filteredData);
   }
-  
+
 
   onRegister() {
     this.router.navigate(['dashboard', 'register-student'])
@@ -150,13 +170,39 @@ export class StudentsComponent implements OnInit {
   actionItems(event: DataTableActions) {
     if (event && event.action === ActionType.StatusEnum.EDIT && event.data &&
       event.data.length > NumberConstant.ZERO) {
-    }
-    if (event && event.action === ActionType.StatusEnum.DELETE && event.data &&
-      event.data.length > NumberConstant.ZERO) {
-      const remarks = event.deletedRemarks ? event.deletedRemarks : '';
-
+    } else if (event && event.action === ActionType.StatusEnum.MARK) {
+      this.markAttendance(event.data, true);
+    } else if (event && event.action === ActionType.StatusEnum.UN_MARK) {
+      this.markAttendance(event.data, false)
+    } else if(event && event.action === ActionType.StatusEnum.QUIZ) {
+      this.markQuiz(event.data, true);
     }
   }
+
+  markAttendance(data: StudentModel[], flag: boolean): void {
+    const currentAttendanceList = this.attendanceService.getAttendance();
+    data.forEach(student => {
+      const attendanceEntry = currentAttendanceList.find(a => a.studentId === student.id);
+      if (attendanceEntry) attendanceEntry.attendance = flag;
+    });
+    if(currentAttendanceList && currentAttendanceList.length > 0) {
+      this.attendanceService.saveAttendance(currentAttendanceList);
+      this.messageBarService.showSuccessMsgBar(StringConstant.ATTENDANCE);
+    }
+  }
+
+  markQuiz(data: StudentModel[], flag: boolean){
+    const currentAttendanceList = this.attendanceService.getAttendance();
+    data.forEach(student => {
+      const attendanceEntry = currentAttendanceList.find(a => a.studentId === student.id);
+      if (attendanceEntry) attendanceEntry.quiz = flag;
+    });
+    if(currentAttendanceList && currentAttendanceList.length > 0) {
+      this.attendanceService.saveAttendance(currentAttendanceList);
+      this.messageBarService.showSuccessMsgBar(StringConstant.QUIZ_PARTICIPENT);
+    }
+  }
+
 
   get studentName(): AbstractControl {
     return this.formGroup.get('name') as AbstractControl

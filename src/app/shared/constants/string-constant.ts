@@ -68,4 +68,6 @@ export const StringConstant = {
     primary : 'primary',
     page_title : 'page_title',
     pdf : 'pdf',
+    ATTENDANCE: 'Attedance saved successfully.',
+    QUIZ_PARTICIPENT: 'Participant are saved for the quiz.'
 } 

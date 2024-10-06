@@ -79,12 +79,10 @@
             <mat-radio-button [value]="'false'"> No </mat-radio-button>
           </mat-radio-group>
         </ng-container>
-
       </div>
     </section>
   </form>
   <span class="question-id"> {{ getQuestionId()}} </span>
-
   <section class="canvas-section">
     <h3 class="time-number" *ngIf="timerValue && !isAnimationStopped">
       {{ timerValue }}

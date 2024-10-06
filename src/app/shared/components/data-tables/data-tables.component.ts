@@ -24,6 +24,7 @@ import { TableColumnsConstant } from '../../constants/table-columns.constant';
 import { DataTableButtons, TableHeaders } from '../../models/new/table-headers.model copy';
 import { ActionType, DataTableActions } from '../../models/new/data-table-actions';
 import { DisplayScreen } from '../../models/new/display-screen.model';
+import { A } from '@angular/cdk/keycodes';
 
 
 @Component({
@@ -261,12 +262,12 @@ export class DataTablesComponent implements OnInit, OnChanges, AfterContentCheck
       case ActionType.StatusEnum.PREVIEW:
         this.previewFile(selected, data, type);
         break;
-        case ActionType.StatusEnum.PRINT:
-          this.onPrint(type);
-          break;
-        case ActionType.StatusEnum.PRINT_ALL:
-          this.onPrint(type);
-          break;
+      case ActionType.StatusEnum.PRINT:
+        this.onPrint(type);
+        break;
+      case ActionType.StatusEnum.PRINT_ALL:
+        this.onPrint(type);
+        break;
       default: this.routeToParent(selected, data, type.name);
         break;
     }
@@ -275,19 +276,19 @@ export class DataTablesComponent implements OnInit, OnChanges, AfterContentCheck
   isDisabled(type: DataTableButtons): boolean {
     switch (type.name) {
       case ActionType.StatusEnum.EDIT:
-        return this.isDisabledEdit();
+      case ActionType.StatusEnum.MARK:
+      case ActionType.StatusEnum.UN_MARK:
       case ActionType.StatusEnum.DELETE:
-        return this.isDisabledEdit();
       case ActionType.StatusEnum.VIEW:
-        return this.isDisabledEdit();
       case ActionType.StatusEnum.REGISTER:
+      case ActionType.StatusEnum.PREVIEW:
+      case ActionType.StatusEnum.QUIZ:
+
         return this.isDisabledEdit();
       case ActionType.StatusEnum.DOWNLOAD:
         return this.isDisabledDownload(type);
       case ActionType.StatusEnum.DOWNLOADALL:
         return this.isDisabledDownloadAll(type);
-      case ActionType.StatusEnum.PREVIEW:
-        return this.isDisabledEdit();
       default:
         return false;
     }

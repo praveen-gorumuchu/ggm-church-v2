@@ -6,5 +6,6 @@ export class DashboardTitles {
     static readonly NEW_STUDENT_REGISTER = 'New Student Register';
     static readonly ENROLL_NEW_STUDENT = 'Enroll New Student';
     static readonly CREATE_QUIZ = 'Create Quiz';
+    static readonly Attendance = 'Attendance';
 
 }

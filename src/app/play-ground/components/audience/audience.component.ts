@@ -1,3 +1,4 @@
+import { AttendanceService } from './../../../dashboard/service/attendance.service';
 import { MessageBarService } from './../../../shared/services/message-bar.service';
 import { QuizQuestionsModel } from './../../../dashboard/models/quiz-models/quiz.model';
 import { QuizService } from './../../../dashboard/service/quiz.service';
@@ -29,6 +30,7 @@ import { Route, Router } from '@angular/router';
 import { RouterConstant } from '../../../shared/constants/router.constant';
 import { StringConstant } from '../../../shared/constants/string-constant';
 import { Observable } from 'rxjs';
+import { AttendanceModel } from '../../../dashboard/models/quiz-models/attendance/attendance.model';
 
 @Component({
   selector: 'app-audience',
@@ -66,7 +68,8 @@ export class AudienceComponent implements OnInit {
     private utilSharedService: UtilSharedService, private fb: FormBuilder,
     private speechService: SpeechService, private quizPlayService: QuizPlayService,
     private quizService: QuizService, private localStorageService: LocalStorageService,
-    public dialog: MatDialog, private router: Router, private messageBarService: MessageBarService) {
+    public dialog: MatDialog, private router: Router, private messageBarService: MessageBarService,
+    private attendanceService: AttendanceService) {
     this.quizForm = this.createFormGroup();
     this.enableStudentSelection = true;
 
@@ -91,7 +94,7 @@ export class AudienceComponent implements OnInit {
     }, (error: HttpErrorResponse) => console.log(error.error));
   }
 
-  manualSelection(event:any) {
+  manualSelection(event: any) {
     const findIdx = this.studentList.findIndex((data: StudentModel) =>
       data.id === this.studentName.value.id);
     this.currentStudentIndex = findIdx;
@@ -150,7 +153,9 @@ export class AudienceComponent implements OnInit {
     this.isLoadingSpin = true;
     this.studentService.getStudentIds().subscribe((res: StudentModelRes) => {
       if (res && res.data && res.data.length > NumberConstant.ZERO) {
-        this.studentList = this.utilSharedService.alphaNumericSort(res.data, TableColumnsConstant.ID)
+        this.studentList = this.utilSharedService.alphaNumericSort(res.data, TableColumnsConstant.ID);
+        this.getAvaliableStudents();
+
         this.getFilteredOptions();
         this.isLoadingSpin = false;
       }
@@ -158,6 +163,11 @@ export class AudienceComponent implements OnInit {
       this.isLoadingSpin = false;
       this.messageBarService.showErorMsgBar(StringConstant.ERROR_MSG)
     });
+  }
+
+  getAvaliableStudents() {
+    const availability: AttendanceModel[] = this.attendanceService.getAttendance();
+    this.studentList = this.studentService.availableStudents(this.studentList, availability)
   }
 
 
