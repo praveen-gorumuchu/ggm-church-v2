@@ -13,7 +13,8 @@
           <mat-label> {{playGroundConst.SELECT_A_PARTICIPENT }} </mat-label>
           <input type="text" placeholder="Select a player" matInput formControlName="studentName"
             [matAutocomplete]="auto" />
-          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayStudentName">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+           [displayWith]="displayStudentName" (optionSelected)="manualSelection($event)">
             <mat-option *ngFor="let option of filteredStudentName | async" [value]="option">
               {{ option.name }}</mat-option>
           </mat-autocomplete>

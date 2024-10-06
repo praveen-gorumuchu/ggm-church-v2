@@ -91,6 +91,17 @@ export class AudienceComponent implements OnInit {
     }, (error: HttpErrorResponse) => console.log(error.error));
   }
 
+  manualSelection(event:any) {
+    const findIdx = this.studentList.findIndex((data: StudentModel) =>
+      data.id === this.studentName.value.id);
+    this.currentStudentIndex = findIdx;
+    console.log({
+      'currentNum': this.currentStudentIndex,
+      'totalStudent': this.studentList.length - this.currentStudentIndex,
+      'selectedStudent': this.studentName.value.name
+    });
+  }
+
   /**
    * @function onStudentSelection
    * @description On Student selection by admin
@@ -107,7 +118,7 @@ export class AudienceComponent implements OnInit {
         next: QuizNaviationEnum.QZ_PICK_CARD,
       }
       this.enableCard = true;
-      this.speechService.speak(str, 1.3, 0.9, 1);
+      this.speechService.speak(str, 0.8, 0.9, 1);
       this.backWardArow = true;
     } else {
       this.enableCard = false;
