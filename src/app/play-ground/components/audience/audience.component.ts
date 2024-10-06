@@ -121,7 +121,7 @@ export class AudienceComponent implements OnInit {
         next: QuizNaviationEnum.QZ_PICK_CARD,
       }
       this.enableCard = true;
-      this.speechService.speak(str, 0.8, 0.9, 1);
+      this.speechService.speak(str, 1.0, 0.9, 1);
       this.backWardArow = true;
     } else {
       this.enableCard = false;
