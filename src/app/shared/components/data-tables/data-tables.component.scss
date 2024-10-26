@@ -11,6 +11,7 @@
         border-color: rgb(255 255 255 / 100%);
       }
     }
+
     tr {
       th {
         .mat-sort-header-arrow {
@@ -18,8 +19,52 @@
         }
       }
     }
-    .mat-sort-header-content{
+
+    .mat-sort-header-content {
       text-align: left;
+    }
+  }
+  .custom-data-table {
+    mat-chip {
+      &.warning {
+        background: #FFF3E0;
+  
+        .mat-mdc-chip-action {
+          &::before{
+            border-color: #FFCC80;
+          }
+          .mat-mdc-chip-action-label {
+            color: #FF8C00;
+          }
+        }
+      }
+  
+      &.success {
+        background: #D4EDDA;
+  
+        .mat-mdc-chip-action {
+          &::before {
+            border-color: #C3E6CB;
+          }
+          .mat-mdc-chip-action-label {
+            color: #155724;
+          }
+        }
+      }
+  
+      &.danger {
+        background: #F8D7DA;
+  
+        .mat-mdc-chip-action {
+          &::before {
+            border-color: #F5C6CB;
+          }
+  
+          .mat-mdc-chip-action-label {
+            color: #721C24;
+          }
+        }
+      }
     }
   }
 }
@@ -64,3 +109,4 @@ tr.mat-row {
   padding: 0 8px;
   line-height: 28px;
 }
+

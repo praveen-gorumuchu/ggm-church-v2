@@ -1,3 +1,4 @@
+import { AttendanceStatusEnum, QuizParticipantStatus } from "../quiz-models/attendance/attendance.model"
 
 export interface StudentModel {
     id: string,
@@ -10,9 +11,13 @@ export interface StudentModel {
     deletionDate?: Date | null,
     modifiedBy?: string,
     modifiedDate?: Date | null,
-    version: number
+    version: number,
+    //attendance and quiz added for temprorary, should be removed after new logic implemented
+    attendance?: AttendanceStatusEnum
+    quiz?: QuizParticipantStatus
 }
 
 export interface StudentModelRes {
     data: Array<StudentModel>
 }
+

@@ -108,22 +108,31 @@ export class StudentService {
   setDataTableCols(): TableHeaders[] {
     return [
       { key: TableColumnsConstant.SELECT, display: '' },
-      { key: TableColumnsConstant.ID, display: DataTableHeaderMapper.std_id },
+      { key: TableColumnsConstant.ID, display: DataTableHeaderMapper.id },
       { key: TableColumnsConstant.name, display: DataTableHeaderMapper.name },
       {
         key: TableColumnsConstant.class, display: DataTableHeaderMapper.class
+      },
+      {
+        key: TableColumnsConstant.attendance, display: DataTableHeaderMapper.attendance,
+        config: {chip: true} 
+      },
+      {
+        key: TableColumnsConstant.quiz, display: DataTableHeaderMapper.quiz_status,
+        config: {chip: true} 
       },
       { key: TableColumnsConstant.CREATED_BY, display: DataTableHeaderMapper.createdBy },
       {
         key: TableColumnsConstant.CREATED_DATE, display: DataTableHeaderMapper.creationDate,
         config: { isDate: true, format: MomentFormats.DDMMYYY_FORMAT }
       },
-      {
-        key: TableColumnsConstant.age, display: DataTableHeaderMapper.age
-      },
-      {
-        key: TableColumnsConstant.phoneNum, display: DataTableHeaderMapper.phoneNum
-      },
+    
+      // {
+      //   key: TableColumnsConstant.age, display: DataTableHeaderMapper.age
+      // },
+      // {
+      //   key: TableColumnsConstant.phoneNum, display: DataTableHeaderMapper.phoneNum
+      // },
     ];
   }
 
@@ -131,7 +140,7 @@ export class StudentService {
   setQuizResultTableCols(): TableHeaders[] {
     return [
       { key: TableColumnsConstant.SELECT, display: '' },
-      { key: TableColumnsConstant.studentId, display: DataTableHeaderMapper.std_id },
+      { key: TableColumnsConstant.studentId, display: DataTableHeaderMapper.id },
       { key: TableColumnsConstant.studentName, display: DataTableHeaderMapper.name },
       {
         key: TableColumnsConstant.rank, display: DataTableHeaderMapper.rank

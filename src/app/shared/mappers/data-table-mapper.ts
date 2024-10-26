@@ -1,6 +1,6 @@
 export enum DataTableHeaderMapper {
-    std_id = "Student Id",
-    name = 'Student Name',
+    id = "Id",
+    name = ' Name',
     comments = "Remarks",
     createdBy = "Created By",
     creationDate = "Creation Date",
@@ -15,7 +15,7 @@ export enum DataTableHeaderMapper {
     age = "Age",
     phoneNum = "Phone Number",
     question = "Question",
-    answer = "Auestion",
+    answer = "Answer",
     category = "Category",
     questionId = 'Question Id',
     rank = "Rank",
@@ -24,6 +24,8 @@ export enum DataTableHeaderMapper {
     wrongAnswers = "Wrong Ans",
     totalQuestions = "Total Questions",
     organisedBy = "Organised By",
-    score = "Earned Points"
+    score = "Earned Points",
+    attendance = "Attendance",
+    quiz_status = "Quiz Status"
   }
   

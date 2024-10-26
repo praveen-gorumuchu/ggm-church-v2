@@ -9,3 +9,19 @@ export interface AttendanceModel {
     markedDate: Date | null // marked Date,
     quiz: boolean
 }
+
+export enum AttendanceStatusEnum {
+    PRESENT = 'Present',
+    ABSENT = 'Absent',
+    LATE = 'Late',
+    EXCUSED = 'Excused',
+    ON_LEAVE = 'On Leave',
+    HALF_DAY = 'Half-Day',
+    PENDING = 'Pending',
+}
+
+export enum QuizParticipantStatus {
+    YES = 'Yes',
+    NO = 'No'
+  }
+  

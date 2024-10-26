@@ -28,5 +28,7 @@ export class TableColumnsConstant {
   static readonly totalQuestions = 'totalQuestions';
   static readonly organisedBy = 'organisedBy';
   static readonly score = 'score';
+  static readonly attendance = 'attendance';
+  static readonly quiz = 'quiz';
 
 }

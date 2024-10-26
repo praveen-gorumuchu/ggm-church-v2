@@ -29,7 +29,7 @@
   </ng-container>
   
   <div id="dataTableId" *ngIf="dataTableSource.data.length > 0">
-    <div class="table-responsive mb-5 mat-elevation-z8">
+    <div class="table-responsive mb-5 mat-elevation-z8 custom-data-table">
       <table mat-table [dataSource]="dataTableSource" matSort (matSortChange)="sortData($event)" class=" text-left">
         <ng-container *ngFor="let col of tableCols; let i = index" [matColumnDef]="col.key">
           <ng-container *ngIf="i === 0 && checkbox">
@@ -115,6 +115,13 @@
               <ng-container *ngIf="col.config.isInput">
                 <input type="text" mat-input>
               </ng-container>
+              <!-- for Mat-chip add the class in the config -->
+              <ng-container *ngIf="col?.config?.chip">
+                <mat-chip class="mat-mdc-chip-set-stacked" [ngClass]="getMatChipClass(element, col.key)" selected>
+                  {{ element[col.key] }}
+                </mat-chip>
+              </ng-container>
+              <!-- For Deletion flag -->
               <ng-container *ngIf="col.config.deletionFlag">
                 <mat-chip class="mat-basic-chip" [ngClass]="element.deletionFlag >= 1 ? 'error' : 'success'" selected>
                   {{ element.deletionFlag >= 1 ? 'Inactive' : 'Active' }}

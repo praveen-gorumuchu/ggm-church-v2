@@ -232,15 +232,17 @@ export class DataTablesComponent implements OnInit, OnChanges, AfterContentCheck
       currentRows.forEach((data: any, i: number) => {
         if (this.selection.isSelected(data)) selectedRows.push(data);
       });
-      if (currentRows.length === disabledRows.length || selectedRows.length === NumberConstant.ZERO) {
-        this.matCheckbox.checked = false;
-        this.matCheckbox.indeterminate = false;
-      } else if (currentRows.length === selectedRows.length ||
-        currentRows.length - disabledRows.length === selectedRows.length) {
-        this.matCheckbox.checked = true;
-        this.matCheckbox.indeterminate = false;
-      } else if (selectedRows.length >= NumberConstant.ONE) {
-        this.matCheckbox.indeterminate = true;
+      if(this.matCheckbox) {
+        if (currentRows.length === disabledRows.length || selectedRows.length === NumberConstant.ZERO) {
+          this.matCheckbox.checked = false;
+          this.matCheckbox.indeterminate = false;
+        } else if (currentRows.length === selectedRows.length ||
+          currentRows.length - disabledRows.length === selectedRows.length) {
+          this.matCheckbox.checked = true;
+          this.matCheckbox.indeterminate = false;
+        } else if (selectedRows.length >= NumberConstant.ONE) {
+          this.matCheckbox.indeterminate = true;
+        }
       }
     };
   }
@@ -268,7 +270,9 @@ export class DataTablesComponent implements OnInit, OnChanges, AfterContentCheck
       case ActionType.StatusEnum.PRINT_ALL:
         this.onPrint(type);
         break;
-      default: this.routeToParent(selected, data, type.name);
+      default: 
+        this.routeToParent(selected, data, type.name);
+        this.resetCurrentSelection();
         break;
     }
   }
@@ -442,6 +446,24 @@ export class DataTablesComponent implements OnInit, OnChanges, AfterContentCheck
 
   get hasForm(): boolean {
     return this.tableCols.some((col: any) => col && col.config && col.config.fb);
+  }
+
+  /**
+   * @function getMatChipClass
+   * @description 
+   * @param ele current data 
+   * @returns class name
+   */
+
+  getMatChipClass(ele:any, key: string) {
+    switch (this.screen) {
+      case DisplayScreen.TypeEnum.STUDENTS:
+
+        return  this.dataTableService.getStudentScreenChipClass(ele, key);
+    
+      default:
+        return '';
+    }
   }
 
   resetData() {

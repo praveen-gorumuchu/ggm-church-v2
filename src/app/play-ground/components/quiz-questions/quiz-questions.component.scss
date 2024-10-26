@@ -74,8 +74,8 @@
 
         .user-options {
             .radio-box {
-                width: 250px;
-                height: 250px;
+                width: 180px;
+                height: 180px;
                 border-radius: 12px;
                 background: #EF5A6F;
                 align-items: center;
@@ -84,8 +84,8 @@
                 font-size: 24px;
 
                 &.active {
-                    border: 5px solid #ead8b1;
-                    color: #1c222e;
+                    border: 5px solid #fff;
+                    color: #fff;
                 }
             }
         }

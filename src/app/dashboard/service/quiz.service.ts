@@ -108,11 +108,11 @@ export class QuizService {
   setDataTableCols(): TableHeaders[] {
     return [
       { key: TableColumnsConstant.SELECT, display: '' },
-      { key: TableColumnsConstant.ID, display: DataTableHeaderMapper.questionId },
+      { key: TableColumnsConstant.ID, display: DataTableHeaderMapper.id },
       { key: TableColumnsConstant.question, display: DataTableHeaderMapper.question,
         config: { isSmallText: true, max: 20 }
        },
-       { key: TableColumnsConstant.answer, display: DataTableHeaderMapper.question,
+       { key: TableColumnsConstant.answer, display: DataTableHeaderMapper.answer,
        },
       {
         key: TableColumnsConstant.type, display: DataTableHeaderMapper.category,
