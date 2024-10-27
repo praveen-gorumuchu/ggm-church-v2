@@ -187,12 +187,14 @@ export class StudentsComponent implements OnInit {
     if (event && event.action === ActionType.StatusEnum.EDIT && event.data &&
       event.data.length > NumberConstant.ZERO) {
     } else if (event && event.action === ActionType.StatusEnum.MARK) {
-      this.markAttendance(event.data, true);
-    } else if (event && event.action === ActionType.StatusEnum.UN_MARK) {
-      this.markAttendance(event.data, false)
-    } else if (event && event.action === ActionType.StatusEnum.QUIZ) {
       this.markQuiz(event.data, true);
-    }
+    } else if (event && event.action === ActionType.StatusEnum.UN_MARK) {
+      // temprory for quiz
+      this.markQuiz(event.data, false)
+    } 
+    // else if (event && event.action === ActionType.StatusEnum.QUIZ) {
+    //   this.markQuiz(event.data, true);
+    // }
   }
 
   markAttendance(data: StudentModel[], flag: boolean): void {
@@ -224,6 +226,7 @@ export class StudentsComponent implements OnInit {
         attendanceEntry.quiz = flag;
         isUpdated = true;
         if (flag) student.quiz = QuizParticipantStatus.YES;
+        else student.quiz = QuizParticipantStatus.NO
       }
     });
     if (isUpdated && currentAttendanceList && currentAttendanceList.length > 0) {

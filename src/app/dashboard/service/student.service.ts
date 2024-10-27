@@ -28,12 +28,6 @@ export class StudentService {
 
   setStudentButtons(): DataTableButtons[] {
     return [
-      {
-        name: ActionType.StatusEnum.QUIZ,
-        color: 'warn',
-        icon: IconConstant.quiz,
-        disable: false
-      },
        {
         name: ActionType.StatusEnum.MARK,
         color: 'primary',
